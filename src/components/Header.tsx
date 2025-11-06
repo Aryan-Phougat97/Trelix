@@ -11,10 +11,16 @@ export const Header = ({ isDark, onToggleTheme }: HeaderProps) => {
     <header className="glass-card rounded-2xl p-4 mb-6 animate-fade-in">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-neon-cyan to-neon-purple flex items-center justify-center neon-glow-cyan">
-            <span className="text-2xl font-bold text-white">X</span>
-          </div>
-          <h1 className="text-2xl font-bold gradient-text">TaskFlow-X</h1>
+          <img
+            src="/logo.png"
+            alt="TaskFlow-X Logo"
+            className="w-12 h-12 drop-shadow-[0_0_12px_rgba(34,211,238,0.6)] hover:drop-shadow-[0_0_20px_rgba(34,211,238,0.8)] transition-all duration-300"
+          />
+          <img
+            src="/namelogo.png"
+            alt="TaskFlow-X"
+            className="h-8 drop-shadow-[0_0_8px_rgba(34,211,238,0.4)] hover:drop-shadow-[0_0_12px_rgba(34,211,238,0.6)] transition-all duration-300"
+          />
         </div>
         
         <div className="flex items-center gap-2">

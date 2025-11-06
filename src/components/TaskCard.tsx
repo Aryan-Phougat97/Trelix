@@ -1,4 +1,4 @@
-import { Trash2, Check, Tag, Calendar, Flag } from "lucide-react";
+import { Trash2, Tag, Calendar, Flag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 
@@ -32,8 +32,8 @@ const priorityColors = {
 export const TaskCard = ({ task, onToggle, onDelete }: TaskCardProps) => {
   return (
     <div
-      className={`glass-card rounded-xl p-4 mb-3 animate-fade-in hover:scale-[1.02] transition-all duration-300 ${
-        task.completed ? "opacity-60" : "neon-glow-cyan"
+      className={`glass-card rounded-xl p-4 mb-3 animate-fade-in transition-all duration-300 group ${
+        task.completed ? "opacity-60 hover:opacity-70" : "hover:scale-[1.02] hover:shadow-[0_0_30px_hsl(var(--glow-cyan)/0.2)]"
       }`}
     >
       <div className="flex items-start gap-3">

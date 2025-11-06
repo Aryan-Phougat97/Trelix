@@ -102,18 +102,39 @@ All colors MUST be HSL.
 @layer utilities {
   .glass-card {
     @apply bg-card/40 backdrop-blur-xl border border-glass-border shadow-lg;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1),
+                0 0 0 1px rgba(255, 255, 255, 0.05);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
-  
+
+  .glass-card:hover {
+    box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.15),
+                0 0 0 1px rgba(255, 255, 255, 0.1),
+                0 0 30px hsl(var(--glow-cyan) / 0.15);
+    transform: translateY(-2px);
+  }
+
   .glass-input {
     @apply bg-background/20 backdrop-blur-md border border-input;
+    transition: all 0.3s ease;
   }
-  
+
+  .glass-input:focus {
+    box-shadow: 0 0 0 3px hsl(var(--glow-cyan) / 0.1),
+                0 0 20px hsl(var(--glow-cyan) / 0.2);
+  }
+
   .neon-glow-cyan {
-    box-shadow: 0 0 20px hsl(var(--glow-cyan) / 0.3), 0 0 40px hsl(var(--glow-cyan) / 0.1);
+    box-shadow: 0 0 20px hsl(var(--glow-cyan) / 0.3),
+                0 0 40px hsl(var(--glow-cyan) / 0.1),
+                0 0 60px hsl(var(--glow-cyan) / 0.05);
+    animation: pulse 2s ease-in-out infinite;
   }
-  
+
   .neon-glow-purple {
-    box-shadow: 0 0 20px hsl(var(--glow-purple) / 0.3), 0 0 40px hsl(var(--glow-purple) / 0.1);
+    box-shadow: 0 0 20px hsl(var(--glow-purple) / 0.3),
+                0 0 40px hsl(var(--glow-purple) / 0.1),
+                0 0 60px hsl(var(--glow-purple) / 0.05);
   }
 
   .gradient-text {
@@ -121,5 +142,16 @@ All colors MUST be HSL.
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+  }
+
+  /* Smooth scroll behavior */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Enhanced focus states */
+  *:focus-visible {
+    outline: 2px solid hsl(var(--primary));
+    outline-offset: 2px;
   }
 }
