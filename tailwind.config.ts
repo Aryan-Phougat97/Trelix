@@ -47,10 +47,15 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        neon: {
-          cyan: "hsl(var(--neon-cyan))",
-          purple: "hsl(var(--neon-purple))",
-          pink: "hsl(var(--neon-pink))",
+        electric: {
+          red: "hsl(var(--electric-red))",
+        },
+        cool: {
+          blue: "hsl(var(--cool-blue))",
+        },
+        pure: {
+          black: "hsl(var(--pure-black))",
+          white: "hsl(var(--pure-white))",
         },
         glass: {
           bg: "hsl(var(--glass-bg))",
@@ -88,8 +93,8 @@ export default {
           "100%": { opacity: "1", transform: "translateX(0)" },
         },
         "glow-pulse": {
-          "0%, 100%": { boxShadow: "0 0 20px hsl(var(--glow-cyan) / 0.3)" },
-          "50%": { boxShadow: "0 0 30px hsl(var(--glow-cyan) / 0.5), 0 0 50px hsl(var(--glow-cyan) / 0.3)" },
+          "0%, 100%": { boxShadow: "0 0 20px hsl(var(--glow-blue) / 0.3)" },
+          "50%": { boxShadow: "0 0 30px hsl(var(--glow-blue) / 0.5), 0 0 50px hsl(var(--glow-blue) / 0.3)" },
         },
         "float": {
           "0%, 100%": { transform: "translateY(0)" },

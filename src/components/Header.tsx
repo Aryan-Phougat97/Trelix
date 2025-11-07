@@ -1,4 +1,4 @@
-import { Moon, Sun, Search, Settings } from "lucide-react";
+import { Moon, Sun, Search, Settings, Filter } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface HeaderProps {
@@ -8,43 +8,49 @@ interface HeaderProps {
 
 export const Header = ({ isDark, onToggleTheme }: HeaderProps) => {
   return (
-    <header className="glass-card rounded-2xl p-4 mb-6 animate-fade-in">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <img
-            src="/logo.png"
-            alt="TaskFlow-X Logo"
-            className="w-12 h-12 drop-shadow-[0_0_12px_rgba(34,211,238,0.6)] hover:drop-shadow-[0_0_20px_rgba(34,211,238,0.8)] transition-all duration-300"
-          />
-          <img
-            src="/namelogo.png"
-            alt="TaskFlow-X"
-            className="h-8 drop-shadow-[0_0_8px_rgba(34,211,238,0.4)] hover:drop-shadow-[0_0_12px_rgba(34,211,238,0.6)] transition-all duration-300"
-          />
-        </div>
-        
+    <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border/50 px-8 py-4 mb-8 animate-fade-in">
+      <div className="max-w-7xl mx-auto flex items-center justify-between">
+        {/* Left: TaskFlow-X Wordmark */}
         <div className="flex items-center gap-2">
+          <h1 className="text-2xl font-bold tracking-tight">
+            <span className="gradient-text">TaskFlow-X</span>
+          </h1>
+        </div>
+
+        {/* Right: Icon Actions */}
+        <div className="flex items-center gap-1">
           <Button
             variant="ghost"
             size="icon"
-            className="hover:bg-primary/10 hover:text-primary transition-all duration-300"
+            className="h-9 w-9 hover:bg-foreground/5 hover:scale-110 transition-all duration-200 group"
           >
-            <Search className="h-5 w-5" />
+            <Search className="h-4 w-4 group-hover:text-cool-blue transition-colors" strokeWidth={2} />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-9 w-9 hover:bg-foreground/5 hover:scale-110 transition-all duration-200 group"
+          >
+            <Filter className="h-4 w-4 group-hover:text-cool-blue transition-colors" strokeWidth={2} />
           </Button>
           <Button
             variant="ghost"
             size="icon"
             onClick={onToggleTheme}
-            className="hover:bg-primary/10 hover:text-primary transition-all duration-300"
+            className="h-9 w-9 hover:bg-foreground/5 hover:scale-110 transition-all duration-200 group"
           >
-            {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+            {isDark ? (
+              <Sun className="h-4 w-4 group-hover:text-electric-red transition-colors" strokeWidth={2} />
+            ) : (
+              <Moon className="h-4 w-4 group-hover:text-cool-blue transition-colors" strokeWidth={2} />
+            )}
           </Button>
           <Button
             variant="ghost"
             size="icon"
-            className="hover:bg-primary/10 hover:text-primary transition-all duration-300"
+            className="h-9 w-9 hover:bg-foreground/5 hover:scale-110 transition-all duration-200 group"
           >
-            <Settings className="h-5 w-5" />
+            <Settings className="h-4 w-4 group-hover:text-cool-blue transition-colors" strokeWidth={2} />
           </Button>
         </div>
       </div>

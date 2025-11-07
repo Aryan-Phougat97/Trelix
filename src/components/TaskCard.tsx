@@ -18,58 +18,64 @@ interface TaskCardProps {
 }
 
 const categoryColors = {
-  work: "bg-blue-500/20 text-blue-400 border-blue-400/30",
-  personal: "bg-purple-500/20 text-purple-400 border-purple-400/30",
-  goals: "bg-pink-500/20 text-pink-400 border-pink-400/30",
+  work: "text-cool-blue border-cool-blue/30",
+  personal: "text-electric-red border-electric-red/30",
+  goals: "text-cool-blue border-cool-blue/30",
 };
 
-const priorityColors = {
-  low: "text-green-400",
-  medium: "text-yellow-400",
-  high: "text-red-400",
+const priorityGlow = {
+  low: "",
+  medium: "hover:glow-blue",
+  high: "hover:glow-red",
 };
 
 export const TaskCard = ({ task, onToggle, onDelete }: TaskCardProps) => {
   return (
     <div
-      className={`glass-card rounded-xl p-4 mb-3 animate-fade-in transition-all duration-300 group ${
-        task.completed ? "opacity-60 hover:opacity-70" : "hover:scale-[1.02] hover:shadow-[0_0_30px_hsl(var(--glow-cyan)/0.2)]"
+      className={`bg-card border border-border rounded-lg p-5 mb-3 animate-fade-in transition-all duration-300 group ${
+        task.completed
+          ? "task-completed"
+          : `hover:border-foreground/20 hover:-translate-y-1 ${priorityGlow[task.priority as keyof typeof priorityGlow]}`
       }`}
     >
-      <div className="flex items-start gap-3">
+      <div className="flex items-start gap-4">
         <Checkbox
           checked={task.completed}
           onCheckedChange={() => onToggle(task.id)}
-          className="mt-1 border-2 border-primary data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+          className="mt-1.5 h-5 w-5 border-2 border-border data-[state=checked]:bg-cool-blue data-[state=checked]:border-cool-blue data-[state=checked]:text-black"
         />
 
         <div className="flex-1 min-w-0">
           <h3
-            className={`text-lg font-medium mb-2 ${
-              task.completed ? "line-through text-muted-foreground" : "text-foreground"
+            className={`text-base font-semibold mb-3 tracking-tight ${
+              task.completed ? "text-muted-foreground" : "text-foreground"
             }`}
           >
             {task.title}
           </h3>
 
-          <div className="flex flex-wrap items-center gap-2 text-sm">
+          <div className="flex flex-wrap items-center gap-3 text-xs">
             <span
-              className={`px-2 py-1 rounded-lg border flex items-center gap-1 ${
+              className={`px-2 py-1 border rounded-md flex items-center gap-1.5 ${
                 categoryColors[task.category as keyof typeof categoryColors]
               }`}
             >
-              <Tag className="h-3 w-3" />
+              <Tag className="h-3 w-3" strokeWidth={2} />
               {task.category}
             </span>
 
-            <span className={`flex items-center gap-1 ${priorityColors[task.priority as keyof typeof priorityColors]}`}>
-              <Flag className="h-3 w-3" />
+            <span className={`flex items-center gap-1.5 ${
+              task.priority === 'high' ? 'text-electric-red' :
+              task.priority === 'medium' ? 'text-cool-blue' :
+              'text-muted-foreground'
+            }`}>
+              <Flag className="h-3 w-3" strokeWidth={2} />
               {task.priority}
             </span>
 
             {task.deadline && (
-              <span className="flex items-center gap-1 text-muted-foreground">
-                <Calendar className="h-3 w-3" />
+              <span className="flex items-center gap-1.5 text-muted-foreground">
+                <Calendar className="h-3 w-3" strokeWidth={2} />
                 {new Date(task.deadline).toLocaleDateString()}
               </span>
             )}
@@ -80,9 +86,9 @@ export const TaskCard = ({ task, onToggle, onDelete }: TaskCardProps) => {
           variant="ghost"
           size="icon"
           onClick={() => onDelete(task.id)}
-          className="hover:bg-destructive/10 hover:text-destructive transition-all duration-300"
+          className="h-8 w-8 opacity-0 group-hover:opacity-100 hover:bg-electric-red/10 hover:text-electric-red transition-all duration-200"
         >
-          <Trash2 className="h-4 w-4" />
+          <Trash2 className="h-4 w-4" strokeWidth={2} />
         </Button>
       </div>
     </div>

@@ -8,83 +8,87 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 210 30% 98%;
-    --foreground: 215 25% 15%;
+    /* Pure white theme - minimal use only */
+    --background: 0 0% 100%;
+    --foreground: 0 0% 0%;
 
     --card: 0 0% 100%;
-    --card-foreground: 215 25% 15%;
+    --card-foreground: 0 0% 0%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 215 25% 15%;
+    --popover-foreground: 0 0% 0%;
 
-    --primary: 192 95% 58%;
-    --primary-foreground: 215 25% 15%;
+    --primary: 217 91% 60%; /* Cool Blue #3b82f6 */
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 280 85% 65%;
+    --secondary: 0 100% 64%; /* Electric Red #ff4747 */
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 210 30% 94%;
-    --muted-foreground: 215 15% 45%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 40%;
 
-    --accent: 192 95% 58%;
-    --accent-foreground: 215 25% 15%;
+    --accent: 217 91% 60%; /* Cool Blue */
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 72% 55%;
+    --destructive: 0 100% 64%; /* Electric Red */
     --destructive-foreground: 0 0% 100%;
 
-    --border: 210 20% 88%;
-    --input: 210 20% 88%;
-    --ring: 192 95% 58%;
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 217 91% 60%;
 
-    --radius: 0.75rem;
+    --radius: 0.5rem;
 
-    /* TaskFlow-X Custom Tokens */
-    --neon-cyan: 192 95% 58%;
-    --neon-purple: 280 85% 65%;
-    --neon-pink: 330 80% 65%;
+    /* TaskFlow-X Custom Tokens - Pure Black/White + Red/Blue */
+    --electric-red: 0 100% 64%; /* #ff4747 */
+    --cool-blue: 217 91% 60%; /* #3b82f6 */
+    --pure-black: 0 0% 0%; /* #000000 */
+    --pure-white: 0 0% 100%; /* #ffffff */
     --glass-bg: 0 0% 100%;
-    --glass-border: 210 20% 88%;
-    --glow-cyan: 192 95% 58%;
-    --glow-purple: 280 85% 65%;
+    --glass-border: 0 0% 85%;
+    --glow-red: 0 100% 64%;
+    --glow-blue: 217 91% 60%;
   }
 
   .dark {
-    --background: 222 47% 6%;
-    --foreground: 210 40% 98%;
+    /* Pure black theme - primary mode */
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
 
-    --card: 222 47% 10%;
-    --card-foreground: 210 40% 98%;
+    --card: 0 0% 0%;
+    --card-foreground: 0 0% 100%;
 
-    --popover: 222 47% 8%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 0 0% 0%;
+    --popover-foreground: 0 0% 100%;
 
-    --primary: 192 95% 58%;
-    --primary-foreground: 222 47% 6%;
+    --primary: 217 91% 60%; /* Cool Blue */
+    --primary-foreground: 0 0% 0%;
 
-    --secondary: 280 85% 65%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 0 100% 64%; /* Electric Red */
+    --secondary-foreground: 0 0% 0%;
 
-    --muted: 222 47% 14%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 0 0% 5%;
+    --muted-foreground: 0 0% 70%;
 
-    --accent: 192 95% 58%;
-    --accent-foreground: 222 47% 6%;
+    --accent: 217 91% 60%; /* Cool Blue */
+    --accent-foreground: 0 0% 0%;
 
-    --destructive: 0 72% 55%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive: 0 100% 64%; /* Electric Red */
+    --destructive-foreground: 0 0% 0%;
 
-    --border: 222 47% 18%;
-    --input: 222 47% 14%;
-    --ring: 192 95% 58%;
+    --border: 0 0% 15%;
+    --input: 0 0% 5%;
+    --ring: 217 91% 60%;
 
-    /* TaskFlow-X Dark Theme Tokens */
-    --neon-cyan: 192 95% 58%;
-    --neon-purple: 280 85% 65%;
-    --neon-pink: 330 80% 65%;
-    --glass-bg: 222 47% 10%;
-    --glass-border: 222 47% 20%;
-    --glow-cyan: 192 95% 58%;
-    --glow-purple: 280 85% 65%;
+    /* TaskFlow-X Dark Theme - Pure Black/White + Red/Blue */
+    --electric-red: 0 100% 64%;
+    --cool-blue: 217 91% 60%;
+    --pure-black: 0 0% 0%;
+    --pure-white: 0 0% 100%;
+    --glass-bg: 0 0% 2%;
+    --glass-border: 0 0% 15%;
+    --glow-red: 0 100% 64%;
+    --glow-blue: 217 91% 60%;
   }
 }
 
@@ -95,50 +99,82 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+    font-family: 'Space Grotesk', 'Poppins', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 600; /* SemiBold default for developer aesthetic */
   }
 }
 
 @layer utilities {
+  /* TaskFlow-X Glass Card - Minimal with translucent backdrop */
   .glass-card {
-    @apply bg-card/40 backdrop-blur-xl border border-glass-border shadow-lg;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1),
-                0 0 0 1px rgba(255, 255, 255, 0.05);
+    @apply bg-card/5 backdrop-blur-2xl border border-border;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3),
+                0 0 0 1px rgba(255, 255, 255, 0.02);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .glass-card:hover {
-    box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.15),
-                0 0 0 1px rgba(255, 255, 255, 0.1),
-                0 0 30px hsl(var(--glow-cyan) / 0.15);
+    box-shadow: 0 12px 48px 0 rgba(0, 0, 0, 0.4),
+                0 0 0 1px rgba(255, 255, 255, 0.05),
+                0 0 40px hsl(var(--glow-blue) / 0.15);
     transform: translateY(-2px);
   }
 
+  /* TaskFlow-X Input - Clean underline with glowing cursor */
   .glass-input {
-    @apply bg-background/20 backdrop-blur-md border border-input;
+    @apply bg-transparent border-0 border-b-2 border-border;
     transition: all 0.3s ease;
+    caret-color: hsl(var(--glow-blue));
   }
 
   .glass-input:focus {
-    box-shadow: 0 0 0 3px hsl(var(--glow-cyan) / 0.1),
-                0 0 20px hsl(var(--glow-cyan) / 0.2);
+    border-bottom-color: hsl(var(--glow-blue));
+    box-shadow: 0 2px 0 0 hsl(var(--glow-blue) / 0.3),
+                0 0 20px hsl(var(--glow-blue) / 0.1);
   }
 
-  .neon-glow-cyan {
-    box-shadow: 0 0 20px hsl(var(--glow-cyan) / 0.3),
-                0 0 40px hsl(var(--glow-cyan) / 0.1),
-                0 0 60px hsl(var(--glow-cyan) / 0.05);
-    animation: pulse 2s ease-in-out infinite;
+  /* Electric Red Glow */
+  .glow-red {
+    box-shadow: 0 0 20px hsl(var(--glow-red) / 0.4),
+                0 0 40px hsl(var(--glow-red) / 0.2),
+                0 0 60px hsl(var(--glow-red) / 0.1);
   }
 
-  .neon-glow-purple {
-    box-shadow: 0 0 20px hsl(var(--glow-purple) / 0.3),
-                0 0 40px hsl(var(--glow-purple) / 0.1),
-                0 0 60px hsl(var(--glow-purple) / 0.05);
+  /* Cool Blue Glow */
+  .glow-blue {
+    box-shadow: 0 0 20px hsl(var(--glow-blue) / 0.4),
+                0 0 40px hsl(var(--glow-blue) / 0.2),
+                0 0 60px hsl(var(--glow-blue) / 0.1);
   }
 
+  /* Red Strike Animation for completed tasks */
+  .task-completed {
+    position: relative;
+    opacity: 0.6;
+  }
+
+  .task-completed::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 2px;
+    background: hsl(var(--electric-red));
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: strike-through 0.4s ease-out forwards;
+  }
+
+  @keyframes strike-through {
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  /* Gradient Text - Red to Blue */
   .gradient-text {
-    background: linear-gradient(135deg, hsl(var(--neon-cyan)), hsl(var(--neon-purple)));
+    background: linear-gradient(135deg, hsl(var(--electric-red)), hsl(var(--cool-blue)));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -149,9 +185,9 @@ All colors MUST be HSL.
     scroll-behavior: smooth;
   }
 
-  /* Enhanced focus states */
+  /* Enhanced focus states with blue glow */
   *:focus-visible {
-    outline: 2px solid hsl(var(--primary));
+    outline: 2px solid hsl(var(--cool-blue));
     outline-offset: 2px;
   }
 }

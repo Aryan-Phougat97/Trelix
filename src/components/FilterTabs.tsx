@@ -13,31 +13,31 @@ interface FilterTabsProps {
 
 export const FilterTabs = ({ activeFilter, onFilterChange, counts }: FilterTabsProps) => {
   return (
-    <Tabs value={activeFilter} onValueChange={onFilterChange} className="mb-6">
-      <TabsList className="glass-card h-14 p-1 rounded-xl grid grid-cols-4 gap-1">
+    <Tabs value={activeFilter} onValueChange={onFilterChange} className="mb-8">
+      <TabsList className="bg-transparent h-12 p-0 border-b border-border w-full justify-start gap-8">
         <TabsTrigger
           value="all"
-          className="rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-neon-cyan data-[state=active]:to-neon-purple data-[state=active]:text-white transition-all duration-300"
+          className="bg-transparent rounded-none border-b-2 border-transparent data-[state=active]:border-cool-blue data-[state=active]:text-foreground data-[state=active]:shadow-[0_2px_8px_hsl(var(--cool-blue)/0.3)] text-muted-foreground hover:text-foreground transition-all duration-200 px-0 pb-3"
         >
-          All <span className="ml-2 text-xs opacity-70">{counts.all}</span>
+          All <span className="ml-2 text-xs">{counts.all}</span>
         </TabsTrigger>
         <TabsTrigger
           value="work"
-          className="rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-neon-cyan data-[state=active]:to-neon-purple data-[state=active]:text-white transition-all duration-300"
+          className="bg-transparent rounded-none border-b-2 border-transparent data-[state=active]:border-cool-blue data-[state=active]:text-foreground data-[state=active]:shadow-[0_2px_8px_hsl(var(--cool-blue)/0.3)] text-muted-foreground hover:text-foreground transition-all duration-200 px-0 pb-3"
         >
-          Work <span className="ml-2 text-xs opacity-70">{counts.work}</span>
+          Work <span className="ml-2 text-xs">{counts.work}</span>
         </TabsTrigger>
         <TabsTrigger
           value="personal"
-          className="rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-neon-cyan data-[state=active]:to-neon-purple data-[state=active]:text-white transition-all duration-300"
+          className="bg-transparent rounded-none border-b-2 border-transparent data-[state=active]:border-electric-red data-[state=active]:text-foreground data-[state=active]:shadow-[0_2px_8px_hsl(var(--electric-red)/0.3)] text-muted-foreground hover:text-foreground transition-all duration-200 px-0 pb-3"
         >
-          Personal <span className="ml-2 text-xs opacity-70">{counts.personal}</span>
+          Personal <span className="ml-2 text-xs">{counts.personal}</span>
         </TabsTrigger>
         <TabsTrigger
           value="completed"
-          className="rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-neon-cyan data-[state=active]:to-neon-purple data-[state=active]:text-white transition-all duration-300"
+          className="bg-transparent rounded-none border-b-2 border-transparent data-[state=active]:border-cool-blue data-[state=active]:text-foreground data-[state=active]:shadow-[0_2px_8px_hsl(var(--cool-blue)/0.3)] text-muted-foreground hover:text-foreground transition-all duration-200 px-0 pb-3"
         >
-          Done <span className="ml-2 text-xs opacity-70">{counts.completed}</span>
+          Done <span className="ml-2 text-xs">{counts.completed}</span>
         </TabsTrigger>
       </TabsList>
     </Tabs>

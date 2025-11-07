@@ -1,6 +1,3 @@
-import { CheckCircle2, Circle, Target, TrendingUp } from "lucide-react";
-import { Progress } from "@/components/ui/progress";
-
 interface StatsPanelProps {
   total: number;
   completed: number;
@@ -10,60 +7,46 @@ interface StatsPanelProps {
 export const StatsPanel = ({ total, completed, pending }: StatsPanelProps) => {
   const completionRate = total > 0 ? Math.round((completed / total) * 100) : 0;
 
-  const motivationalQuotes = [
-    "Focus on progress, not perfection.",
-    "Small steps lead to big achievements.",
-    "You're doing great! Keep going.",
-    "Every completed task is a victory.",
-    "Consistency is the key to success.",
-  ];
-
-  const randomQuote = motivationalQuotes[Math.floor(Math.random() * motivationalQuotes.length)];
-
   return (
-    <div className="glass-card rounded-2xl p-6 space-y-6 animate-fade-in sticky top-8">
-      <div className="text-center mb-4">
-        <p className="text-muted-foreground italic text-sm mb-2">💡 {randomQuote}</p>
-      </div>
-
-      <div className="grid grid-cols-3 gap-4">
-        <div className="text-center group cursor-default">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-primary/10 mb-2 group-hover:bg-primary/20 group-hover:scale-110 transition-all duration-300">
-            <Circle className="h-6 w-6 text-primary" />
-          </div>
-          <p className="text-2xl font-bold text-foreground">{total}</p>
-          <p className="text-sm text-muted-foreground">Total</p>
+    <div className="glass-card rounded-lg p-6 space-y-8 animate-fade-in sticky top-24">
+      {/* Minimal Metrics Grid */}
+      <div className="grid grid-cols-3 gap-6">
+        <div className="text-center border-r border-border/50 last:border-0">
+          <p className="text-3xl font-bold text-foreground tracking-tight">{total}</p>
+          <p className="text-xs text-muted-foreground mt-1 uppercase tracking-wide">Total</p>
         </div>
 
-        <div className="text-center group cursor-default">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-yellow-500/10 mb-2 group-hover:bg-yellow-500/20 group-hover:scale-110 transition-all duration-300">
-            <Target className="h-6 w-6 text-yellow-500" />
-          </div>
-          <p className="text-2xl font-bold text-foreground">{pending}</p>
-          <p className="text-sm text-muted-foreground">Pending</p>
+        <div className="text-center border-r border-border/50 last:border-0">
+          <p className="text-3xl font-bold text-cool-blue tracking-tight">{pending}</p>
+          <p className="text-xs text-muted-foreground mt-1 uppercase tracking-wide">Active</p>
         </div>
 
-        <div className="text-center group cursor-default">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-green-500/10 mb-2 group-hover:bg-green-500/20 group-hover:scale-110 transition-all duration-300">
-            <CheckCircle2 className="h-6 w-6 text-green-500" />
-          </div>
-          <p className="text-2xl font-bold text-foreground">{completed}</p>
-          <p className="text-sm text-muted-foreground">Completed</p>
+        <div className="text-center">
+          <p className="text-3xl font-bold text-electric-red tracking-tight">{completed}</p>
+          <p className="text-xs text-muted-foreground mt-1 uppercase tracking-wide">Done</p>
         </div>
       </div>
 
-      <div className="space-y-2">
+      {/* Progress Bar with Gradient */}
+      <div className="space-y-3">
         <div className="flex items-center justify-between text-sm">
           <span className="text-muted-foreground">Progress</span>
-          <span className="font-semibold gradient-text">{completionRate}%</span>
+          <span className="font-bold gradient-text">{completionRate}%</span>
         </div>
-        <Progress value={completionRate} className="h-3" />
+        <div className="h-1 bg-border rounded-full overflow-hidden">
+          <div
+            className="h-full bg-gradient-to-r from-electric-red to-cool-blue transition-all duration-500 ease-out"
+            style={{ width: `${completionRate}%` }}
+          />
+        </div>
       </div>
 
+      {/* On Fire Indicator */}
       {completionRate >= 80 && (
-        <div className="flex items-center justify-center gap-2 text-sm text-green-500 bg-green-500/10 rounded-lg p-3">
-          <TrendingUp className="h-4 w-4" />
-          <span className="font-medium">You're on fire! 🔥</span>
+        <div className="text-center pt-4 border-t border-border/50">
+          <p className="text-sm text-electric-red font-semibold tracking-tight">
+            ON FIRE
+          </p>
         </div>
       )}
     </div>
