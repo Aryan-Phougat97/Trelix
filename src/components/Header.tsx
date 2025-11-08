@@ -12,8 +12,8 @@ export const Header = ({ isDark, onToggleTheme }: HeaderProps) => {
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Left: TaskFlow-X Wordmark */}
         <div className="flex items-center gap-2">
-          <h1 className="text-2xl font-bold tracking-tight">
-            <span className="gradient-text">TaskFlow-X</span>
+          <h1 className="text-2xl font-bold tracking-tight font-mono">
+            <span className="minimal-wordmark">TaskFlow-X</span>
           </h1>
         </div>
 
