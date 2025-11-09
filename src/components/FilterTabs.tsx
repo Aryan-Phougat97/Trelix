@@ -13,31 +13,31 @@ interface FilterTabsProps {
 
 export const FilterTabs = ({ activeFilter, onFilterChange, counts }: FilterTabsProps) => {
   return (
-    <Tabs value={activeFilter} onValueChange={onFilterChange} className="mb-8">
+    <Tabs value={activeFilter} onValueChange={onFilterChange} className="mb-8 animate-fade-in">
       <TabsList className="bg-transparent h-12 p-0 border-b border-border w-full justify-start gap-8">
         <TabsTrigger
           value="all"
-          className="bg-transparent rounded-none border-b-2 border-transparent data-[state=active]:border-cool-blue data-[state=active]:text-foreground data-[state=active]:shadow-[0_2px_8px_hsl(var(--cool-blue)/0.3)] text-muted-foreground hover:text-foreground transition-all duration-200 px-0 pb-3"
+          className="bg-transparent rounded-none border-b-2 border-transparent data-[state=active]:border-cool-blue data-[state=active]:text-foreground data-[state=active]:shadow-[0_2px_8px_hsl(var(--cool-blue)/0.3)] text-muted-foreground hover:text-foreground hover:scale-105 transition-all duration-200 px-0 pb-3"
         >
-          All <span className="ml-2 text-xs">{counts.all}</span>
+          All <span className="ml-2 text-xs transition-transform duration-200">{counts.all}</span>
         </TabsTrigger>
         <TabsTrigger
           value="work"
-          className="bg-transparent rounded-none border-b-2 border-transparent data-[state=active]:border-cool-blue data-[state=active]:text-foreground data-[state=active]:shadow-[0_2px_8px_hsl(var(--cool-blue)/0.3)] text-muted-foreground hover:text-foreground transition-all duration-200 px-0 pb-3"
+          className="bg-transparent rounded-none border-b-2 border-transparent data-[state=active]:border-cool-blue data-[state=active]:text-foreground data-[state=active]:shadow-[0_2px_8px_hsl(var(--cool-blue)/0.3)] text-muted-foreground hover:text-foreground hover:scale-105 transition-all duration-200 px-0 pb-3"
         >
-          Work <span className="ml-2 text-xs">{counts.work}</span>
+          Work <span className="ml-2 text-xs transition-transform duration-200">{counts.work}</span>
         </TabsTrigger>
         <TabsTrigger
           value="personal"
-          className="bg-transparent rounded-none border-b-2 border-transparent data-[state=active]:border-electric-red data-[state=active]:text-foreground data-[state=active]:shadow-[0_2px_8px_hsl(var(--electric-red)/0.3)] text-muted-foreground hover:text-foreground transition-all duration-200 px-0 pb-3"
+          className="bg-transparent rounded-none border-b-2 border-transparent data-[state=active]:border-electric-red data-[state=active]:text-foreground data-[state=active]:shadow-[0_2px_8px_hsl(var(--electric-red)/0.3)] text-muted-foreground hover:text-foreground hover:scale-105 transition-all duration-200 px-0 pb-3"
         >
-          Personal <span className="ml-2 text-xs">{counts.personal}</span>
+          Personal <span className="ml-2 text-xs transition-transform duration-200">{counts.personal}</span>
         </TabsTrigger>
         <TabsTrigger
           value="completed"
-          className="bg-transparent rounded-none border-b-2 border-transparent data-[state=active]:border-cool-blue data-[state=active]:text-foreground data-[state=active]:shadow-[0_2px_8px_hsl(var(--cool-blue)/0.3)] text-muted-foreground hover:text-foreground transition-all duration-200 px-0 pb-3"
+          className="bg-transparent rounded-none border-b-2 border-transparent data-[state=active]:border-cool-blue data-[state=active]:text-foreground data-[state=active]:shadow-[0_2px_8px_hsl(var(--cool-blue)/0.3)] text-muted-foreground hover:text-foreground hover:scale-105 transition-all duration-200 px-0 pb-3"
         >
-          Done <span className="ml-2 text-xs">{counts.completed}</span>
+          Done <span className="ml-2 text-xs transition-transform duration-200">{counts.completed}</span>
         </TabsTrigger>
       </TabsList>
     </Tabs>

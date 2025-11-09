@@ -29,7 +29,7 @@ export const TaskInput = ({ onAddTask }: TaskInputProps) => {
   };
 
   return (
-    <div className="glass-card rounded-lg p-8 mb-8 animate-slide-in max-w-4xl mx-auto">
+    <div className="glass-card rounded-lg p-8 mb-8 animate-slide-up max-w-4xl mx-auto">
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Main Task Input - Clean Underline Style */}
         <div className="relative">
@@ -44,8 +44,8 @@ export const TaskInput = ({ onAddTask }: TaskInputProps) => {
         {/* Metadata Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
           {/* Category */}
-          <div className="flex items-center gap-3 border-b border-border pb-2">
-            <Tag className="h-4 w-4 text-cool-blue" strokeWidth={2} />
+          <div className="flex items-center gap-3 border-b border-border pb-2 transition-all duration-200 focus-within:border-cool-blue">
+            <Tag className="h-4 w-4 text-cool-blue transition-transform duration-200 group-focus-within:scale-110" strokeWidth={2} />
             <Select value={category} onValueChange={setCategory}>
               <SelectTrigger className="border-0 bg-transparent h-auto p-0 focus:ring-0 text-sm">
                 <SelectValue />
@@ -59,8 +59,8 @@ export const TaskInput = ({ onAddTask }: TaskInputProps) => {
           </div>
 
           {/* Priority */}
-          <div className="flex items-center gap-3 border-b border-border pb-2">
-            <Flag className="h-4 w-4 text-electric-red" strokeWidth={2} />
+          <div className="flex items-center gap-3 border-b border-border pb-2 transition-all duration-200 focus-within:border-electric-red">
+            <Flag className="h-4 w-4 text-electric-red transition-transform duration-200 group-focus-within:scale-110" strokeWidth={2} />
             <Select value={priority} onValueChange={setPriority}>
               <SelectTrigger className="border-0 bg-transparent h-auto p-0 focus:ring-0 text-sm">
                 <SelectValue />
@@ -74,8 +74,8 @@ export const TaskInput = ({ onAddTask }: TaskInputProps) => {
           </div>
 
           {/* Deadline */}
-          <div className="flex items-center gap-3 border-b border-border pb-2">
-            <Calendar className="h-4 w-4 text-cool-blue" strokeWidth={2} />
+          <div className="flex items-center gap-3 border-b border-border pb-2 transition-all duration-200 focus-within:border-cool-blue">
+            <Calendar className="h-4 w-4 text-cool-blue transition-transform duration-200 group-focus-within:scale-110" strokeWidth={2} />
             <Input
               type="date"
               value={deadline}
@@ -90,9 +90,9 @@ export const TaskInput = ({ onAddTask }: TaskInputProps) => {
           <Button
             type="submit"
             size="icon"
-            className="h-12 w-12 rounded-full bg-cool-blue hover:bg-cool-blue/90 glow-blue hover:scale-110 transition-all duration-300 group"
+            className="h-12 w-12 rounded-full bg-cool-blue hover:bg-cool-blue/90 glow-blue hover:scale-110 transition-all duration-300 group active:scale-95"
           >
-            <Plus className="h-6 w-6 text-black group-hover:rotate-90 transition-transform duration-300" strokeWidth={2.5} />
+            <Plus className="h-6 w-6 text-black group-hover:rotate-180 transition-transform duration-300" strokeWidth={2.5} />
           </Button>
         </div>
       </form>

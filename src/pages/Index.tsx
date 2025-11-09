@@ -74,9 +74,9 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background relative">
-      {/* Minimal Grid Pattern Overlay - Very Subtle */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:100px_100px] pointer-events-none"></div>
+    <div className="min-h-screen bg-background relative overflow-hidden">
+      {/* Minimal Grid Pattern Overlay - Very Subtle with Animation */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:100px_100px] pointer-events-none animate-fade-in"></div>
 
       <div className="relative z-10">
         <Header isDark={isDark} onToggleTheme={() => setIsDark(!isDark)} />
@@ -90,12 +90,12 @@ const Index = () => {
 
               <div className="space-y-3 pb-8">
                 {filteredTasks.length === 0 ? (
-                  <div className="glass-card rounded-lg p-16 text-center">
-                    <div className="w-16 h-16 mx-auto mb-6 rounded-full border-2 border-border flex items-center justify-center">
-                      <span className="text-3xl opacity-50">✨</span>
+                  <div className="glass-card rounded-lg p-16 text-center animate-fade-in">
+                    <div className="w-16 h-16 mx-auto mb-6 rounded-full border-2 border-border flex items-center justify-center animate-bounce-in">
+                      <span className="text-3xl opacity-50 animate-float">✨</span>
                     </div>
-                    <h3 className="text-lg font-semibold mb-2 tracking-tight">No tasks here</h3>
-                    <p className="text-muted-foreground text-sm">
+                    <h3 className="text-lg font-semibold mb-2 tracking-tight animate-slide-up">No tasks here</h3>
+                    <p className="text-muted-foreground text-sm animate-slide-up" style={{ animationDelay: '0.1s' }}>
                       {activeFilter === "all"
                         ? "Add your first task to get started."
                         : `No ${activeFilter} tasks yet.`}

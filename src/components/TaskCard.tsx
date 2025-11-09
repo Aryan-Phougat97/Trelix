@@ -32,17 +32,17 @@ const priorityGlow = {
 export const TaskCard = ({ task, onToggle, onDelete }: TaskCardProps) => {
   return (
     <div
-      className={`bg-card border border-border rounded-lg p-5 mb-3 animate-fade-in transition-all duration-300 group ${
+      className={`bg-card border border-border rounded-lg p-5 mb-3 animate-scale-in transition-all duration-300 group ${
         task.completed
-          ? "task-completed"
-          : `hover:border-foreground/20 hover:-translate-y-1 ${priorityGlow[task.priority as keyof typeof priorityGlow]}`
+          ? "task-completed opacity-60"
+          : `hover:border-foreground/20 hover:-translate-y-1 hover:shadow-lg ${priorityGlow[task.priority as keyof typeof priorityGlow]}`
       }`}
     >
       <div className="flex items-start gap-4">
         <Checkbox
           checked={task.completed}
           onCheckedChange={() => onToggle(task.id)}
-          className="mt-1.5 h-5 w-5 border-2 border-border data-[state=checked]:bg-cool-blue data-[state=checked]:border-cool-blue data-[state=checked]:text-black"
+          className="mt-1.5 h-5 w-5 border-2 border-border data-[state=checked]:bg-cool-blue data-[state=checked]:border-cool-blue data-[state=checked]:text-black transition-all duration-200 hover:scale-110"
         />
 
         <div className="flex-1 min-w-0">
@@ -86,9 +86,9 @@ export const TaskCard = ({ task, onToggle, onDelete }: TaskCardProps) => {
           variant="ghost"
           size="icon"
           onClick={() => onDelete(task.id)}
-          className="h-8 w-8 opacity-0 group-hover:opacity-100 hover:bg-electric-red/10 hover:text-electric-red transition-all duration-200"
+          className="h-8 w-8 opacity-0 group-hover:opacity-100 hover:bg-electric-red/10 hover:text-electric-red transition-all duration-200 hover:scale-110"
         >
-          <Trash2 className="h-4 w-4" strokeWidth={2} />
+          <Trash2 className="h-4 w-4 transition-transform group-hover:rotate-12" strokeWidth={2} />
         </Button>
       </div>
     </div>
