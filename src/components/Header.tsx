@@ -1,5 +1,6 @@
 import { Moon, Sun, Search, Settings, Filter } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { FocusModeToggle } from "@/components/FocusModeToggle";
 
 interface HeaderProps {
   isDark: boolean;
@@ -33,6 +34,7 @@ export const Header = ({ isDark, onToggleTheme }: HeaderProps) => {
           >
             <Filter className="h-4 w-4 group-hover:text-cool-blue transition-all duration-200 group-hover:scale-110" strokeWidth={2} />
           </Button>
+          <FocusModeToggle />
           <Button
             variant="ghost"
             size="icon"
