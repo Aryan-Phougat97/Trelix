@@ -4,6 +4,7 @@ import { TaskInput } from "@/components/TaskInput";
 import { TaskCard } from "@/components/TaskCard";
 import { FilterTabs } from "@/components/FilterTabs";
 import { StatsPanel } from "@/components/StatsPanel";
+import { NoteSection } from "@/components/NoteSection";
 import { toast } from "sonner";
 
 interface Task {
@@ -19,11 +20,26 @@ const Index = () => {
   const [isDark, setIsDark] = useState(true);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [activeFilter, setActiveFilter] = useState("all");
+  const [dailyNote, setDailyNote] = useState("");
 
   useEffect(() => {
     // Set dark mode by default
     document.documentElement.classList.toggle("dark", isDark);
   }, [isDark]);
+
+  useEffect(() => {
+    // Load note from localStorage
+    const savedNote = localStorage.getItem("dailyNote");
+    if (savedNote) {
+      setDailyNote(savedNote);
+    }
+  }, []);
+
+  const saveNote = (note: string) => {
+    setDailyNote(note);
+    localStorage.setItem("dailyNote", note);
+    toast.success("Note saved successfully!");
+  };
 
   const addTask = (taskData: Omit<Task, "id" | "completed">) => {
     const newTask: Task = {
@@ -115,8 +131,9 @@ const Index = () => {
             </div>
 
             {/* Stats Sidebar - 1/3 Width */}
-            <div className="lg:col-span-1">
+            <div className="lg:col-span-1 space-y-6">
               <StatsPanel {...stats} />
+              <NoteSection note={dailyNote} onSaveNote={saveNote} />
             </div>
           </div>
         </div>
