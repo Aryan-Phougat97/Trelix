@@ -1,13 +1,9 @@
-import { Moon, Sun, Search, Settings, Filter } from "lucide-react";
+import { Search, Settings, Filter } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FocusModeToggle } from "@/components/FocusModeToggle";
+import { ThemeSwitcher } from "@/components/ThemeSwitcher";
 
-interface HeaderProps {
-  isDark: boolean;
-  onToggleTheme: () => void;
-}
-
-export const Header = ({ isDark, onToggleTheme }: HeaderProps) => {
+export const Header = () => {
   return (
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border/50 px-8 py-4 mb-8 animate-slide-up">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
@@ -35,18 +31,7 @@ export const Header = ({ isDark, onToggleTheme }: HeaderProps) => {
             <Filter className="h-4 w-4 group-hover:text-cool-blue transition-all duration-200 group-hover:scale-110" strokeWidth={2} />
           </Button>
           <FocusModeToggle />
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onToggleTheme}
-            className="h-9 w-9 hover:bg-foreground/5 hover:scale-110 transition-all duration-200 group active:scale-95"
-          >
-            {isDark ? (
-              <Sun className="h-4 w-4 group-hover:text-electric-red transition-all duration-200 group-hover:rotate-90" strokeWidth={2} />
-            ) : (
-              <Moon className="h-4 w-4 group-hover:text-cool-blue transition-all duration-200 group-hover:-rotate-12" strokeWidth={2} />
-            )}
-          </Button>
+          <ThemeSwitcher />
           <Button
             variant="ghost"
             size="icon"

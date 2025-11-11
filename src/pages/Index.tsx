@@ -23,15 +23,9 @@ interface Task {
 
 const Index = () => {
   const { isFocusMode } = useFocusMode();
-  const [isDark, setIsDark] = useState(true);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [activeFilter, setActiveFilter] = useState("all");
   const [dailyNote, setDailyNote] = useState("");
-
-  useEffect(() => {
-    // Set dark mode by default
-    document.documentElement.classList.toggle("dark", isDark);
-  }, [isDark]);
 
   useEffect(() => {
     // Load note from localStorage
@@ -110,7 +104,7 @@ const Index = () => {
           }}
           transition={{ duration: 0.5 }}
         >
-          <Header isDark={isDark} onToggleTheme={() => setIsDark(!isDark)} />
+          <Header />
 
           <div className="container max-w-7xl mx-auto px-8 py-6">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
