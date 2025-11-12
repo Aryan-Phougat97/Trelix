@@ -9,6 +9,7 @@ import { FocusModeOverlay } from "@/components/FocusModeOverlay";
 import { PomodoroTimer } from "@/components/PomodoroTimer";
 import { AmbientSoundPlayer } from "@/components/AmbientSoundPlayer";
 import { useFocusMode } from "@/contexts/FocusModeContext";
+import { useAnalytics } from "@/contexts/AnalyticsContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
 
@@ -23,6 +24,7 @@ interface Task {
 
 const Index = () => {
   const { isFocusMode } = useFocusMode();
+  const { recordTaskCompletion, recordNoteActivity } = useAnalytics();
   const [tasks, setTasks] = useState<Task[]>([]);
   const [activeFilter, setActiveFilter] = useState("all");
   const [dailyNote, setDailyNote] = useState("");
@@ -38,6 +40,9 @@ const Index = () => {
   const saveNote = (note: string) => {
     setDailyNote(note);
     localStorage.setItem("dailyNote", note);
+    // Track note activity
+    const wordCount = note.trim().split(/\s+/).filter(Boolean).length;
+    recordNoteActivity(wordCount);
     toast.success("Note saved successfully!");
   };
 
@@ -61,6 +66,15 @@ const Index = () => {
     );
     const task = tasks.find((t) => t.id === id);
     if (task && !task.completed) {
+      // Track task completion in analytics
+      recordTaskCompletion(id, {
+        title: task.title,
+        category: task.category,
+        priority: task.priority,
+        deadline: task.deadline,
+        completed: true,
+        createdAt: new Date().toISOString(),
+      });
       toast.success("Task completed! 🎉");
     }
   };

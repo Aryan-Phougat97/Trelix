@@ -1,8 +1,62 @@
-# Welcome to your Lovable project
+# TaskFlow-X v1.0 🚀
+
+A modern, feature-rich productivity application built with React, TypeScript, Tailwind CSS, and Framer Motion. TaskFlow-X combines task management, focus modes, and analytics to help you achieve peak productivity.
+
+![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
+![React](https://img.shields.io/badge/react-18.3.1-61dafb.svg)
+![TypeScript](https://img.shields.io/badge/typescript-5.8.3-3178c6.svg)
 
 ## Project info
 
 **URL**: https://lovable.dev/projects/46108427-fa5f-4985-b347-e4d28134bf0e
+
+---
+
+## ✨ Features
+
+### 🎯 Smart Task Management
+- Create and organize tasks with categories (Work/Personal)
+- Set priorities (High/Medium/Low) and deadlines
+- Filter tasks by status and category
+- Real-time task completion tracking
+- Persistent storage with localStorage
+
+### 🧘 Focus Mode with Pomodoro Timer
+- Dedicated focus overlay to minimize distractions
+- Built-in 25-minute Pomodoro timer with circular progress
+- Ambient sound player for concentration
+- Automatic focus session tracking
+
+### 📝 Daily Notes
+- Quick note-taking sidebar
+- Auto-save functionality
+- Word count tracking for analytics
+
+### 📊 Productivity Dashboard **NEW in v1.0**
+- **Weekly Analytics** with interactive Recharts visualizations
+- **Key Metrics:**
+  - Total tasks and completion rate
+  - Focus hours and average session duration
+  - Notes activity tracking
+  - Top productivity day identification
+- **Interactive Charts:**
+  - Task completion bar chart
+  - Focus time distribution area chart
+  - Combined activity line chart
+- **About v1.0 Modal** with release highlights
+
+### 🎨 6 Beautiful Themes
+1. **Cyber Mode** 🌌 - Black background with neon accents
+2. **Calm Mode** 🌊 - Dark gray with muted blues
+3. **Light Focus Mode** ☀️ - Clean white interface
+4. **Solar Mode** 🌅 - Developer classic high contrast
+5. **Mirage Mode** 💭 - Futuristic moody aesthetic
+6. **Zen Mode** 🍃 - Natural notebook-inspired
+
+### 🎭 Smooth Animations
+- Framer Motion powered transitions
+- Glass morphism UI effects
+- Interactive hover states
 
 ## How can I edit this code?
 
@@ -50,15 +104,27 @@ npm run dev
 - Click on "New codespace" to launch a new Codespace environment.
 - Edit files directly within the Codespace and commit and push your changes once you're done.
 
+## 📱 Navigation
+
+- **Home (/)** - Main task management interface
+- **Dashboard (/dashboard)** - Productivity analytics and insights
+
+Use the chart/task toggle icon in the header to switch between views.
+
 ## What technologies are used for this project?
 
 This project is built with:
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+- **React 18.3** - UI framework
+- **TypeScript 5.8** - Type safety
+- **Vite 5.4** - Build tool and dev server
+- **Tailwind CSS 3.4** - Utility-first styling
+- **Framer Motion 12** - Animation library
+- **Recharts 2.15** - Chart library for analytics
+- **Radix UI** - Accessible component primitives
+- **shadcn/ui** - Beautiful component library
+- **date-fns 3.6** - Date manipulation
+- **Sonner** - Toast notifications
 
 ## How can I deploy this project?
 
