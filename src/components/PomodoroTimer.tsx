@@ -3,21 +3,32 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Play, Pause, RotateCcw, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useFocusMode } from "@/contexts/FocusModeContext";
+import { useAnalytics } from "@/contexts/AnalyticsContext";
 
 const POMODORO_DURATION = 25 * 60; // 25 minutes in seconds
 
 export const PomodoroTimer = () => {
   const { isTimerActive, setIsTimerActive, isFocusMode } = useFocusMode();
+  const { recordFocusSession } = useAnalytics();
   const [timeRemaining, setTimeRemaining] = useState(POMODORO_DURATION);
   const [isExpanded, setIsExpanded] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const sessionStartTimeRef = useRef<number | null>(null);
 
   useEffect(() => {
     if (isTimerActive && timeRemaining > 0) {
+      // Track session start time
+      if (sessionStartTimeRef.current === null) {
+        sessionStartTimeRef.current = Date.now();
+      }
+
       intervalRef.current = setInterval(() => {
         setTimeRemaining((prev) => {
           if (prev <= 1) {
             setIsTimerActive(false);
+            // Session completed - record full pomodoro duration
+            recordFocusSession(25); // 25 minutes
+            sessionStartTimeRef.current = null;
             return POMODORO_DURATION;
           }
           return prev - 1;
@@ -35,13 +46,21 @@ export const PomodoroTimer = () => {
         clearInterval(intervalRef.current);
       }
     };
-  }, [isTimerActive, timeRemaining, setIsTimerActive]);
+  }, [isTimerActive, timeRemaining, setIsTimerActive, recordFocusSession]);
 
   const handlePlayPause = () => {
     setIsTimerActive(!isTimerActive);
   };
 
   const handleReset = () => {
+    // If timer was running, record partial session
+    if (isTimerActive && sessionStartTimeRef.current !== null) {
+      const minutesElapsed = Math.floor((POMODORO_DURATION - timeRemaining) / 60);
+      if (minutesElapsed > 0) {
+        recordFocusSession(minutesElapsed);
+      }
+      sessionStartTimeRef.current = null;
+    }
     setIsTimerActive(false);
     setTimeRemaining(POMODORO_DURATION);
   };
