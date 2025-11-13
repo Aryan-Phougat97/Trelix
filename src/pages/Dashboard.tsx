@@ -138,22 +138,21 @@ const Dashboard = () => {
               <DialogContent className="glass-card max-w-2xl max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
                   <DialogTitle className="text-2xl font-bold mb-2">
-                    TaskFlow-X v1.0 🚀
+                    Trelix v1.0 - Smart Task Management SaaS
                   </DialogTitle>
                   <DialogDescription className="text-base space-y-4">
                     <div className="space-y-3 pt-4">
                       <h3 className="font-semibold text-foreground text-lg">
-                        Release Highlights
+                        Platform Features
                       </h3>
                       <ul className="space-y-2 text-muted-foreground">
                         <li className="flex items-start gap-2">
                           <span className="text-primary mt-1">✓</span>
                           <span>
                             <strong className="text-foreground">
-                              Smart Task Management
+                              Enterprise Task Management
                             </strong>{' '}
-                            - Organize work and personal tasks with categories,
-                            priorities, and deadlines
+                            - Powerful task organization with categories, priorities, and intelligent deadline tracking for teams and individuals
                           </span>
                         </li>
                         <li className="flex items-start gap-2">
@@ -162,45 +161,43 @@ const Dashboard = () => {
                             <strong className="text-foreground">
                               Focus Mode with Pomodoro
                             </strong>{' '}
-                            - Deep work sessions with built-in timer and ambient
-                            sounds
+                            - Boost productivity with deep work sessions, built-in Pomodoro timer, and ambient soundscapes
                           </span>
                         </li>
                         <li className="flex items-start gap-2">
                           <span className="text-primary mt-1">✓</span>
                           <span>
                             <strong className="text-foreground">
-                              Daily Notes
+                              Smart Daily Notes
                             </strong>{' '}
-                            - Capture thoughts and ideas with persistent storage
+                            - Capture insights and ideas with cloud-synced persistent storage
                           </span>
                         </li>
                         <li className="flex items-start gap-2">
                           <span className="text-primary mt-1">✓</span>
                           <span>
                             <strong className="text-foreground">
-                              6 Beautiful Themes
+                              Premium Theme Collection
                             </strong>{' '}
-                            - Cyber, Calm, Light, Solar, Mirage, and Zen modes
+                            - 6 professionally designed themes: Cyber, Calm, Light, Solar, Mirage, and Zen modes for any workflow
                           </span>
                         </li>
                         <li className="flex items-start gap-2">
                           <span className="text-primary mt-1">✓</span>
                           <span>
                             <strong className="text-foreground">
-                              Productivity Analytics
+                              Real-time Analytics Dashboard
                             </strong>{' '}
-                            - Track your progress with interactive charts and
-                            metrics
+                            - Track productivity metrics with interactive charts, trends, and actionable insights
                           </span>
                         </li>
                         <li className="flex items-start gap-2">
                           <span className="text-primary mt-1">✓</span>
                           <span>
                             <strong className="text-foreground">
-                              Smooth Animations
+                              Polished User Experience
                             </strong>{' '}
-                            - Built with Framer Motion for delightful interactions
+                            - Fluid animations and intuitive design built with industry-leading technologies
                           </span>
                         </li>
                       </ul>

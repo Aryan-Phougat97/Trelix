@@ -1,7 +1,8 @@
 {
-  "name": "taskflow-x-chronos",
+  "name": "trelix",
   "private": true,
   "version": "1.0.0",
+  "description": "Trelix - Smart SaaS Task Management Platform",
   "type": "module",
   "scripts": {
     "dev": "vite",
