@@ -2,6 +2,7 @@ import { Search, Settings, Filter, BarChart3, CheckSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FocusModeToggle } from "@/components/FocusModeToggle";
 import { ThemeSwitcher } from "@/components/ThemeSwitcher";
+import { Logo } from "@/components/Logo";
 import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from "sonner";
 import { useState } from "react";
@@ -60,11 +61,9 @@ export const Header = ({ onSearch, onFilterClick }: HeaderProps = {}) => {
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border/50 px-8 py-4 mb-8 animate-slide-up">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between">
-          {/* Left: TaskFlow-X Wordmark */}
-          <div className="flex items-center gap-2">
-            <h1 className="text-2xl font-bold tracking-tight font-mono animate-fade-in">
-              <span className="minimal-wordmark cursor-pointer" onClick={() => navigate('/')}>TaskFlow-X</span>
-            </h1>
+          {/* Left: Trelix Logo */}
+          <div className="flex items-center gap-2 animate-fade-in">
+            <Logo size="md" showText />
           </div>
 
           {/* Right: Icon Actions */}
