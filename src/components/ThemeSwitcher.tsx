@@ -45,7 +45,11 @@ export const ThemeSwitcher: React.FC = () => {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: -10 }}
               transition={{ duration: 0.2, ease: 'easeOut' }}
-              className="absolute right-0 top-12 z-50 w-80 glass-card rounded-xl p-4 space-y-3 shadow-2xl"
+              className="absolute right-0 top-12 z-50 w-80 rounded-xl p-4 space-y-3 shadow-2xl border border-border"
+              style={{
+                backdropFilter: 'blur(20px) saturate(180%)',
+                backgroundColor: 'hsl(var(--background) / 0.85)'
+              }}
             >
               <div className="flex items-center justify-between mb-2">
                 <h3 className="text-sm font-semibold text-foreground">

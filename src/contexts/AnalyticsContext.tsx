@@ -166,11 +166,11 @@ export const AnalyticsProvider: React.FC<AnalyticsProviderProps> = ({ children }
     }
 
     // Find top productivity day
-    const topDay = dailyMetrics.reduce((max, day) => {
+    const topDay = dailyMetrics.length > 0 ? dailyMetrics.reduce((max, day) => {
       const score = day.tasksCompleted * 2 + day.focusMinutes / 30;
       const maxScore = max.tasksCompleted * 2 + max.focusMinutes / 30;
       return score > maxScore ? day : max;
-    }, dailyMetrics[0]);
+    }, dailyMetrics[0]) : null;
 
     return {
       totalTasks,

@@ -1,8 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Header } from '@/components/Header';
 import { useAnalytics } from '@/contexts/AnalyticsContext';
-import { seedSampleAnalyticsData } from '@/utils/seedAnalytics';
 import {
   BarChart,
   Bar,
@@ -40,15 +39,7 @@ const Dashboard = () => {
   const { weeklyStats } = useAnalytics();
   const [aboutModalOpen, setAboutModalOpen] = useState(false);
 
-  // Auto-seed sample data if no data exists (for demo purposes)
-  useEffect(() => {
-    const hasData = localStorage.getItem('analytics-tasks');
-    if (!hasData || hasData === '[]') {
-      seedSampleAnalyticsData();
-      // Force reload to show the seeded data
-      window.location.reload();
-    }
-  }, []);
+  // Removed auto-seed for production - new users start with 0 values
 
   const statCards = [
     {
@@ -144,7 +135,7 @@ const Dashboard = () => {
                   About v1.0
                 </Button>
               </DialogTrigger>
-              <DialogContent className="glass-card max-w-2xl">
+              <DialogContent className="glass-card max-w-2xl max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
                   <DialogTitle className="text-2xl font-bold mb-2">
                     TaskFlow-X v1.0 🚀

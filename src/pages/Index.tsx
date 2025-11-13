@@ -28,6 +28,7 @@ const Index = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [activeFilter, setActiveFilter] = useState("all");
   const [dailyNote, setDailyNote] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     // Load note from localStorage
@@ -85,6 +86,15 @@ const Index = () => {
   };
 
   const filteredTasks = tasks.filter((task) => {
+    // First apply search filter
+    const matchesSearch = searchQuery.trim() === "" ||
+      task.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      task.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      task.priority.toLowerCase().includes(searchQuery.toLowerCase());
+
+    if (!matchesSearch) return false;
+
+    // Then apply category filter
     if (activeFilter === "all") return true;
     if (activeFilter === "completed") return task.completed;
     return task.category === activeFilter && !task.completed;
@@ -118,7 +128,7 @@ const Index = () => {
           }}
           transition={{ duration: 0.5 }}
         >
-          <Header />
+          <Header onSearch={setSearchQuery} />
 
           <div className="container max-w-7xl mx-auto px-8 py-6">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
