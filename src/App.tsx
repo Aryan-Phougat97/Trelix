@@ -9,6 +9,7 @@ import { AnalyticsProvider } from "@/contexts/AnalyticsContext";
 import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
 import Framework from "./pages/Framework";
+import Review from "./pages/Review";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +27,7 @@ const App = () => (
                 <Route path="/" element={<Index />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/framework" element={<Framework />} />
+                <Route path="/review" element={<Review />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
