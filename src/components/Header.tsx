@@ -1,4 +1,4 @@
-import { Search, Settings, Filter, BarChart3, CheckSquare, Network, ClipboardCheck, BookOpen } from "lucide-react";
+import { Search, Settings, Filter, BarChart3, CheckSquare, Network, ClipboardCheck, BookOpen, Smile } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FocusModeToggle } from "@/components/FocusModeToggle";
 import { ThemeSwitcher } from "@/components/ThemeSwitcher";
@@ -20,11 +20,12 @@ export const Header = ({ onSearch, onFilterClick }: HeaderProps = {}) => {
   const isOnFramework = location.pathname === '/framework';
   const isOnReview = location.pathname === '/review';
   const isOnDiary = location.pathname === '/diary';
+  const isOnMood = location.pathname === '/mood';
   const [showSearch, setShowSearch] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
   const handleSearch = () => {
-    if (isOnDashboard || isOnFramework || isOnReview || isOnDiary) {
+    if (isOnDashboard || isOnFramework || isOnReview || isOnDiary || isOnMood) {
       toast.info("Search is available on the Tasks page");
       return;
     }
@@ -43,7 +44,7 @@ export const Header = ({ onSearch, onFilterClick }: HeaderProps = {}) => {
   };
 
   const handleFilter = () => {
-    if (isOnDashboard || isOnFramework || isOnReview || isOnDiary) {
+    if (isOnDashboard || isOnFramework || isOnReview || isOnDiary || isOnMood) {
       toast.info("Filters are available on the Tasks page");
       return;
     }
@@ -115,6 +116,15 @@ export const Header = ({ onSearch, onFilterClick }: HeaderProps = {}) => {
             variant="ghost"
             size="icon"
             className="h-9 w-9 hover:bg-foreground/5 hover:scale-110 transition-all duration-200 group active:scale-95"
+            onClick={() => navigate('/mood')}
+            title="Mood Tracker"
+          >
+            <Smile className="h-4 w-4 group-hover:text-cool-blue transition-all duration-200 group-hover:scale-110" strokeWidth={2} />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-9 w-9 hover:bg-foreground/5 hover:scale-110 transition-all duration-200 group active:scale-95"
             onClick={handleSearch}
             title="Search tasks"
           >
@@ -144,7 +154,7 @@ export const Header = ({ onSearch, onFilterClick }: HeaderProps = {}) => {
         </div>
 
         {/* Search Bar - Slides in when search is active */}
-        {showSearch && !isOnDashboard && !isOnFramework && !isOnReview && !isOnDiary && (
+        {showSearch && !isOnDashboard && !isOnFramework && !isOnReview && !isOnDiary && !isOnMood && (
           <div className="mt-4 animate-slide-up">
             <Input
               type="text"
