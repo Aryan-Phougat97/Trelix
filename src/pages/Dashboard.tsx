@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Header } from '@/components/Header';
 import { useAnalytics } from '@/contexts/AnalyticsContext';
+import { useHabitTracker } from '@/hooks/useHabitTracker';
 import {
   BarChart,
   Bar,
@@ -24,6 +25,8 @@ import {
   FileText,
   Trophy,
   Info,
+  Flame,
+  Calendar,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -37,6 +40,14 @@ import {
 
 const Dashboard = () => {
   const { weeklyStats } = useAnalytics();
+  const {
+    habits,
+    dailyHabits,
+    weeklyHabits,
+    getTodayCompletionStatus,
+    getWeekCompletionStatus,
+    getHabitStats
+  } = useHabitTracker();
   const [aboutModalOpen, setAboutModalOpen] = useState(false);
 
   // Removed auto-seed for production - new users start with 0 values
@@ -259,6 +270,92 @@ const Dashboard = () => {
               </motion.div>
             ))}
           </div>
+
+          {/* Habit Tracker Stats */}
+          {habits.length > 0 && (
+            <motion.div
+              className="glass-card rounded-lg p-6 mb-8"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.6 }}
+            >
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-lg font-semibold flex items-center gap-2">
+                  <Target className="h-5 w-5 text-primary" />
+                  Habit Tracker Overview
+                </h3>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => (window.location.href = '/habits')}
+                >
+                  View All Habits
+                </Button>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                {/* Total Habits */}
+                <div className="p-4 rounded-lg bg-primary/5 border border-primary/20">
+                  <div className="flex items-center gap-3 mb-2">
+                    <Target className="h-5 w-5 text-primary" />
+                    <p className="text-sm text-muted-foreground">Total Habits</p>
+                  </div>
+                  <p className="text-2xl font-bold text-primary">
+                    {habits.length}
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {dailyHabits.length} daily, {weeklyHabits.length} weekly
+                  </p>
+                </div>
+
+                {/* Today's Progress */}
+                <div className="p-4 rounded-lg bg-green-500/5 border border-green-500/20">
+                  <div className="flex items-center gap-3 mb-2">
+                    <Calendar className="h-5 w-5 text-green-500" />
+                    <p className="text-sm text-muted-foreground">Today</p>
+                  </div>
+                  <p className="text-2xl font-bold text-green-500">
+                    {getTodayCompletionStatus().completed}/{getTodayCompletionStatus().total}
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {getTodayCompletionStatus().total > 0
+                      ? `${Math.round((getTodayCompletionStatus().completed / getTodayCompletionStatus().total) * 100)}% complete`
+                      : 'No daily habits'}
+                  </p>
+                </div>
+
+                {/* This Week */}
+                <div className="p-4 rounded-lg bg-purple-500/5 border border-purple-500/20">
+                  <div className="flex items-center gap-3 mb-2">
+                    <Flame className="h-5 w-5 text-purple-500" />
+                    <p className="text-sm text-muted-foreground">This Week</p>
+                  </div>
+                  <p className="text-2xl font-bold text-purple-500">
+                    {getWeekCompletionStatus().completed}/{getWeekCompletionStatus().total}
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {getWeekCompletionStatus().total > 0
+                      ? `${Math.round((getWeekCompletionStatus().completed / getWeekCompletionStatus().total) * 100)}% complete`
+                      : 'No weekly habits'}
+                  </p>
+                </div>
+
+                {/* Best Streak */}
+                <div className="p-4 rounded-lg bg-orange-500/5 border border-orange-500/20">
+                  <div className="flex items-center gap-3 mb-2">
+                    <Trophy className="h-5 w-5 text-orange-500" />
+                    <p className="text-sm text-muted-foreground">Best Streak</p>
+                  </div>
+                  <p className="text-2xl font-bold text-orange-500">
+                    {Math.max(...habits.map(h => getHabitStats(h.id).longestStreak), 0)}
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Days in a row
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          )}
 
           {/* Charts Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
