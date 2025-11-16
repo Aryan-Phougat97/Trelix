@@ -13,6 +13,7 @@ import Review from "./pages/Review";
 import Diary from "./pages/Diary";
 import MoodTracker from "./pages/MoodTracker";
 import { HabitTracker } from "./pages/HabitTracker";
+import { TrelixLedger } from "./pages/TrelixLedger";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -34,6 +35,7 @@ const App = () => (
                 <Route path="/diary" element={<Diary />} />
                 <Route path="/mood" element={<MoodTracker />} />
                 <Route path="/habits" element={<HabitTracker />} />
+                <Route path="/ledger" element={<TrelixLedger />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
