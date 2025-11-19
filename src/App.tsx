@@ -6,6 +6,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { FocusModeProvider } from "@/contexts/FocusModeContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { AnalyticsProvider } from "@/contexts/AnalyticsContext";
+import { AppLayout } from "@/components/AppLayout";
+import Home from "./pages/Home";
 import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
 import Framework from "./pages/Framework";
@@ -18,6 +20,11 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
+// Wrapper for Tasks page to handle search
+const TasksPage = () => {
+  return <Index />;
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider>
@@ -28,15 +35,20 @@ const App = () => (
             <Sonner />
             <BrowserRouter>
               <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/framework" element={<Framework />} />
-                <Route path="/review" element={<Review />} />
-                <Route path="/diary" element={<Diary />} />
-                <Route path="/mood" element={<MoodTracker />} />
-                <Route path="/habits" element={<HabitTracker />} />
-                <Route path="/ledger" element={<TrelixLedger />} />
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                {/* Landing Page - No Layout */}
+                <Route path="/" element={<Home />} />
+                
+                {/* All other pages - With AppLayout */}
+                <Route path="/tasks" element={<AppLayout><TasksPage /></AppLayout>} />
+                <Route path="/dashboard" element={<AppLayout><Dashboard /></AppLayout>} />
+                <Route path="/framework" element={<AppLayout><Framework /></AppLayout>} />
+                <Route path="/review" element={<AppLayout><Review /></AppLayout>} />
+                <Route path="/diary" element={<AppLayout><Diary /></AppLayout>} />
+                <Route path="/mood" element={<AppLayout><MoodTracker /></AppLayout>} />
+                <Route path="/habits" element={<AppLayout><HabitTracker /></AppLayout>} />
+                <Route path="/ledger" element={<AppLayout><TrelixLedger /></AppLayout>} />
+                
+                {/* 404 Page */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </BrowserRouter>

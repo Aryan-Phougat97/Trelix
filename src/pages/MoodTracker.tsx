@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Header } from '@/components/Header';
 import { MoodEntry } from '@/components/MoodEntry';
 import { MoodTimeline } from '@/components/MoodTimeline';
 import { MoodInsights } from '@/components/MoodInsights';
@@ -25,9 +24,6 @@ export const MoodTracker = () => {
       <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border))_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border))_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none animate-fade-in opacity-20"></div>
 
       <div className="relative z-10">
-        {/* Header */}
-        <Header />
-
         <div className="container max-w-7xl mx-auto px-6 py-8">
           {/* Page Header */}
           <motion.div

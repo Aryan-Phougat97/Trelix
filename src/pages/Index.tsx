@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { Header } from "@/components/Header";
 import { TaskInput } from "@/components/TaskInput";
 import { TaskCard } from "@/components/TaskCard";
 import { FilterTabs } from "@/components/FilterTabs";
@@ -128,8 +127,6 @@ const Index = () => {
           }}
           transition={{ duration: 0.5 }}
         >
-          <Header onSearch={setSearchQuery} />
-
           <div className="container max-w-7xl mx-auto px-8 py-6">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Main Content - 2/3 Width */}
