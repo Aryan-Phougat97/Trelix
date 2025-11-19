@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Plus, Lock, Unlock, Info } from 'lucide-react';
 import { useDiary, DiaryEntry } from '@/hooks/useDiary';
-import { Header } from '@/components/Header';
 import { DiaryEntryCard } from '@/components/DiaryEntryCard';
 import { DiaryEditorModal } from '@/components/DiaryEditorModal';
 import { MonthSection } from '@/components/MonthSection';
@@ -51,8 +50,6 @@ const Diary = () => {
       <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--primary)/0.03)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--primary)/0.03)_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none animate-fade-in"></div>
 
       <div className="relative z-10">
-        <Header />
-
         <div className="container max-w-6xl mx-auto px-6 py-8">
           {/* Page Header */}
           <motion.div
