@@ -1,3 +1,10 @@
+/**
+ * 🏠 Home Page - Grok-Inspired Landing
+ * Optimized with LazyMotion for performance
+ * GPU-accelerated, buttery-smooth animations
+ */
+
+import { LazyMotion, domAnimation } from 'framer-motion';
 import { ThemeSwitcher } from '@/components/ThemeSwitcher';
 import { HeroSection } from '@/components/landing/HeroSection';
 import { ProblemSolutionSection } from '@/components/landing/ProblemSolutionSection';
@@ -7,46 +14,48 @@ import { LifeOSSection, FinalCTASection, FloatingNavbar } from '@/components/lan
 
 const Home = () => {
   return (
-    <div className="min-h-screen bg-black text-white overflow-x-hidden">
-      {/* Floating Navbar */}
-      <FloatingNavbar />
+    <LazyMotion features={domAnimation} strict>
+      <div className="min-h-screen bg-black text-white overflow-x-hidden smooth-scroll">
+        {/* Floating Navbar */}
+        <FloatingNavbar />
 
-      {/* Hero Section */}
-      <HeroSection />
+        {/* Hero Section */}
+        <HeroSection />
 
-      {/* Problem → Solution */}
-      <ProblemSolutionSection />
+        {/* Problem → Solution */}
+        <ProblemSolutionSection />
 
-      {/* Productivity Hub */}
-      <ProductivityHubSection />
+        {/* Productivity Hub */}
+        <ProductivityHubSection />
 
-      {/* Planning & Goals */}
-      <PlanningSection />
+        {/* Planning & Goals */}
+        <PlanningSection />
 
-      {/* Wellbeing Modules */}
-      <WellbeingSection />
+        {/* Wellbeing Modules */}
+        <WellbeingSection />
 
-      {/* Trelix Ledger */}
-      <LedgerSection />
+        {/* Trelix Ledger */}
+        <LedgerSection />
 
-      {/* Life OS */}
-      <LifeOSSection />
+        {/* Life OS */}
+        <LifeOSSection />
 
-      {/* Final CTA */}
-      <FinalCTASection />
+        {/* Final CTA */}
+        <FinalCTASection />
 
-      {/* Footer */}
-      <footer className="relative py-12 bg-black border-t border-white/10">
-        <div className="container mx-auto px-6 text-center">
-          <p className="text-white/40 text-sm">
-            © 2025 Trelix. Built with ❤️ for productivity enthusiasts.
-          </p>
-          <p className="text-white/30 text-xs mt-2">
-            Your data stays yours. Private. Local-first. Forever free.
-          </p>
-        </div>
-      </footer>
-    </div>
+        {/* Footer */}
+        <footer className="relative py-12 bg-black border-t border-white/10">
+          <div className="container mx-auto px-6 text-center">
+            <p className="text-white/40 text-sm">
+              © 2025 Trelix. Built with ❤️ for productivity enthusiasts.
+            </p>
+            <p className="text-white/30 text-xs mt-2">
+              Your data stays yours. Private. Local-first. Forever free.
+            </p>
+          </div>
+        </footer>
+      </div>
+    </LazyMotion>
   );
 };
 

@@ -737,5 +737,113 @@ All colors MUST be HSL.
     background-size: 200% 200%;
     animation: gradient 3s ease infinite;
   }
+
+  /* 🚀 GPU Acceleration & Performance Optimizations */
+  /* Smooth scrolling for the entire page */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* GPU-accelerated transforms - Utility class */
+  .will-change-transform-opacity {
+    will-change: transform, opacity;
+  }
+
+  .transform-gpu {
+    transform: translate3d(0, 0, 0);
+  }
+
+  /* Force GPU layer for animations */
+  @layer utilities {
+    .gpu-accelerate {
+      will-change: transform, opacity;
+      transform: translate3d(0, 0, 0);
+      backface-visibility: hidden;
+      perspective: 1000px;
+    }
+
+    .smooth-scroll {
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* Reduced motion support */
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    /* Optimize blur performance - reduce on mobile */
+    @media (max-width: 768px) {
+      .backdrop-blur-xl {
+        backdrop-filter: blur(12px) !important;
+      }
+      
+      .backdrop-blur-2xl {
+        backdrop-filter: blur(16px) !important;
+      }
+
+      [class*="blur-"] {
+        filter: blur(clamp(4px, 2vw, 40px)) !important;
+      }
+    }
+
+    /* Hardware acceleration for common animations */
+    @keyframes drift {
+      0% {
+        transform: translate3d(0px, 0px, 0);
+      }
+      50% {
+        transform: translate3d(15px, -10px, 0);
+      }
+      100% {
+        transform: translate3d(0px, 0px, 0);
+      }
+    }
+
+    .animate-drift {
+      animation: drift 10s ease-in-out infinite;
+      will-change: transform;
+    }
+
+    /* Buttery smooth hover transitions */
+    .hover-smooth {
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                  opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Optimized shadow that doesn't trigger paint */
+    .shadow-glow-blue {
+      box-shadow: 0 0 20px hsl(var(--cool-blue) / 0.2);
+    }
+
+    .shadow-glow-red {
+      box-shadow: 0 0 20px hsl(var(--electric-red) / 0.2);
+    }
+  }
+
+  /* Performance optimization: contain paint/layout for isolated sections */
+  section {
+    contain: layout style paint;
+  }
+
+  /* Optimize fonts for better rendering */
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Prevent layout shift */
+  img, video {
+    max-width: 100%;
+    height: auto;
+  }
 }
+
 
