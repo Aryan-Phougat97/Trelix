@@ -1,7 +1,6 @@
 /**
- * 🚀 Hero Section - GPU-Optimized
- * Buttery-smooth animations with transform/opacity only
- * Reduced blur, optimized particles, spring physics
+ * 🚀 Hero Section - Optimized Animations
+ * Smooth animations with GPU acceleration
  */
 
 import React from 'react';
@@ -9,7 +8,66 @@ import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { GlowOrb, HolographicText, AnimatedFlare } from './GlowEffects';
 import { ArrowRight, Sparkles } from 'lucide-react';
-import { fadeIn, slideUp, SPRING, DURATION, gpuAccelerated, mobileOptimized } from '@/lib/motionPresets';
+
+// Helper: Mobile optimization
+const isMobile = () => window.innerWidth < 768;
+const mobileOptimized = (desktop: number, mobile: number) => isMobile() ? mobile : desktop;
+
+// Smooth easing curve
+const EASING = [0.16, 1, 0.3, 1] as const;
+
+// Spring configs
+const SPRING_SMOOTH = {
+  type: 'spring' as const,
+  stiffness: 60,
+  damping: 20,
+  mass: 0.5,
+};
+
+const SPRING_BOUNCY = {
+  type: 'spring' as const,
+  stiffness: 120,
+  damping: 12,
+  mass: 0.8,
+};
+
+// Duration configs
+const DURATION_NORMAL = {
+  duration: 0.6,
+  ease: EASING,
+};
+
+const DURATION_FAST = {
+  duration: 0.3,
+  ease: EASING,
+};
+
+const DURATION_SLOW = {
+  duration: 0.9,
+  ease: EASING,
+};
+
+// Variants
+const slideUp = {
+  initial: { 
+    opacity: 0, 
+    y: 20,
+    transform: 'translate3d(0, 0, 0)',
+  },
+  animate: { 
+    opacity: 1, 
+    y: 0,
+    transition: DURATION_NORMAL,
+  },
+};
+
+const fadeIn = {
+  initial: { opacity: 0 },
+  animate: { 
+    opacity: 1,
+    transition: DURATION_NORMAL,
+  },
+};
 
 // Memoized background for performance
 const HeroBackground = React.memo(() => (
@@ -44,7 +102,7 @@ const Particle = React.memo(({ index }: { index: number }) => {
 
   return (
     <motion.div
-      className={`absolute w-1 h-1 bg-cyan-400/50 rounded-full pointer-events-none ${gpuAccelerated}`}
+      className="absolute w-1 h-1 bg-cyan-400/50 rounded-full pointer-events-none will-change-[transform,opacity] transform-gpu"
       style={{
         left: `${left}%`,
         top: `${top}%`,
@@ -102,7 +160,7 @@ export const HeroSection = React.memo(() => {
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ ...DURATION.normal, delay: 0.1 }}
+          transition={{ ...DURATION_NORMAL, delay: 0.1 }}
         >
           <HolographicText className="text-6xl md:text-8xl font-bold mb-6">
             <h1>TRELIX</h1>
@@ -114,7 +172,7 @@ export const HeroSection = React.memo(() => {
           variants={slideUp}
           initial="initial"
           animate="animate"
-          transition={{ ...DURATION.normal, delay: 0.2 }}
+          transition={{ ...DURATION_NORMAL, delay: 0.2 }}
           className="mb-8"
         >
           <h2 className="text-3xl md:text-5xl font-bold text-white/90 mb-4">
@@ -132,15 +190,15 @@ export const HeroSection = React.memo(() => {
           variants={slideUp}
           initial="initial"
           animate="animate"
-          transition={{ ...DURATION.normal, delay: 0.4 }}
+          transition={{ ...DURATION_NORMAL, delay: 0.4 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12"
         >
           {/* Primary CTA - Transform-based hover */}
           <motion.button
             onClick={() => navigate('/tasks')}
-            className={`group relative px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full font-semibold text-lg text-black overflow-hidden ${gpuAccelerated}`}
-            whileHover={{ scale: 1.05, transition: SPRING.smooth }}
-            whileTap={{ scale: 0.95, transition: SPRING.bouncy }}
+            className="group relative px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full font-semibold text-lg text-black overflow-hidden will-change-[transform,opacity] transform-gpu"
+            whileHover={{ scale: 1.05, transition: SPRING_SMOOTH }}
+            whileTap={{ scale: 0.95, transition: SPRING_BOUNCY }}
             style={{ willChange: 'transform' }}
           >
             <span className="relative z-10 flex items-center gap-2">
@@ -149,7 +207,7 @@ export const HeroSection = React.memo(() => {
                 className="inline-block"
                 initial={{ x: 0 }}
                 whileHover={{ x: 3 }}
-                transition={SPRING.smooth}
+                transition={SPRING_SMOOTH}
               >
                 <ArrowRight className="w-5 h-5" />
               </motion.span>
@@ -160,16 +218,16 @@ export const HeroSection = React.memo(() => {
               className="absolute -inset-2 rounded-full blur-2xl bg-cyan-500/40 -z-10"
               initial={{ opacity: 0.5 }}
               whileHover={{ opacity: 0.8 }}
-              transition={DURATION.fast}
+              transition={DURATION_FAST}
             />
           </motion.button>
 
           {/* Secondary CTA */}
           <motion.button
             onClick={() => navigate('/dashboard')}
-            className={`px-8 py-4 border-2 border-cyan-500/50 rounded-full font-semibold text-lg text-cyan-300 backdrop-blur-sm hover:bg-cyan-500/10 hover:border-cyan-400 transition-colors ${gpuAccelerated}`}
-            whileHover={{ scale: 1.05, transition: SPRING.smooth }}
-            whileTap={{ scale: 0.95, transition: SPRING.bouncy }}
+            className="px-8 py-4 border-2 border-cyan-500/50 rounded-full font-semibold text-lg text-cyan-300 backdrop-blur-sm hover:bg-cyan-500/10 hover:border-cyan-400 transition-colors will-change-[transform,opacity] transform-gpu"
+            whileHover={{ scale: 1.05, transition: SPRING_SMOOTH }}
+            whileTap={{ scale: 0.95, transition: SPRING_BOUNCY }}
             style={{ willChange: 'transform' }}
           >
             Explore Features
@@ -181,7 +239,7 @@ export const HeroSection = React.memo(() => {
           variants={fadeIn}
           initial="initial"
           animate="animate"
-          transition={{ ...DURATION.normal, delay: 0.6 }}
+          transition={{ ...DURATION_NORMAL, delay: 0.6 }}
           className="flex flex-wrap items-center justify-center gap-3 text-sm text-white/60"
         >
           {['Private', 'Local-first', 'Free forever', 'No login required'].map((feature, index) => (
@@ -189,8 +247,8 @@ export const HeroSection = React.memo(() => {
               key={feature}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ ...DURATION.normal, delay: 0.7 + index * 0.1 }}
-              className={`px-4 py-2 rounded-full border border-white/10 backdrop-blur-sm ${gpuAccelerated}`}
+              transition={{ ...DURATION_NORMAL, delay: 0.7 + index * 0.1 }}
+              className="px-4 py-2 rounded-full border border-white/10 backdrop-blur-sm will-change-[transform,opacity] transform-gpu"
               style={{ willChange: 'transform' }}
             >
               {feature}
@@ -203,13 +261,13 @@ export const HeroSection = React.memo(() => {
           variants={fadeIn}
           initial="initial"
           animate="animate"
-          transition={{ ...DURATION.slow, delay: 1 }}
+          transition={{ ...DURATION_SLOW, delay: 1 }}
           className="absolute bottom-8 left-1/2 -translate-x-1/2"
         >
           <motion.div
             animate={{ y: [0, 10, 0] }}
             transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-            className={`w-6 h-10 border-2 border-cyan-500/50 rounded-full flex items-start justify-center p-2 ${gpuAccelerated}`}
+            className="w-6 h-10 border-2 border-cyan-500/50 rounded-full flex items-start justify-center p-2 will-change-[transform,opacity] transform-gpu"
             style={{ willChange: 'transform' }}
           >
             <motion.div

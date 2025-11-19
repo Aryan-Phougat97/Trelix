@@ -1,13 +1,5 @@
-/**
- * 🌟 Glow Effects Library for Grok-inspired Design
- * GPU-accelerated, transform-based, buttery-smooth animations
- * Optimized for 60fps with zero-lag motion
- */
-
-import React from 'react';
 import { motion } from 'framer-motion';
 import { ReactNode } from 'react';
-import { pulse, SPRING, DURATION, gpuAccelerated, mobileOptimized } from '@/lib/motionPresets';
 
 interface GlowOrbProps {
   size?: number;
@@ -15,237 +7,191 @@ interface GlowOrbProps {
   blur?: number;
   opacity?: number;
   animate?: boolean;
-  className?: string;
 }
 
-/**
- * GlowOrb - GPU-accelerated radial gradient orb
- * Uses transform + opacity for smooth animation
- */
-export const GlowOrb = React.memo(({ 
+export const GlowOrb = ({ 
   size = 400, 
   color = '#3b82f6', 
   blur = 100, 
   opacity = 0.3,
-  animate = true,
-  className = '',
+  animate = true 
 }: GlowOrbProps) => {
-  // Reduce blur on mobile for better performance
-  const optimizedBlur = mobileOptimized(blur, Math.min(blur, 60));
-  
   return (
     <motion.div
-      className={`absolute rounded-full pointer-events-none ${gpuAccelerated} ${className}`}
+      className="absolute rounded-full pointer-events-none"
       style={{
         width: size,
         height: size,
         background: `radial-gradient(circle, ${color} 0%, transparent 70%)`,
-        filter: `blur(${optimizedBlur}px)`,
+        filter: `blur(${blur}px)`,
         opacity,
-        willChange: 'transform, opacity',
-        transform: 'translate3d(0, 0, 0)', // Force GPU layer
       }}
-      {...(animate ? pulse(4) : {})}
+      animate={animate ? {
+        scale: [1, 1.2, 1],
+        opacity: [opacity, opacity * 0.7, opacity],
+      } : {}}
+      transition={{
+        duration: 4,
+        repeat: Infinity,
+        ease: 'easeInOut',
+      }}
     />
   );
-});
-
-GlowOrb.displayName = 'GlowOrb';
+};
 
 interface AnimatedFlareProps {
   className?: string;
 }
 
-/**
- * AnimatedFlare - Moving light flare using transform
- * Optimized with translate3d for GPU acceleration
- */
-export const AnimatedFlare = React.memo(({ className = '' }: AnimatedFlareProps) => {
+export const AnimatedFlare = ({ className = '' }: AnimatedFlareProps) => {
   return (
     <div className={`absolute inset-0 overflow-hidden pointer-events-none ${className}`}>
       <motion.div
-        className={`absolute w-full h-full ${gpuAccelerated}`}
-        style={{
-          background: 'linear-gradient(135deg, transparent 0%, rgba(59, 130, 246, 0.1) 40%, rgba(147, 51, 234, 0.1) 60%, transparent 100%)',
-          willChange: 'transform',
-          transform: 'translate3d(0, 0, 0)',
-        }}
-        animate={{
-          x: ['-100%', '100%'],
-          y: ['-50%', '50%'],
-        }}
+        className="absolute w-full h-full"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: [0, 1, 0] }}
         transition={{
-          duration: 15,
-          ease: 'linear',
+          duration: 3,
           repeat: Infinity,
-          repeatType: 'loop',
+          ease: 'easeInOut',
         }}
-      />
+      >
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl" />
+        <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 left-1/3 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl" />
+      </motion.div>
     </div>
   );
-});
-
-AnimatedFlare.displayName = 'AnimatedFlare';
+};
 
 interface HolographicTextProps {
   children: ReactNode;
   className?: string;
+  animate?: boolean;
 }
 
-/**
- * HolographicText - Gradient text with scan line
- * Uses CSS background-clip for GPU rendering
- */
-export const HolographicText = React.memo(({ children, className = '' }: HolographicTextProps) => {
+export const HolographicText = ({ children, className = '', animate = true }: HolographicTextProps) => {
   return (
-    <div className={`relative inline-block ${className}`}>
-      <span 
-        className="bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent animate-gradient"
-        style={{
-          backgroundSize: '200% 100%',
-          willChange: 'background-position',
-        }}
-      >
-        {children}
-      </span>
+    <motion.div
+      className={`relative ${className}`}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8 }}
+    >
+      {/* Glow behind text */}
+      <div className="absolute inset-0 blur-2xl bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 opacity-30" />
       
-      {/* Scan line effect - GPU optimized */}
-      <motion.div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background: 'linear-gradient(transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%)',
-          willChange: 'transform',
-          transform: 'translate3d(0, 0, 0)',
-        }}
-        animate={{
-          y: ['-100%', '200%'],
-        }}
-        transition={{
-          duration: 3,
-          ease: 'linear',
-          repeat: Infinity,
-          repeatType: 'loop',
-        }}
-      />
-    </div>
+      {/* Main text */}
+      <div className="relative bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
+        {children}
+      </div>
+      
+      {/* Animated scan line */}
+      {animate && (
+        <motion.div
+          className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-400/20 to-transparent"
+          initial={{ y: '-100%' }}
+          animate={{ y: '200%' }}
+          transition={{
+            duration: 2,
+            repeat: Infinity,
+            ease: 'linear',
+          }}
+        />
+      )}
+    </motion.div>
   );
-});
-
-HolographicText.displayName = 'HolographicText';
+};
 
 interface GlassPanelProps {
   children: ReactNode;
   className?: string;
-  hover?: boolean;
+  glowColor?: string;
+  hoverScale?: boolean;
 }
 
-/**
- * GlassPanel - Glassmorphism with corner accents
- * Transform-based hover for smooth interaction
- */
-export const GlassPanel = React.memo(({ children, className = '', hover = true }: GlassPanelProps) => {
+export const GlassPanel = ({ 
+  children, 
+  className = '', 
+  glowColor = 'cyan',
+  hoverScale = true 
+}: GlassPanelProps) => {
+  const glowColors = {
+    cyan: 'hover:shadow-cyan-500/50',
+    blue: 'hover:shadow-blue-500/50',
+    purple: 'hover:shadow-purple-500/50',
+    pink: 'hover:shadow-pink-500/50',
+  };
+
   return (
     <motion.div
-      className={`relative overflow-hidden rounded-2xl backdrop-blur-xl bg-white/5 border border-white/10 ${gpuAccelerated} ${className}`}
-      style={{
-        willChange: 'transform',
-        transform: 'translate3d(0, 0, 0)',
-      }}
-      whileHover={hover ? {
-        scale: 1.02,
-        y: -4,
-        transition: SPRING.smooth,
-      } : undefined}
+      className={`relative backdrop-blur-xl bg-black/20 border border-white/10 rounded-2xl p-6 transition-all duration-300 ${glowColors[glowColor as keyof typeof glowColors] || glowColors.cyan} hover:shadow-2xl ${className}`}
+      whileHover={hoverScale ? { scale: 1.02, y: -5 } : {}}
+      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
     >
-      {/* Corner accents - Pure CSS */}
-      <div className="absolute top-0 left-0 w-20 h-20 border-t-2 border-l-2 border-blue-400/50 rounded-tl-2xl" />
-      <div className="absolute bottom-0 right-0 w-20 h-20 border-b-2 border-r-2 border-purple-400/50 rounded-br-2xl" />
+      {/* Corner accents */}
+      <div className="absolute top-0 left-0 w-8 h-8 border-l-2 border-t-2 border-cyan-500/50 rounded-tl-2xl" />
+      <div className="absolute top-0 right-0 w-8 h-8 border-r-2 border-t-2 border-cyan-500/50 rounded-tr-2xl" />
+      <div className="absolute bottom-0 left-0 w-8 h-8 border-l-2 border-b-2 border-cyan-500/50 rounded-bl-2xl" />
+      <div className="absolute bottom-0 right-0 w-8 h-8 border-r-2 border-b-2 border-cyan-500/50 rounded-br-2xl" />
       
-      {/* Content */}
-      <div className="relative z-10 p-6">
-        {children}
-      </div>
+      {children}
     </motion.div>
   );
-});
-
-GlassPanel.displayName = 'GlassPanel';
+};
 
 interface NeonBorderProps {
   children: ReactNode;
+  color?: 'cyan' | 'blue' | 'purple' | 'pink';
   className?: string;
-  color?: string;
 }
 
-/**
- * NeonBorder - Animated neon border using pseudo-element
- * GPU-accelerated opacity animation
- */
-export const NeonBorder = React.memo(({ children, className = '', color = '#3b82f6' }: NeonBorderProps) => {
+export const NeonBorder = ({ children, color = 'cyan', className = '' }: NeonBorderProps) => {
+  const colors = {
+    cyan: 'from-cyan-500 to-blue-500',
+    blue: 'from-blue-500 to-purple-500',
+    purple: 'from-purple-500 to-pink-500',
+    pink: 'from-pink-500 to-rose-500',
+  };
+
   return (
-    <div className={`relative group ${className}`}>
-      {/* Neon glow effect */}
-      <motion.div
-        className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 pointer-events-none"
-        style={{
-          boxShadow: `0 0 20px ${color}, 0 0 40px ${color}40, inset 0 0 20px ${color}20`,
-          willChange: 'opacity',
-          transform: 'translate3d(0, 0, 0)',
-        }}
-        transition={DURATION.fast}
-      />
-      
-      {/* Content */}
-      <div className="relative z-10">
+    <div className={`relative p-[2px] bg-gradient-to-r ${colors[color]} rounded-2xl ${className}`}>
+      <div className="bg-black rounded-2xl">
         {children}
       </div>
     </div>
   );
-});
-
-NeonBorder.displayName = 'NeonBorder';
+};
 
 interface FloatingElementProps {
   children: ReactNode;
-  duration?: number;
   delay?: number;
-  className?: string;
+  duration?: number;
+  yOffset?: number;
 }
 
-/**
- * FloatingElement - Smooth floating animation
- * Uses transform3d for GPU acceleration
- */
-export const FloatingElement = React.memo(({ 
+export const FloatingElement = ({ 
   children, 
-  duration = 6, 
-  delay = 0,
-  className = '',
+  delay = 0, 
+  duration = 3,
+  yOffset = 20 
 }: FloatingElementProps) => {
   return (
     <motion.div
-      className={`${gpuAccelerated} ${className}`}
-      style={{
-        willChange: 'transform',
-        transform: 'translate3d(0, 0, 0)',
-      }}
       animate={{
-        y: [0, -15, 0],
+        y: [0, -yOffset, 0],
       }}
       transition={{
         duration,
-        delay,
-        ease: 'easeInOut',
         repeat: Infinity,
-        repeatType: 'loop',
+        ease: 'easeInOut',
+        delay,
       }}
     >
       {children}
     </motion.div>
   );
-});
-
-FloatingElement.displayName = 'FloatingElement';
+};
 
 interface PulsingDotProps {
   size?: number;
@@ -253,48 +199,41 @@ interface PulsingDotProps {
   className?: string;
 }
 
-/**
- * PulsingDot - Smooth pulsing indicator
- * Scale + opacity for buttery motion
- */
-export const PulsingDot = React.memo(({ 
-  size = 12, 
-  color = '#3b82f6',
-  className = '',
-}: PulsingDotProps) => {
+export const PulsingDot = ({ size = 12, color = 'cyan', className = '' }: PulsingDotProps) => {
+  const colorClasses = {
+    cyan: 'bg-cyan-500',
+    blue: 'bg-blue-500',
+    purple: 'bg-purple-500',
+    pink: 'bg-pink-500',
+  };
+
   return (
-    <div className={`relative ${className}`} style={{ width: size, height: size }}>
-      {/* Outer ring */}
+    <div className={`relative ${className}`}>
       <motion.div
-        className="absolute inset-0 rounded-full"
-        style={{
-          backgroundColor: color,
-          opacity: 0.3,
-          willChange: 'transform, opacity',
-          transform: 'translate3d(0, 0, 0)',
-        }}
+        className={`rounded-full ${colorClasses[color as keyof typeof colorClasses] || colorClasses.cyan}`}
+        style={{ width: size, height: size }}
         animate={{
-          scale: [1, 2, 1],
-          opacity: [0.3, 0, 0.3],
+          scale: [1, 1.5, 1],
+          opacity: [1, 0.5, 1],
         }}
         transition={{
           duration: 2,
-          ease: 'easeOut',
           repeat: Infinity,
-          repeatType: 'loop',
+          ease: 'easeInOut',
         }}
       />
-      
-      {/* Inner dot */}
-      <div
-        className="absolute inset-0 rounded-full"
-        style={{
-          backgroundColor: color,
-          boxShadow: `0 0 10px ${color}`,
+      <motion.div
+        className={`absolute inset-0 rounded-full ${colorClasses[color as keyof typeof colorClasses] || colorClasses.cyan}`}
+        animate={{
+          scale: [1, 2, 1],
+          opacity: [0.5, 0, 0.5],
+        }}
+        transition={{
+          duration: 2,
+          repeat: Infinity,
+          ease: 'easeInOut',
         }}
       />
     </div>
   );
-});
-
-PulsingDot.displayName = 'PulsingDot';
+};

@@ -2,16 +2,15 @@ import { motion } from 'framer-motion';
 import { Target, ClipboardCheck, BookOpen, Smile, TrendingUp, Wallet } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { GlassPanel, PulsingDot, FloatingElement } from './GlowEffects';
-import { fadeIn, slideUp, SPRING, DURATION } from '@/lib/motionPresets';
 
 // Planning & Goals Timeline Section
 export const PlanningSection = () => {
   const navigate = useNavigate();
   
   const goals = [
-    { title: 'Yearly Goals', icon: Target, color: '#06b6d4', path: '/framework' },
-    { title: 'Monthly Goals', icon: Target, color: '#3b82f6', path: '/framework' },
-    { title: 'Weekly Review', icon: ClipboardCheck, color: '#8b5cf6', path: '/review' },
+    { title: 'Yearly Goals', icon: Target, color: 'cyan', path: '/framework' },
+    { title: 'Monthly Goals', icon: Target, color: 'blue', path: '/framework' },
+    { title: 'Weekly Review', icon: ClipboardCheck, color: 'purple', path: '/review' },
   ];
 
   return (
@@ -22,8 +21,6 @@ export const PlanningSection = () => {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={DURATION.normal}
           className="text-center mb-20"
         >
           <span className="text-cyan-400 text-sm font-mono">// PLANNING & GOALS</span>
@@ -44,8 +41,7 @@ export const PlanningSection = () => {
               key={goal.title}
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ ...DURATION.normal, delay: index * 0.2 }}
+              transition={{ duration: 0.6, delay: index * 0.2 }}
               className="relative flex items-center gap-8 mb-12 last:mb-0"
             >
               {/* Timeline Line */}
@@ -63,9 +59,9 @@ export const PlanningSection = () => {
                 onClick={() => navigate(goal.path)}
                 className="flex-1 cursor-pointer"
               >
-                <GlassPanel className="flex items-center gap-6">
-                  <div className="p-4 rounded-xl bg-gradient-to-br from-cyan-500/20 to-blue-500/20">
-                    <goal.icon className="w-8 h-8 text-cyan-400" />
+                <GlassPanel glowColor={goal.color} className="flex items-center gap-6">
+                  <div className={`p-4 rounded-xl bg-${goal.color}-500/20`}>
+                    <goal.icon className={`w-8 h-8 text-${goal.color}-400`} />
                   </div>
                   <div>
                     <h3 className="text-2xl font-bold text-white mb-2">{goal.title}</h3>
@@ -93,6 +89,7 @@ export const WellbeingSection = () => {
       path: '/diary',
       color: 'from-green-500/20 to-emerald-500/20',
       iconColor: 'text-green-400',
+      glowColor: 'cyan' as const,
     },
     {
       title: 'Mood Tracker',
@@ -101,6 +98,7 @@ export const WellbeingSection = () => {
       path: '/mood',
       color: 'from-yellow-500/20 to-orange-500/20',
       iconColor: 'text-yellow-400',
+      glowColor: 'blue' as const,
     },
     {
       title: 'Habit Tracker',
@@ -109,6 +107,7 @@ export const WellbeingSection = () => {
       path: '/habits',
       color: 'from-pink-500/20 to-rose-500/20',
       iconColor: 'text-pink-400',
+      glowColor: 'purple' as const,
     },
   ];
 
@@ -120,8 +119,6 @@ export const WellbeingSection = () => {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={DURATION.normal}
           className="text-center mb-20"
         >
           <span className="text-purple-400 text-sm font-mono">// WELLBEING & HABITS</span>
@@ -137,16 +134,15 @@ export const WellbeingSection = () => {
 
         <div className="grid md:grid-cols-3 gap-8">
           {modules.map((module, index) => (
-            <FloatingElement key={module.title} delay={index * 0.2}>
+            <FloatingElement key={module.title} delay={index * 0.2} yOffset={15}>
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ ...DURATION.normal, delay: index * 0.2 }}
+                transition={{ duration: 0.6, delay: index * 0.2 }}
                 onClick={() => navigate(module.path)}
-                className="cursor-pointer h-full"
+                className="cursor-pointer"
               >
-                <GlassPanel className="h-full text-center">
+                <GlassPanel glowColor={module.glowColor} className="h-full text-center">
                   <div className={`mx-auto w-20 h-20 rounded-2xl bg-gradient-to-br ${module.color} flex items-center justify-center mb-6`}>
                     <module.icon className={`w-10 h-10 ${module.iconColor}`} />
                   </div>
@@ -177,8 +173,7 @@ export const LedgerSection = () => {
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={DURATION.normal}
+              transition={{ duration: 0.8 }}
             >
               <span className="text-yellow-400 text-sm font-mono">// FINANCIAL</span>
               <h2 className="text-5xl md:text-6xl font-bold mt-4 mb-6">
@@ -190,24 +185,21 @@ export const LedgerSection = () => {
                 Track income, manage expenses, and gain financial insights with built-in calculator and smart analytics.
               </p>
               
-              <motion.button
+              <button
                 onClick={() => navigate('/ledger')}
                 className="px-8 py-4 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border-2 border-yellow-500/50 rounded-full text-yellow-300 hover:from-yellow-500/30 hover:to-orange-500/30 transition-all"
-                whileHover={{ scale: 1.05, transition: SPRING.smooth }}
-                whileTap={{ scale: 0.95, transition: SPRING.bouncy }}
               >
                 Explore Ledger
-              </motion.button>
+              </button>
             </motion.div>
 
             {/* Right: Visual */}
             <motion.div
               initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={DURATION.normal}
+              transition={{ duration: 0.8 }}
             >
-              <GlassPanel className="p-8">
+              <GlassPanel glowColor="purple" className="p-8">
                 <div className="flex items-center justify-between mb-6">
                   <Wallet className="w-8 h-8 text-yellow-400" />
                   <span className="text-2xl font-bold text-white">Financial Overview</span>
@@ -218,14 +210,13 @@ export const LedgerSection = () => {
                   {[70, 45, 80, 55, 90].map((height, i) => (
                     <motion.div
                       key={i}
-                      initial={{ scaleX: 0 }}
-                      whileInView={{ scaleX: 1 }}
-                      viewport={{ once: true }}
-                      transition={{ ...DURATION.fast, delay: i * 0.1 }}
-                      className="flex items-end gap-2 origin-left"
+                      initial={{ scaleY: 0 }}
+                      whileInView={{ scaleY: 1 }}
+                      transition={{ duration: 0.5, delay: i * 0.1 }}
+                      className="flex items-end gap-2"
                     >
-                      <div className="h-2 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full" style={{ width: `${height}%` }} />
-                      <span className="text-xs text-white/40 whitespace-nowrap">Day {i + 1}</span>
+                      <div className={`h-2 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full`} style={{ width: `${height}%` }} />
+                      <span className="text-xs text-white/40">Day {i + 1}</span>
                     </motion.div>
                   ))}
                 </div>
