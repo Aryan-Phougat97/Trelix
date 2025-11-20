@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { ReactNode } from 'react';
+import { useIsMobile, useReducedMotion } from '@/hooks/useMediaQuery';
 
 interface GlowOrbProps {
   size?: number;
@@ -9,26 +10,37 @@ interface GlowOrbProps {
   animate?: boolean;
 }
 
-export const GlowOrb = ({ 
-  size = 400, 
-  color = '#3b82f6', 
-  blur = 100, 
+export const GlowOrb = ({
+  size = 400,
+  color = '#3b82f6',
+  blur = 50, // Reduced from 100px default
   opacity = 0.3,
-  animate = true 
+  animate = true
 }: GlowOrbProps) => {
+  const isMobile = useIsMobile();
+  const prefersReducedMotion = useReducedMotion();
+
+  // Reduce blur on mobile for better performance
+  const effectiveBlur = isMobile ? Math.min(blur * 0.4, 30) : blur;
+  const effectiveOpacity = isMobile ? opacity * 0.7 : opacity;
+
+  // Disable animation if user prefers reduced motion
+  const shouldAnimate = animate && !prefersReducedMotion;
+
   return (
     <motion.div
-      className="absolute rounded-full pointer-events-none"
+      className="absolute rounded-full pointer-events-none will-change-[opacity] transform-gpu"
       style={{
         width: size,
         height: size,
         background: `radial-gradient(circle, ${color} 0%, transparent 70%)`,
-        filter: `blur(${blur}px)`,
-        opacity,
+        filter: `blur(${effectiveBlur}px)`,
+        opacity: effectiveOpacity,
+        willChange: shouldAnimate ? 'opacity' : 'auto',
       }}
-      animate={animate ? {
+      animate={shouldAnimate ? {
         scale: [1, 1.2, 1],
-        opacity: [opacity, opacity * 0.7, opacity],
+        opacity: [effectiveOpacity, effectiveOpacity * 0.7, effectiveOpacity],
       } : {}}
       transition={{
         duration: 4,
@@ -44,21 +56,27 @@ interface AnimatedFlareProps {
 }
 
 export const AnimatedFlare = ({ className = '' }: AnimatedFlareProps) => {
+  const isMobile = useIsMobile();
+  const prefersReducedMotion = useReducedMotion();
+
+  // Disable on mobile or if user prefers reduced motion
+  if (isMobile || prefersReducedMotion) return null;
+
   return (
     <div className={`absolute inset-0 overflow-hidden pointer-events-none ${className}`}>
       <motion.div
         className="absolute w-full h-full"
         initial={{ opacity: 0 }}
-        animate={{ opacity: [0, 1, 0] }}
+        animate={{ opacity: [0, 0.5, 0] }} // Reduced max opacity from 1 to 0.5
         transition={{
-          duration: 3,
+          duration: 4, // Slower for smoother effect
           repeat: Infinity,
           ease: 'easeInOut',
         }}
       >
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl" />
-        <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 left-1/3 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl" />
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-2xl" /> {/* Reduced from /20 to /10 */}
+        <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-2xl" />
+        <div className="absolute bottom-1/4 left-1/3 w-96 h-96 bg-purple-500/10 rounded-full blur-2xl" />
       </motion.div>
     </div>
   );
@@ -71,6 +89,9 @@ interface HolographicTextProps {
 }
 
 export const HolographicText = ({ children, className = '', animate = true }: HolographicTextProps) => {
+  const prefersReducedMotion = useReducedMotion();
+  const shouldAnimate = animate && !prefersReducedMotion;
+
   return (
     <motion.div
       className={`relative ${className}`}
@@ -78,22 +99,22 @@ export const HolographicText = ({ children, className = '', animate = true }: Ho
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8 }}
     >
-      {/* Glow behind text */}
-      <div className="absolute inset-0 blur-2xl bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 opacity-30" />
-      
+      {/* Glow behind text - reduced blur */}
+      <div className="absolute inset-0 blur-xl bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 opacity-30" />
+
       {/* Main text */}
       <div className="relative bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
         {children}
       </div>
-      
-      {/* Animated scan line */}
-      {animate && (
+
+      {/* Animated scan line - only if motion is allowed */}
+      {shouldAnimate && (
         <motion.div
           className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-400/20 to-transparent"
           initial={{ y: '-100%' }}
           animate={{ y: '200%' }}
           transition={{
-            duration: 2,
+            duration: 3, // Slower for smoother effect
             repeat: Infinity,
             ease: 'linear',
           }}
@@ -110,11 +131,11 @@ interface GlassPanelProps {
   hoverScale?: boolean;
 }
 
-export const GlassPanel = ({ 
-  children, 
-  className = '', 
+export const GlassPanel = ({
+  children,
+  className = '',
   glowColor = 'cyan',
-  hoverScale = true 
+  hoverScale = true
 }: GlassPanelProps) => {
   const glowColors = {
     cyan: 'hover:shadow-cyan-500/50',
@@ -134,7 +155,7 @@ export const GlassPanel = ({
       <div className="absolute top-0 right-0 w-8 h-8 border-r-2 border-t-2 border-cyan-500/50 rounded-tr-2xl" />
       <div className="absolute bottom-0 left-0 w-8 h-8 border-l-2 border-b-2 border-cyan-500/50 rounded-bl-2xl" />
       <div className="absolute bottom-0 right-0 w-8 h-8 border-r-2 border-b-2 border-cyan-500/50 rounded-br-2xl" />
-      
+
       {children}
     </motion.div>
   );
@@ -170,11 +191,11 @@ interface FloatingElementProps {
   yOffset?: number;
 }
 
-export const FloatingElement = ({ 
-  children, 
-  delay = 0, 
+export const FloatingElement = ({
+  children,
+  delay = 0,
   duration = 3,
-  yOffset = 20 
+  yOffset = 20
 }: FloatingElementProps) => {
   return (
     <motion.div
