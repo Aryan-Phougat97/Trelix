@@ -18,19 +18,23 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 0%;
 
-    --primary: 217 91% 60%; /* Cool Blue #3b82f6 */
+    --primary: 217 91% 60%;
+    /* Cool Blue #3b82f6 */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 0 100% 64%; /* Electric Red #ff4747 */
+    --secondary: 0 100% 64%;
+    /* Electric Red #ff4747 */
     --secondary-foreground: 0 0% 100%;
 
     --muted: 0 0% 96%;
     --muted-foreground: 0 0% 40%;
 
-    --accent: 217 91% 60%; /* Cool Blue */
+    --accent: 217 91% 60%;
+    /* Cool Blue */
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 100% 64%; /* Electric Red */
+    --destructive: 0 100% 64%;
+    /* Electric Red */
     --destructive-foreground: 0 0% 100%;
 
     --border: 0 0% 90%;
@@ -40,10 +44,14 @@ All colors MUST be HSL.
     --radius: 0.5rem;
 
     /* TaskFlow-X Custom Tokens - Pure Black/White + Red/Blue */
-    --electric-red: 0 100% 64%; /* #ff4747 */
-    --cool-blue: 217 91% 60%; /* #3b82f6 */
-    --pure-black: 0 0% 0%; /* #000000 */
-    --pure-white: 0 0% 100%; /* #ffffff */
+    --electric-red: 0 100% 64%;
+    /* #ff4747 */
+    --cool-blue: 217 91% 60%;
+    /* #3b82f6 */
+    --pure-black: 0 0% 0%;
+    /* #000000 */
+    --pure-white: 0 0% 100%;
+    /* #ffffff */
     --glass-bg: 0 0% 100%;
     --glass-border: 0 0% 85%;
     --glow-red: 0 100% 64%;
@@ -61,19 +69,23 @@ All colors MUST be HSL.
     --popover: 0 0% 0%;
     --popover-foreground: 0 0% 100%;
 
-    --primary: 217 91% 60%; /* Cool Blue */
+    --primary: 217 91% 60%;
+    /* Cool Blue */
     --primary-foreground: 0 0% 0%;
 
-    --secondary: 0 100% 64%; /* Electric Red */
+    --secondary: 0 100% 64%;
+    /* Electric Red */
     --secondary-foreground: 0 0% 0%;
 
     --muted: 0 0% 5%;
     --muted-foreground: 0 0% 70%;
 
-    --accent: 217 91% 60%; /* Cool Blue */
+    --accent: 217 91% 60%;
+    /* Cool Blue */
     --accent-foreground: 0 0% 0%;
 
-    --destructive: 0 100% 64%; /* Electric Red */
+    --destructive: 0 100% 64%;
+    /* Electric Red */
     --destructive-foreground: 0 0% 0%;
 
     --border: 0 0% 15%;
@@ -102,19 +114,23 @@ All colors MUST be HSL.
     --popover: 0 0% 0%;
     --popover-foreground: 0 0% 100%;
 
-    --primary: 217 91% 60%; /* Cool Blue #3b82f6 */
+    --primary: 217 91% 60%;
+    /* Cool Blue #3b82f6 */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 0 100% 64%; /* Electric Red #ff4747 */
+    --secondary: 0 100% 64%;
+    /* Electric Red #ff4747 */
     --secondary-foreground: 0 0% 100%;
 
     --muted: 0 0% 5%;
     --muted-foreground: 0 0% 70%;
 
-    --accent: 217 91% 60%; /* Cool Blue */
+    --accent: 217 91% 60%;
+    /* Cool Blue */
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 100% 64%; /* Electric Red */
+    --destructive: 0 100% 64%;
+    /* Electric Red */
     --destructive-foreground: 0 0% 100%;
 
     --border: 0 0% 15%;
@@ -133,8 +149,10 @@ All colors MUST be HSL.
 
   /* THEME: Calm Mode - Dark gray background, muted blue & green accents */
   .theme-calm {
-    --background: 0 0% 10%; /* Dark gray #1a1a1a */
-    --foreground: 0 0% 95%; /* Soft white */
+    --background: 0 0% 10%;
+    /* Dark gray #1a1a1a */
+    --foreground: 0 0% 95%;
+    /* Soft white */
 
     --card: 0 0% 12%;
     --card-foreground: 0 0% 95%;
@@ -142,19 +160,23 @@ All colors MUST be HSL.
     --popover: 0 0% 12%;
     --popover-foreground: 0 0% 95%;
 
-    --primary: 217 91% 70%; /* Muted blue #60a5fa */
+    --primary: 217 91% 70%;
+    /* Muted blue #60a5fa */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 142 76% 36%; /* Muted green #10b981 */
+    --secondary: 142 76% 36%;
+    /* Muted green #10b981 */
     --secondary-foreground: 0 0% 100%;
 
     --muted: 0 0% 15%;
     --muted-foreground: 0 0% 65%;
 
-    --accent: 142 76% 36%; /* Muted green */
+    --accent: 142 76% 36%;
+    /* Muted green */
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84% 60%; /* Softer red */
+    --destructive: 0 84% 60%;
+    /* Softer red */
     --destructive-foreground: 0 0% 100%;
 
     --border: 0 0% 20%;
@@ -167,14 +189,17 @@ All colors MUST be HSL.
     --pure-white: 0 0% 95%;
     --glass-bg: 0 0% 12%;
     --glass-border: 0 0% 20%;
-    --glow-red: 142 76% 36%; /* Green glow */
+    --glow-red: 142 76% 36%;
+    /* Green glow */
     --glow-blue: 217 91% 70%;
   }
 
   /* THEME: Light Focus Mode - Clean white background, soft blue highlights */
   .theme-light {
-    --background: 0 0% 100%; /* Pure white */
-    --foreground: 0 0% 10%; /* Soft black */
+    --background: 0 0% 100%;
+    /* Pure white */
+    --foreground: 0 0% 10%;
+    /* Soft black */
 
     --card: 0 0% 98%;
     --card-foreground: 0 0% 10%;
@@ -182,39 +207,47 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 10%;
 
-    --primary: 217 91% 60%; /* Cool Blue #3b82f6 */
+    --primary: 217 91% 60%;
+    /* Cool Blue #3b82f6 */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 262 83% 58%; /* Soft indigo #6366f1 */
+    --secondary: 262 83% 58%;
+    /* Soft indigo #6366f1 */
     --secondary-foreground: 0 0% 100%;
 
     --muted: 0 0% 96%;
     --muted-foreground: 0 0% 45%;
 
-    --accent: 217 91% 60%; /* Cool Blue */
+    --accent: 217 91% 60%;
+    /* Cool Blue */
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84% 60%; /* Softer red */
+    --destructive: 0 84% 60%;
+    /* Softer red */
     --destructive-foreground: 0 0% 100%;
 
     --border: 0 0% 88%;
     --input: 0 0% 96%;
     --ring: 217 91% 60%;
 
-    --electric-red: 262 83% 58%; /* Soft indigo instead of red */
+    --electric-red: 262 83% 58%;
+    /* Soft indigo instead of red */
     --cool-blue: 217 91% 60%;
     --pure-black: 0 0% 10%;
     --pure-white: 0 0% 100%;
     --glass-bg: 0 0% 98%;
     --glass-border: 0 0% 88%;
-    --glow-red: 262 83% 58%; /* Indigo glow */
+    --glow-red: 262 83% 58%;
+    /* Indigo glow */
     --glow-blue: 217 91% 60%;
   }
 
   /* THEME: Solar Mode - Developer classic, high contrast, solarized-inspired */
   .theme-solar {
-    --background: 192 100% 11%; /* #002b36 - Deep blue-tinted dark */
-    --foreground: 44 87% 94%; /* #eee8d5 - Warm cream */
+    --background: 192 100% 11%;
+    /* #002b36 - Deep blue-tinted dark */
+    --foreground: 44 87% 94%;
+    /* #eee8d5 - Warm cream */
 
     --card: 192 100% 13%;
     --card-foreground: 44 87% 94%;
@@ -222,39 +255,49 @@ All colors MUST be HSL.
     --popover: 192 100% 11%;
     --popover-foreground: 44 87% 94%;
 
-    --primary: 205 69% 49%; /* #268bd2 - Solarized blue */
+    --primary: 205 69% 49%;
+    /* #268bd2 - Solarized blue */
     --primary-foreground: 44 87% 94%;
 
-    --secondary: 45 100% 35%; /* #b58900 - Solarized amber/yellow */
+    --secondary: 45 100% 35%;
+    /* #b58900 - Solarized amber/yellow */
     --secondary-foreground: 192 100% 11%;
 
     --muted: 192 81% 14%;
     --muted-foreground: 44 11% 70%;
 
-    --accent: 175 59% 40%; /* #2aa198 - Solarized cyan */
+    --accent: 175 59% 40%;
+    /* #2aa198 - Solarized cyan */
     --accent-foreground: 44 87% 94%;
 
-    --destructive: 1 71% 52%; /* Solarized orange */
+    --destructive: 1 71% 52%;
+    /* Solarized orange */
     --destructive-foreground: 44 87% 94%;
 
     --border: 192 81% 18%;
     --input: 192 100% 13%;
     --ring: 205 69% 49%;
 
-    --electric-red: 45 100% 35%; /* Amber accent */
-    --cool-blue: 205 69% 49%; /* Blue accent */
+    --electric-red: 45 100% 35%;
+    /* Amber accent */
+    --cool-blue: 205 69% 49%;
+    /* Blue accent */
     --pure-black: 192 100% 11%;
     --pure-white: 44 87% 94%;
     --glass-bg: 192 100% 13%;
     --glass-border: 192 81% 18%;
-    --glow-red: 45 100% 35%; /* Amber glow */
-    --glow-blue: 175 59% 40%; /* Cyan glow */
+    --glow-red: 45 100% 35%;
+    /* Amber glow */
+    --glow-blue: 175 59% 40%;
+    /* Cyan glow */
   }
 
   /* THEME: Mirage Mode - Futuristic moody dark with glassmorphism */
   .theme-mirage {
-    --background: 253 48% 5%; /* #0f0b1d - Deep purple-black */
-    --foreground: 261 100% 93%; /* #e3d7ff - Soft lavender */
+    --background: 253 48% 5%;
+    /* #0f0b1d - Deep purple-black */
+    --foreground: 261 100% 93%;
+    /* #e3d7ff - Soft lavender */
 
     --card: 253 48% 7%;
     --card-foreground: 261 100% 93%;
@@ -262,39 +305,49 @@ All colors MUST be HSL.
     --popover: 253 48% 5%;
     --popover-foreground: 261 100% 93%;
 
-    --primary: 248 73% 69%; /* #6c63ff - Electric violet */
+    --primary: 248 73% 69%;
+    /* #6c63ff - Electric violet */
     --primary-foreground: 253 48% 5%;
 
-    --secondary: 180 100% 50%; /* #00ffff - Pure cyan */
+    --secondary: 180 100% 50%;
+    /* #00ffff - Pure cyan */
     --secondary-foreground: 253 48% 5%;
 
     --muted: 253 48% 10%;
     --muted-foreground: 261 50% 75%;
 
-    --accent: 328 100% 50%; /* #ff0080 - Hot pink for focus glow */
+    --accent: 328 100% 50%;
+    /* #ff0080 - Hot pink for focus glow */
     --accent-foreground: 261 100% 93%;
 
-    --destructive: 328 100% 50%; /* Hot pink */
+    --destructive: 328 100% 50%;
+    /* Hot pink */
     --destructive-foreground: 261 100% 93%;
 
     --border: 253 48% 15%;
     --input: 253 48% 7%;
     --ring: 248 73% 69%;
 
-    --electric-red: 328 100% 50%; /* Hot pink */
-    --cool-blue: 180 100% 50%; /* Cyan */
+    --electric-red: 328 100% 50%;
+    /* Hot pink */
+    --cool-blue: 180 100% 50%;
+    /* Cyan */
     --pure-black: 253 48% 5%;
     --pure-white: 261 100% 93%;
     --glass-bg: 253 48% 7%;
     --glass-border: 253 48% 15%;
-    --glow-red: 328 100% 50%; /* Pink glow */
-    --glow-blue: 248 73% 69%; /* Violet glow */
+    --glow-red: 328 100% 50%;
+    /* Pink glow */
+    --glow-blue: 248 73% 69%;
+    /* Violet glow */
   }
 
   /* THEME: Zen Mode - Calm natural notebook-inspired light theme */
   .theme-zen {
-    --background: 44 56% 96%; /* #fdf6e3 - Soft paper cream */
-    --foreground: 0 0% 23%; /* #3b3b3b - Soft black */
+    --background: 44 56% 96%;
+    /* #fdf6e3 - Soft paper cream */
+    --foreground: 0 0% 23%;
+    /* #3b3b3b - Soft black */
 
     --card: 44 56% 94%;
     --card-foreground: 0 0% 23%;
@@ -302,33 +355,41 @@ All colors MUST be HSL.
     --popover: 44 56% 96%;
     --popover-foreground: 0 0% 23%;
 
-    --primary: 130 34% 59%; /* #7bc47f - Leaf green */
+    --primary: 130 34% 59%;
+    /* #7bc47f - Leaf green */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 41 51% 61%; /* #d6a760 - Warm gold */
+    --secondary: 41 51% 61%;
+    /* #d6a760 - Warm gold */
     --secondary-foreground: 0 0% 23%;
 
     --muted: 44 56% 90%;
     --muted-foreground: 0 0% 50%;
 
-    --accent: 85 30% 72%; /* #c3d9a5 - Pastel leaf tone */
+    --accent: 85 30% 72%;
+    /* #c3d9a5 - Pastel leaf tone */
     --accent-foreground: 0 0% 23%;
 
-    --destructive: 4 63% 56%; /* Muted terracotta */
+    --destructive: 4 63% 56%;
+    /* Muted terracotta */
     --destructive-foreground: 0 0% 100%;
 
     --border: 44 30% 85%;
     --input: 44 56% 94%;
     --ring: 130 34% 59%;
 
-    --electric-red: 41 51% 61%; /* Warm gold */
-    --cool-blue: 130 34% 59%; /* Leaf green */
+    --electric-red: 41 51% 61%;
+    /* Warm gold */
+    --cool-blue: 130 34% 59%;
+    /* Leaf green */
     --pure-black: 0 0% 23%;
     --pure-white: 44 56% 96%;
     --glass-bg: 44 56% 94%;
     --glass-border: 44 30% 85%;
-    --glow-red: 41 51% 61%; /* Gold glow */
-    --glow-blue: 130 34% 59%; /* Green glow */
+    --glow-red: 41 51% 61%;
+    /* Gold glow */
+    --glow-blue: 130 34% 59%;
+    /* Green glow */
   }
 }
 
@@ -340,23 +401,25 @@ All colors MUST be HSL.
   body {
     @apply bg-background text-foreground;
     font-family: 'Space Grotesk', 'Poppins', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    font-weight: 600; /* SemiBold default for developer aesthetic */
+    font-weight: 600;
+    /* SemiBold default for developer aesthetic */
   }
 }
 
 @layer utilities {
+
   /* TaskFlow-X Glass Card - Minimal with translucent backdrop */
   .glass-card {
     @apply bg-card/5 backdrop-blur-2xl border border-border;
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3),
-                0 0 0 1px rgba(255, 255, 255, 0.02);
+      0 0 0 1px rgba(255, 255, 255, 0.02);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .glass-card:hover {
     box-shadow: 0 12px 48px 0 rgba(0, 0, 0, 0.4),
-                0 0 0 1px rgba(255, 255, 255, 0.05),
-                0 0 40px hsl(var(--glow-blue) / 0.15);
+      0 0 0 1px rgba(255, 255, 255, 0.05),
+      0 0 40px hsl(var(--glow-blue) / 0.15);
     transform: translateY(-2px);
   }
 
@@ -370,21 +433,21 @@ All colors MUST be HSL.
   .glass-input:focus {
     border-bottom-color: hsl(var(--glow-blue));
     box-shadow: 0 2px 0 0 hsl(var(--glow-blue) / 0.3),
-                0 0 20px hsl(var(--glow-blue) / 0.1);
+      0 0 20px hsl(var(--glow-blue) / 0.1);
   }
 
   /* Electric Red Glow */
   .glow-red {
     box-shadow: 0 0 20px hsl(var(--glow-red) / 0.4),
-                0 0 40px hsl(var(--glow-red) / 0.2),
-                0 0 60px hsl(var(--glow-red) / 0.1);
+      0 0 40px hsl(var(--glow-red) / 0.2),
+      0 0 60px hsl(var(--glow-red) / 0.1);
   }
 
   /* Cool Blue Glow */
   .glow-blue {
     box-shadow: 0 0 20px hsl(var(--glow-blue) / 0.4),
-                0 0 40px hsl(var(--glow-blue) / 0.2),
-                0 0 60px hsl(var(--glow-blue) / 0.1);
+      0 0 40px hsl(var(--glow-blue) / 0.2),
+      0 0 60px hsl(var(--glow-blue) / 0.1);
   }
 
   /* Red Strike Animation for completed tasks */
@@ -418,6 +481,7 @@ All colors MUST be HSL.
       opacity: 1;
       transform: scale(1);
     }
+
     to {
       opacity: 0;
       transform: scale(0.95);
@@ -462,6 +526,7 @@ All colors MUST be HSL.
       opacity: 0;
       transform: translateY(10px);
     }
+
     to {
       opacity: 1;
       transform: translateY(0);
@@ -474,6 +539,7 @@ All colors MUST be HSL.
       opacity: 0;
       transform: scale(0.95);
     }
+
     to {
       opacity: 1;
       transform: scale(1);
@@ -486,6 +552,7 @@ All colors MUST be HSL.
       opacity: 0;
       transform: translateY(20px);
     }
+
     to {
       opacity: 1;
       transform: translateY(0);
@@ -498,13 +565,16 @@ All colors MUST be HSL.
       opacity: 0;
       transform: scale(0.3);
     }
+
     50% {
       opacity: 1;
       transform: scale(1.05);
     }
+
     70% {
       transform: scale(0.9);
     }
+
     100% {
       transform: scale(1);
     }
@@ -515,9 +585,11 @@ All colors MUST be HSL.
     0% {
       transform: scale(1);
     }
+
     50% {
       transform: scale(1.2);
     }
+
     100% {
       transform: scale(1);
     }
@@ -565,14 +637,17 @@ All colors MUST be HSL.
 
   /* Focus Mode Glow Pulse Animation */
   @keyframes focus-glow-pulse {
-    0%, 100% {
+
+    0%,
+    100% {
       box-shadow: 0 0 20px hsl(var(--cool-blue) / 0.3),
-                  0 0 40px hsl(var(--cool-blue) / 0.1);
+        0 0 40px hsl(var(--cool-blue) / 0.1);
     }
+
     50% {
       box-shadow: 0 0 30px hsl(var(--cool-blue) / 0.5),
-                  0 0 60px hsl(var(--cool-blue) / 0.2),
-                  0 0 90px hsl(var(--cool-blue) / 0.1);
+        0 0 60px hsl(var(--cool-blue) / 0.2),
+        0 0 90px hsl(var(--cool-blue) / 0.1);
     }
   }
 
@@ -580,22 +655,27 @@ All colors MUST be HSL.
     animation: focus-glow-pulse 3s ease-in-out infinite;
   }
 
-  /* Smooth filter transitions */
-  * {
+  /* Optimized filter transitions - reduced duration for snappier feel */
+  .glass-card,
+  .glass-input,
+  button,
+  input,
+  textarea {
     transition-property: filter, backdrop-filter;
-    transition-duration: 0.5s;
+    transition-duration: 0.3s;
+    /* Reduced from 0.5s */
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   /* Theme Transition Animation */
   html {
     transition: background-color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-                color 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      color 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   body {
     transition: background-color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-                color 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      color 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   /* Smooth theme color transitions for all elements */
@@ -605,25 +685,27 @@ All colors MUST be HSL.
   input,
   textarea {
     transition: background-color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-                border-color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-                color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-                box-shadow 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      border-color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+      color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+      box-shadow 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   /* Theme switch glow animation */
   @keyframes theme-glow-pulse {
     0% {
       box-shadow: 0 0 20px hsl(var(--glow-red) / 0.4),
-                  0 0 40px hsl(var(--glow-red) / 0.2);
+        0 0 40px hsl(var(--glow-red) / 0.2);
     }
+
     50% {
       box-shadow: 0 0 30px hsl(var(--glow-blue) / 0.5),
-                  0 0 60px hsl(var(--glow-blue) / 0.3),
-                  0 0 90px hsl(var(--glow-blue) / 0.1);
+        0 0 60px hsl(var(--glow-blue) / 0.3),
+        0 0 90px hsl(var(--glow-blue) / 0.1);
     }
+
     100% {
       box-shadow: 0 0 20px hsl(var(--glow-red) / 0.4),
-                  0 0 40px hsl(var(--glow-red) / 0.2);
+        0 0 40px hsl(var(--glow-red) / 0.2);
     }
   }
 
@@ -633,25 +715,29 @@ All colors MUST be HSL.
 
   /* Mirage Mode - Ambient Glow Animation */
   @keyframes mirage-ambient-glow {
-    0%, 100% {
+
+    0%,
+    100% {
       box-shadow: 0 0 30px hsl(248 73% 69% / 0.2),
-                  0 0 60px hsl(328 100% 50% / 0.1);
+        0 0 60px hsl(328 100% 50% / 0.1);
     }
+
     33% {
       box-shadow: 0 0 40px hsl(180 100% 50% / 0.25),
-                  0 0 80px hsl(248 73% 69% / 0.15);
+        0 0 80px hsl(248 73% 69% / 0.15);
     }
+
     66% {
       box-shadow: 0 0 35px hsl(328 100% 50% / 0.2),
-                  0 0 70px hsl(180 100% 50% / 0.12);
+        0 0 70px hsl(180 100% 50% / 0.12);
     }
   }
 
   .theme-mirage .glass-card:hover {
     box-shadow: 0 12px 48px 0 rgba(0, 0, 0, 0.6),
-                0 0 0 1px rgba(108, 99, 255, 0.2),
-                0 0 40px hsl(248 73% 69% / 0.3),
-                0 0 80px hsl(328 100% 50% / 0.15);
+      0 0 0 1px rgba(108, 99, 255, 0.2),
+      0 0 40px hsl(248 73% 69% / 0.3),
+      0 0 80px hsl(328 100% 50% / 0.15);
     animation: mirage-ambient-glow 4s ease-in-out infinite;
   }
 
@@ -662,24 +748,28 @@ All colors MUST be HSL.
 
   .theme-zen .glass-card {
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.08),
-                0 2px 8px 0 rgba(0, 0, 0, 0.04);
+      0 2px 8px 0 rgba(0, 0, 0, 0.04);
   }
 
   .theme-zen .glass-card:hover {
     box-shadow: 0 6px 24px 0 rgba(0, 0, 0, 0.12),
-                0 4px 12px 0 rgba(0, 0, 0, 0.06),
-                0 0 20px hsl(130 34% 59% / 0.1);
+      0 4px 12px 0 rgba(0, 0, 0, 0.06),
+      0 0 20px hsl(130 34% 59% / 0.1);
     transform: translateY(-1px);
   }
 
   /* Solar Mode - Terminal-Inspired Accent Transitions */
   @keyframes solar-accent-pulse {
-    0%, 100% {
+
+    0%,
+    100% {
       color: hsl(205 69% 49%);
     }
+
     33% {
       color: hsl(175 59% 40%);
     }
+
     66% {
       color: hsl(45 100% 35%);
     }
@@ -698,9 +788,11 @@ All colors MUST be HSL.
     0% {
       background-position: 0% 50%;
     }
+
     50% {
       background-position: 100% 50%;
     }
+
     100% {
       background-position: 0% 50%;
     }
@@ -708,11 +800,9 @@ All colors MUST be HSL.
 
   /* Enhanced Mirage Mode glassmorphism */
   .theme-mirage .glass-card {
-    background: linear-gradient(
-      135deg,
-      hsl(253 48% 7% / 0.6),
-      hsl(248 73% 10% / 0.4)
-    );
+    background: linear-gradient(135deg,
+        hsl(253 48% 7% / 0.6),
+        hsl(248 73% 10% / 0.4));
     backdrop-filter: blur(20px) saturate(180%);
   }
 
@@ -725,9 +815,12 @@ All colors MUST be HSL.
 
   /* Gradient animation for landing page */
   @keyframes gradient {
-    0%, 100% {
+
+    0%,
+    100% {
       background-position: 0% 50%;
     }
+
     50% {
       background-position: 100% 50%;
     }
@@ -737,5 +830,41 @@ All colors MUST be HSL.
     background-size: 200% 200%;
     animation: gradient 3s ease infinite;
   }
-}
 
+  /* Mobile Performance Optimizations */
+  @media (max-width: 767px) {
+
+    /* Disable ALL blur effects on mobile */
+    .glass-card {
+      backdrop-filter: none;
+      background: rgba(0, 0, 0, 0.8);
+    }
+
+    /* Disable ALL animations on mobile */
+    *,
+    *::before,
+    *::after {
+      animation: none !important;
+      transition: none !important;
+    }
+
+    /* Only allow basic opacity transitions for UX */
+    button,
+    a {
+      transition: opacity 0.2s ease !important;
+    }
+  }
+
+  /* Respect user's motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
