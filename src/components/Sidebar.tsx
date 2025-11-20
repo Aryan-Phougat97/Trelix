@@ -18,6 +18,7 @@ import {
   ChevronRight,
   PanelLeftClose,
   PanelLeft,
+  Music,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -57,6 +58,7 @@ const navSections: NavSection[] = [
       { name: 'Diary', path: '/diary', icon: <BookOpen className="h-4 w-4" /> },
       { name: 'Mood Tracker', path: '/mood', icon: <Smile className="h-4 w-4" /> },
       { name: 'Habit Tracker', path: '/habits', icon: <TrendingUp className="h-4 w-4" /> },
+      { name: 'Inspiration', path: '/inspiration', icon: <Music className="h-4 w-4" /> },
     ],
   },
   {
@@ -211,7 +213,7 @@ export const Sidebar = ({ isOpen, onToggle }: SidebarProps) => {
                             className={cn(
                               'w-full justify-start gap-3 text-sm',
                               isActive(item.path) &&
-                                'bg-primary/10 text-primary hover:bg-primary/20'
+                              'bg-primary/10 text-primary hover:bg-primary/20'
                             )}
                             onClick={() => {
                               navigate(item.path);

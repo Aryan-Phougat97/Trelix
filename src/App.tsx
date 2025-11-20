@@ -16,6 +16,7 @@ import Diary from "./pages/Diary";
 import MoodTracker from "./pages/MoodTracker";
 import { HabitTracker } from "./pages/HabitTracker";
 import { TrelixLedger } from "./pages/TrelixLedger";
+import Inspiration from "./pages/Inspiration";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -37,7 +38,7 @@ const App = () => (
               <Routes>
                 {/* Landing Page - No Layout */}
                 <Route path="/" element={<Home />} />
-                
+
                 {/* All other pages - With AppLayout */}
                 <Route path="/tasks" element={<AppLayout><TasksPage /></AppLayout>} />
                 <Route path="/dashboard" element={<AppLayout><Dashboard /></AppLayout>} />
@@ -47,7 +48,8 @@ const App = () => (
                 <Route path="/mood" element={<AppLayout><MoodTracker /></AppLayout>} />
                 <Route path="/habits" element={<AppLayout><HabitTracker /></AppLayout>} />
                 <Route path="/ledger" element={<AppLayout><TrelixLedger /></AppLayout>} />
-                
+                <Route path="/inspiration" element={<AppLayout><Inspiration /></AppLayout>} />
+
                 {/* 404 Page */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
