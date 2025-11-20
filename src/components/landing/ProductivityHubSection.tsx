@@ -47,7 +47,7 @@ export const ProductivityHubSection = () => {
   };
 
   return (
-    <section className="relative py-32 bg-black">
+    <section id="productivity" className="relative py-32 bg-black">
       <div className="container mx-auto px-6">
         {/* Section Header */}
         <motion.div

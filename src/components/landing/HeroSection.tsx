@@ -12,7 +12,7 @@ export const HeroSection = React.memo(() => {
   const navigate = useNavigate();
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center bg-black">
+    <section id="hero" className="relative min-h-screen flex items-center justify-center bg-black">
       {/* Subtle gradient background - no blur */}
       <div className="absolute inset-0 bg-gradient-to-b from-black via-black to-gray-900" />
 
@@ -25,7 +25,7 @@ export const HeroSection = React.memo(() => {
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
           className="text-6xl sm:text-7xl lg:text-8xl xl:text-9xl font-bold tracking-tight mb-8"
         >
           <span className="block text-white">Productivity</span>

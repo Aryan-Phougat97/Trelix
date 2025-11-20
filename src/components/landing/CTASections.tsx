@@ -109,32 +109,51 @@ export const FinalCTASection = () => {
 export const FloatingNavbar = () => {
   const navigate = useNavigate();
 
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   return (
     <motion.nav
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50"
+      className="fixed top-6 left-1/2 -translate-x-1/2 z-50 px-4"
     >
-      <div className="px-6 py-3 bg-black/80 backdrop-blur-sm border border-white/10 rounded-full flex items-center gap-6">
-        {/* Logo */}
+      <div className="px-6 py-3 bg-black/80 backdrop-blur-sm border border-white/10 rounded-full flex items-center justify-between gap-4 max-w-fit">
+        {/* Logo Text Only */}
         <button
           onClick={() => navigate('/')}
-          className="text-xl font-bold bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent"
+          className="hover:opacity-80 transition-opacity flex-shrink-0"
         >
-          TRELIX
+          <span className="text-xl font-bold bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
+            TRELIX
+          </span>
         </button>
 
         {/* Nav Items */}
         <div className="hidden md:flex items-center gap-4">
-          {['Features', 'Pricing', 'About'].map((item) => (
-            <button
-              key={item}
-              className="text-sm text-gray-400 hover:text-white transition-colors"
-            >
-              {item}
-            </button>
-          ))}
+          <button
+            onClick={() => scrollToSection('features')}
+            className="text-sm text-gray-400 hover:text-white transition-colors"
+          >
+            Features
+          </button>
+          <button
+            onClick={() => scrollToSection('productivity')}
+            className="text-sm text-gray-400 hover:text-white transition-colors"
+          >
+            Productivity
+          </button>
+          <button
+            onClick={() => scrollToSection('wellbeing')}
+            className="text-sm text-gray-400 hover:text-white transition-colors"
+          >
+            Wellbeing
+          </button>
         </div>
 
         {/* CTA */}
