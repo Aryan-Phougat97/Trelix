@@ -8,7 +8,7 @@ import { X, Check } from 'lucide-react';
 
 export const ProblemSolutionSection = () => {
   return (
-    <section className="relative py-32 bg-black">
+    <section id="features" className="relative py-32 bg-black">
       {/* Subtle gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-gray-900 to-black opacity-50" />
 

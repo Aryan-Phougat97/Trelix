@@ -102,7 +102,7 @@ export const WellbeingSection = () => {
   };
 
   return (
-    <section className="relative py-32 bg-black">
+    <section id="wellbeing" className="relative py-32 bg-black">
       <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

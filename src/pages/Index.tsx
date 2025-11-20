@@ -163,7 +163,6 @@ const Index = () => {
               {/* Stats Sidebar - 1/3 Width */}
               <div className="lg:col-span-1 space-y-6">
                 <StatsPanel {...stats} />
-                <NoteSection note={dailyNote} onSaveNote={saveNote} />
               </div>
             </div>
           </div>

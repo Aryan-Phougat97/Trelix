@@ -41,7 +41,7 @@ export const StatsPanel = ({ total, completed, pending }: StatsPanelProps) => {
       </div>
 
       {/* Progress Bar with Gradient */}
-      <div className="space-y-3">
+      <div className="space-y-3 relative z-10">
         <div className="flex items-center justify-between text-sm">
           <span className="text-muted-foreground">Progress</span>
           <span className="font-bold gradient-text transition-all duration-300">{completionRate}%</span>
