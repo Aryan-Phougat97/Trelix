@@ -5,10 +5,11 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Play, Edit, Trash2, ExternalLink } from 'lucide-react';
+import { Play, Edit, Trash2, ExternalLink, Pause } from 'lucide-react';
 import { InspirationSnippet } from '@/types/inspiration';
 import { getMoodColor, getMoodEmoji, getPlatformIcon, secondsToMMSS } from '@/utils/urlParser';
 import { Button } from '@/components/ui/button';
+import { MusicPlayer } from './MusicPlayer';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -29,8 +30,16 @@ interface InspirationCardProps {
 
 export const InspirationCard = ({ snippet, onPlay, onEdit, onDelete }: InspirationCardProps) => {
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+    const [showPlayer, setShowPlayer] = useState(false);
 
-    const handlePlay = () => {
+    const handlePlayToggle = () => {
+        if (!showPlayer) {
+            onPlay(snippet.id);
+        }
+        setShowPlayer(!showPlayer);
+    };
+
+    const handlePlayExternal = () => {
         onPlay(snippet.id);
         // Open URL in new tab with timestamp
         let playUrl = snippet.url;
@@ -50,7 +59,7 @@ export const InspirationCard = ({ snippet, onPlay, onEdit, onDelete }: Inspirati
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.9 }}
-                whileHover={{ scale: 1.02 }}
+                whileHover={{ scale: showPlayer ? 1 : 1.02 }}
                 transition={{ duration: 0.2 }}
                 className="glass-card rounded-lg p-6 space-y-4 hover:shadow-lg transition-shadow"
             >
@@ -109,15 +118,33 @@ export const InspirationCard = ({ snippet, onPlay, onEdit, onDelete }: Inspirati
                     )}
                 </div>
 
+                {/* Embedded Player */}
+                {showPlayer && (
+                    <MusicPlayer
+                        snippet={snippet}
+                        onClose={() => setShowPlayer(false)}
+                    />
+                )}
+
                 {/* Actions */}
                 <div className="flex items-center gap-2 pt-2 border-t border-border/50">
                     <Button
-                        onClick={handlePlay}
+                        onClick={handlePlayToggle}
                         className="flex-1 gap-2"
                         size="sm"
+                        variant={showPlayer ? "secondary" : "default"}
                     >
-                        <Play className="w-4 h-4" />
-                        Play
+                        {showPlayer ? (
+                            <>
+                                <Pause className="w-4 h-4" />
+                                Hide Player
+                            </>
+                        ) : (
+                            <>
+                                <Play className="w-4 h-4" />
+                                Play Embedded
+                            </>
+                        )}
                     </Button>
                     <Button
                         onClick={() => onEdit(snippet)}
@@ -134,9 +161,10 @@ export const InspirationCard = ({ snippet, onPlay, onEdit, onDelete }: Inspirati
                         <Trash2 className="w-4 h-4" />
                     </Button>
                     <Button
-                        onClick={() => window.open(snippet.url, '_blank')}
+                        onClick={handlePlayExternal}
                         variant="ghost"
                         size="sm"
+                        title="Open in new tab"
                     >
                         <ExternalLink className="w-4 h-4" />
                     </Button>
