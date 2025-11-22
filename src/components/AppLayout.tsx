@@ -47,7 +47,7 @@ export const AppLayout = ({ children, showHeader = true, onSearch, onFilterClick
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Mobile Menu Button */}
-        <div className="lg:hidden fixed top-4 left-4 z-30">
+        <div className="lg:hidden fixed top-4 left-4 z-[60]">
           <Button
             variant="outline"
             size="icon"
