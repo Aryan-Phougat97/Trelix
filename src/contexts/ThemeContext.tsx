@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
-export type ThemeMode = 'cyber' | 'calm' | 'light' | 'solar' | 'mirage' | 'zen';
+export type ThemeMode = 'dark' | 'light';
 
 interface ThemeContextType {
   theme: ThemeMode;
@@ -25,7 +25,7 @@ interface ThemeProviderProps {
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   const [theme, setThemeState] = useState<ThemeMode>(() => {
     const savedTheme = localStorage.getItem('app-theme') as ThemeMode;
-    return savedTheme || 'cyber';
+    return savedTheme || 'dark';
   });
   const [isTransitioning, setIsTransitioning] = useState(false);
 
@@ -33,10 +33,10 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     const root = document.documentElement;
 
     // Remove all theme classes
-    root.classList.remove('theme-cyber', 'theme-calm', 'theme-light', 'theme-solar', 'theme-mirage', 'theme-zen');
+    root.classList.remove('dark', 'light');
 
     // Add new theme class
-    root.classList.add(`theme-${theme}`);
+    root.classList.add(theme);
 
     // Store in localStorage
     localStorage.setItem('app-theme', theme);
@@ -63,58 +63,22 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
 
 // Theme definitions for preview
 export const themeDefinitions = {
-  cyber: {
-    name: '🌌 Cyber Mode',
-    description: 'Black background, neon red & blue accents',
+  dark: {
+    name: '🌙 Dark Mode',
+    description: 'Professional dark theme with indigo & cyan accents',
     colors: {
-      primary: '#3b82f6',
-      secondary: '#ff4747',
-      background: '#000000',
-    },
-  },
-  calm: {
-    name: '🌊 Calm Mode',
-    description: 'Dark gray, muted blue & green',
-    colors: {
-      primary: '#60a5fa',
-      secondary: '#10b981',
-      background: '#1a1a1a',
+      primary: '#6366f1',      // Indigo
+      secondary: '#06b6d4',    // Cyan
+      background: '#09090b',   // Deep dark blue-black
     },
   },
   light: {
-    name: '☀️ Light Focus Mode',
-    description: 'Clean white, subtle blue highlights',
+    name: '☀️ Light Mode',
+    description: 'Clean light theme with indigo & cyan highlights',
     colors: {
-      primary: '#3b82f6',
-      secondary: '#6366f1',
-      background: '#ffffff',
-    },
-  },
-  solar: {
-    name: '🌅 Solar Mode',
-    description: 'Developer classic, high contrast',
-    colors: {
-      primary: '#268bd2',
-      secondary: '#b58900',
-      background: '#002b36',
-    },
-  },
-  mirage: {
-    name: '💭 Mirage Mode',
-    description: 'Futuristic, moody dark aesthetic',
-    colors: {
-      primary: '#6c63ff',
-      secondary: '#00ffff',
-      background: '#0f0b1d',
-    },
-  },
-  zen: {
-    name: '🍃 Zen Mode',
-    description: 'Calm, natural, notebook-inspired',
-    colors: {
-      primary: '#7bc47f',
-      secondary: '#d6a760',
-      background: '#fdf6e3',
+      primary: '#6366f1',      // Indigo
+      secondary: '#06b6d4',    // Cyan
+      background: '#ffffff',   // Pure white
     },
   },
 };

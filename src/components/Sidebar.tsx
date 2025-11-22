@@ -127,18 +127,6 @@ export const Sidebar = ({ isOpen, onToggle }: SidebarProps) => {
           {/* Header */}
           <div className="flex items-center justify-between p-4 border-b border-border/50">
             <Logo size="sm" showText />
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={onToggle}
-              className="h-8 w-8"
-            >
-              {isOpen ? (
-                <PanelLeftClose className="h-4 w-4" />
-              ) : (
-                <PanelLeft className="h-4 w-4" />
-              )}
-            </Button>
           </div>
 
           {/* Navigation */}
