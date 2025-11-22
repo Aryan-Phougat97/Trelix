@@ -8,388 +8,103 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Pure white theme - minimal use only */
+    /* Light theme - clean and professional */
     --background: 0 0% 100%;
-    --foreground: 0 0% 0%;
+    --foreground: 240 10% 10%;
 
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 0%;
+    --card-foreground: 240 10% 10%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 0%;
+    --popover-foreground: 240 10% 10%;
 
-    --primary: 217 91% 60%;
-    /* Cool Blue #3b82f6 */
+    --primary: 238 77% 63%;
+    /* Deep Indigo #6366f1 */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 0 100% 64%;
-    /* Electric Red #ff4747 */
+    --secondary: 189 94% 43%;
+    /* Soft Cyan #06b6d4 */
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 0 0% 96%;
-    --muted-foreground: 0 0% 40%;
+    --muted: 240 5% 96%;
+    --muted-foreground: 240 4% 46%;
 
-    --accent: 217 91% 60%;
-    /* Cool Blue */
+    --accent: 189 94% 43%;
+    /* Soft Cyan */
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 100% 64%;
-    /* Electric Red */
+    --destructive: 0 84% 60%;
+    /* Softer red for errors */
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 90%;
-    --input: 0 0% 90%;
-    --ring: 217 91% 60%;
+    --border: 240 6% 90%;
+    --input: 240 6% 90%;
+    --ring: 238 77% 63%;
 
     --radius: 0.5rem;
 
-    /* TaskFlow-X Custom Tokens - Pure Black/White + Red/Blue */
-    --electric-red: 0 100% 64%;
-    /* #ff4747 */
-    --cool-blue: 217 91% 60%;
-    /* #3b82f6 */
+    /* Trelix Brand Tokens - Professional Palette */
+    --brand-indigo: 238 77% 63%;
+    /* #6366f1 - Primary brand color */
+    --brand-cyan: 189 94% 43%;
+    /* #06b6d4 - Accent color */
+    --brand-purple: 250 95% 76%;
+    /* #a78bfa - Highlight color */
     --pure-black: 0 0% 0%;
     /* #000000 */
     --pure-white: 0 0% 100%;
     /* #ffffff */
     --glass-bg: 0 0% 100%;
-    --glass-border: 0 0% 85%;
-    --glow-red: 0 100% 64%;
-    --glow-blue: 217 91% 60%;
+    --glass-border: 240 6% 85%;
+    --glow-primary: 238 77% 63%;
+    --glow-accent: 189 94% 43%;
   }
 
   .dark {
-    /* Pure black theme - primary mode */
-    --background: 0 0% 0%;
-    --foreground: 0 0% 100%;
+    /* Dark theme - sophisticated and modern */
+    --background: 240 10% 4%;
+    /* Deep dark blue-black #09090b */
+    --foreground: 0 0% 98%;
 
-    --card: 0 0% 0%;
-    --card-foreground: 0 0% 100%;
+    --card: 240 10% 6%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 0 0% 0%;
-    --popover-foreground: 0 0% 100%;
+    --popover: 240 10% 6%;
+    --popover-foreground: 0 0% 98%;
 
-    --primary: 217 91% 60%;
-    /* Cool Blue */
-    --primary-foreground: 0 0% 0%;
-
-    --secondary: 0 100% 64%;
-    /* Electric Red */
-    --secondary-foreground: 0 0% 0%;
-
-    --muted: 0 0% 5%;
-    --muted-foreground: 0 0% 70%;
-
-    --accent: 217 91% 60%;
-    /* Cool Blue */
-    --accent-foreground: 0 0% 0%;
-
-    --destructive: 0 100% 64%;
-    /* Electric Red */
-    --destructive-foreground: 0 0% 0%;
-
-    --border: 0 0% 15%;
-    --input: 0 0% 5%;
-    --ring: 217 91% 60%;
-
-    /* TaskFlow-X Dark Theme - Pure Black/White + Red/Blue */
-    --electric-red: 0 100% 64%;
-    --cool-blue: 217 91% 60%;
-    --pure-black: 0 0% 0%;
-    --pure-white: 0 0% 100%;
-    --glass-bg: 0 0% 2%;
-    --glass-border: 0 0% 15%;
-    --glow-red: 0 100% 64%;
-    --glow-blue: 217 91% 60%;
-  }
-
-  /* THEME: Cyber Mode - Black background, neon red & blue accents (default) */
-  .theme-cyber {
-    --background: 0 0% 0%;
-    --foreground: 0 0% 100%;
-
-    --card: 0 0% 0%;
-    --card-foreground: 0 0% 100%;
-
-    --popover: 0 0% 0%;
-    --popover-foreground: 0 0% 100%;
-
-    --primary: 217 91% 60%;
-    /* Cool Blue #3b82f6 */
+    --primary: 238 77% 63%;
+    /* Deep Indigo */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 0 100% 64%;
-    /* Electric Red #ff4747 */
+    --secondary: 189 94% 43%;
+    /* Soft Cyan */
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 0 0% 5%;
-    --muted-foreground: 0 0% 70%;
+    --muted: 240 10% 10%;
+    --muted-foreground: 240 5% 65%;
 
-    --accent: 217 91% 60%;
-    /* Cool Blue */
-    --accent-foreground: 0 0% 100%;
-
-    --destructive: 0 100% 64%;
-    /* Electric Red */
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 0 0% 15%;
-    --input: 0 0% 5%;
-    --ring: 217 91% 60%;
-
-    --electric-red: 0 100% 64%;
-    --cool-blue: 217 91% 60%;
-    --pure-black: 0 0% 0%;
-    --pure-white: 0 0% 100%;
-    --glass-bg: 0 0% 2%;
-    --glass-border: 0 0% 15%;
-    --glow-red: 0 100% 64%;
-    --glow-blue: 217 91% 60%;
-  }
-
-  /* THEME: Calm Mode - Dark gray background, muted blue & green accents */
-  .theme-calm {
-    --background: 0 0% 10%;
-    /* Dark gray #1a1a1a */
-    --foreground: 0 0% 95%;
-    /* Soft white */
-
-    --card: 0 0% 12%;
-    --card-foreground: 0 0% 95%;
-
-    --popover: 0 0% 12%;
-    --popover-foreground: 0 0% 95%;
-
-    --primary: 217 91% 70%;
-    /* Muted blue #60a5fa */
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: 142 76% 36%;
-    /* Muted green #10b981 */
-    --secondary-foreground: 0 0% 100%;
-
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 65%;
-
-    --accent: 142 76% 36%;
-    /* Muted green */
+    --accent: 189 94% 43%;
+    /* Soft Cyan */
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     /* Softer red */
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 20%;
-    --input: 0 0% 12%;
-    --ring: 217 91% 70%;
+    --border: 240 10% 15%;
+    --input: 240 10% 8%;
+    --ring: 238 77% 63%;
 
-    --electric-red: 0 84% 60%;
-    --cool-blue: 217 91% 70%;
-    --pure-black: 0 0% 10%;
-    --pure-white: 0 0% 95%;
-    --glass-bg: 0 0% 12%;
-    --glass-border: 0 0% 20%;
-    --glow-red: 142 76% 36%;
-    /* Green glow */
-    --glow-blue: 217 91% 70%;
-  }
-
-  /* THEME: Light Focus Mode - Clean white background, soft blue highlights */
-  .theme-light {
-    --background: 0 0% 100%;
-    /* Pure white */
-    --foreground: 0 0% 10%;
-    /* Soft black */
-
-    --card: 0 0% 98%;
-    --card-foreground: 0 0% 10%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 10%;
-
-    --primary: 217 91% 60%;
-    /* Cool Blue #3b82f6 */
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: 262 83% 58%;
-    /* Soft indigo #6366f1 */
-    --secondary-foreground: 0 0% 100%;
-
-    --muted: 0 0% 96%;
-    --muted-foreground: 0 0% 45%;
-
-    --accent: 217 91% 60%;
-    /* Cool Blue */
-    --accent-foreground: 0 0% 100%;
-
-    --destructive: 0 84% 60%;
-    /* Softer red */
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 0 0% 88%;
-    --input: 0 0% 96%;
-    --ring: 217 91% 60%;
-
-    --electric-red: 262 83% 58%;
-    /* Soft indigo instead of red */
-    --cool-blue: 217 91% 60%;
-    --pure-black: 0 0% 10%;
-    --pure-white: 0 0% 100%;
-    --glass-bg: 0 0% 98%;
-    --glass-border: 0 0% 88%;
-    --glow-red: 262 83% 58%;
-    /* Indigo glow */
-    --glow-blue: 217 91% 60%;
-  }
-
-  /* THEME: Solar Mode - Developer classic, high contrast, solarized-inspired */
-  .theme-solar {
-    --background: 192 100% 11%;
-    /* #002b36 - Deep blue-tinted dark */
-    --foreground: 44 87% 94%;
-    /* #eee8d5 - Warm cream */
-
-    --card: 192 100% 13%;
-    --card-foreground: 44 87% 94%;
-
-    --popover: 192 100% 11%;
-    --popover-foreground: 44 87% 94%;
-
-    --primary: 205 69% 49%;
-    /* #268bd2 - Solarized blue */
-    --primary-foreground: 44 87% 94%;
-
-    --secondary: 45 100% 35%;
-    /* #b58900 - Solarized amber/yellow */
-    --secondary-foreground: 192 100% 11%;
-
-    --muted: 192 81% 14%;
-    --muted-foreground: 44 11% 70%;
-
-    --accent: 175 59% 40%;
-    /* #2aa198 - Solarized cyan */
-    --accent-foreground: 44 87% 94%;
-
-    --destructive: 1 71% 52%;
-    /* Solarized orange */
-    --destructive-foreground: 44 87% 94%;
-
-    --border: 192 81% 18%;
-    --input: 192 100% 13%;
-    --ring: 205 69% 49%;
-
-    --electric-red: 45 100% 35%;
-    /* Amber accent */
-    --cool-blue: 205 69% 49%;
-    /* Blue accent */
-    --pure-black: 192 100% 11%;
-    --pure-white: 44 87% 94%;
-    --glass-bg: 192 100% 13%;
-    --glass-border: 192 81% 18%;
-    --glow-red: 45 100% 35%;
-    /* Amber glow */
-    --glow-blue: 175 59% 40%;
-    /* Cyan glow */
-  }
-
-  /* THEME: Mirage Mode - Futuristic moody dark with glassmorphism */
-  .theme-mirage {
-    --background: 253 48% 5%;
-    /* #0f0b1d - Deep purple-black */
-    --foreground: 261 100% 93%;
-    /* #e3d7ff - Soft lavender */
-
-    --card: 253 48% 7%;
-    --card-foreground: 261 100% 93%;
-
-    --popover: 253 48% 5%;
-    --popover-foreground: 261 100% 93%;
-
-    --primary: 248 73% 69%;
-    /* #6c63ff - Electric violet */
-    --primary-foreground: 253 48% 5%;
-
-    --secondary: 180 100% 50%;
-    /* #00ffff - Pure cyan */
-    --secondary-foreground: 253 48% 5%;
-
-    --muted: 253 48% 10%;
-    --muted-foreground: 261 50% 75%;
-
-    --accent: 328 100% 50%;
-    /* #ff0080 - Hot pink for focus glow */
-    --accent-foreground: 261 100% 93%;
-
-    --destructive: 328 100% 50%;
-    /* Hot pink */
-    --destructive-foreground: 261 100% 93%;
-
-    --border: 253 48% 15%;
-    --input: 253 48% 7%;
-    --ring: 248 73% 69%;
-
-    --electric-red: 328 100% 50%;
-    /* Hot pink */
-    --cool-blue: 180 100% 50%;
-    /* Cyan */
-    --pure-black: 253 48% 5%;
-    --pure-white: 261 100% 93%;
-    --glass-bg: 253 48% 7%;
-    --glass-border: 253 48% 15%;
-    --glow-red: 328 100% 50%;
-    /* Pink glow */
-    --glow-blue: 248 73% 69%;
-    /* Violet glow */
-  }
-
-  /* THEME: Zen Mode - Calm natural notebook-inspired light theme */
-  .theme-zen {
-    --background: 44 56% 96%;
-    /* #fdf6e3 - Soft paper cream */
-    --foreground: 0 0% 23%;
-    /* #3b3b3b - Soft black */
-
-    --card: 44 56% 94%;
-    --card-foreground: 0 0% 23%;
-
-    --popover: 44 56% 96%;
-    --popover-foreground: 0 0% 23%;
-
-    --primary: 130 34% 59%;
-    /* #7bc47f - Leaf green */
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: 41 51% 61%;
-    /* #d6a760 - Warm gold */
-    --secondary-foreground: 0 0% 23%;
-
-    --muted: 44 56% 90%;
-    --muted-foreground: 0 0% 50%;
-
-    --accent: 85 30% 72%;
-    /* #c3d9a5 - Pastel leaf tone */
-    --accent-foreground: 0 0% 23%;
-
-    --destructive: 4 63% 56%;
-    /* Muted terracotta */
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 44 30% 85%;
-    --input: 44 56% 94%;
-    --ring: 130 34% 59%;
-
-    --electric-red: 41 51% 61%;
-    /* Warm gold */
-    --cool-blue: 130 34% 59%;
-    /* Leaf green */
-    --pure-black: 0 0% 23%;
-    --pure-white: 44 56% 96%;
-    --glass-bg: 44 56% 94%;
-    --glass-border: 44 30% 85%;
-    --glow-red: 41 51% 61%;
-    /* Gold glow */
-    --glow-blue: 130 34% 59%;
-    /* Green glow */
+    /* Trelix Dark Theme - Professional Palette */
+    --brand-indigo: 238 77% 63%;
+    --brand-cyan: 189 94% 43%;
+    --brand-purple: 250 95% 76%;
+    --pure-black: 240 10% 4%;
+    --pure-white: 0 0% 98%;
+    --glass-bg: 240 10% 6%;
+    --glass-border: 240 10% 15%;
+    --glow-primary: 238 77% 63%;
+    --glow-accent: 189 94% 43%;
   }
 }
 
@@ -405,6 +120,7 @@ All colors MUST be HSL.
     /* SemiBold default for developer aesthetic */
   }
 }
+
 
 @layer utilities {
 
@@ -436,18 +152,18 @@ All colors MUST be HSL.
       0 0 20px hsl(var(--glow-blue) / 0.1);
   }
 
-  /* Electric Red Glow */
-  .glow-red {
-    box-shadow: 0 0 20px hsl(var(--glow-red) / 0.4),
-      0 0 40px hsl(var(--glow-red) / 0.2),
-      0 0 60px hsl(var(--glow-red) / 0.1);
+  /* Primary Glow - Indigo */
+  .glow-primary {
+    box-shadow: 0 0 20px hsl(var(--glow-primary) / 0.3),
+      0 0 40px hsl(var(--glow-primary) / 0.15),
+      0 0 60px hsl(var(--glow-primary) / 0.08);
   }
 
-  /* Cool Blue Glow */
-  .glow-blue {
-    box-shadow: 0 0 20px hsl(var(--glow-blue) / 0.4),
-      0 0 40px hsl(var(--glow-blue) / 0.2),
-      0 0 60px hsl(var(--glow-blue) / 0.1);
+  /* Accent Glow - Cyan */
+  .glow-accent {
+    box-shadow: 0 0 20px hsl(var(--glow-accent) / 0.3),
+      0 0 40px hsl(var(--glow-accent) / 0.15),
+      0 0 60px hsl(var(--glow-accent) / 0.08);
   }
 
   /* Red Strike Animation for completed tasks */
@@ -492,9 +208,9 @@ All colors MUST be HSL.
     animation: fade-out 0.3s ease-out forwards;
   }
 
-  /* Gradient Text - Red to Blue */
+  /* Gradient Text - Indigo to Cyan */
   .gradient-text {
-    background: linear-gradient(135deg, hsl(var(--electric-red)), hsl(var(--cool-blue)));
+    background: linear-gradient(135deg, hsl(var(--brand-indigo)), hsl(var(--brand-cyan)));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -711,106 +427,6 @@ All colors MUST be HSL.
 
   .animate-theme-glow-pulse {
     animation: theme-glow-pulse 1.2s ease-in-out;
-  }
-
-  /* Mirage Mode - Ambient Glow Animation */
-  @keyframes mirage-ambient-glow {
-
-    0%,
-    100% {
-      box-shadow: 0 0 30px hsl(248 73% 69% / 0.2),
-        0 0 60px hsl(328 100% 50% / 0.1);
-    }
-
-    33% {
-      box-shadow: 0 0 40px hsl(180 100% 50% / 0.25),
-        0 0 80px hsl(248 73% 69% / 0.15);
-    }
-
-    66% {
-      box-shadow: 0 0 35px hsl(328 100% 50% / 0.2),
-        0 0 70px hsl(180 100% 50% / 0.12);
-    }
-  }
-
-  .theme-mirage .glass-card:hover {
-    box-shadow: 0 12px 48px 0 rgba(0, 0, 0, 0.6),
-      0 0 0 1px rgba(108, 99, 255, 0.2),
-      0 0 40px hsl(248 73% 69% / 0.3),
-      0 0 80px hsl(328 100% 50% / 0.15);
-    animation: mirage-ambient-glow 4s ease-in-out infinite;
-  }
-
-  /* Zen Mode - Reduced Motion and Soft Shadows */
-  .theme-zen * {
-    transition-duration: 0.4s;
-  }
-
-  .theme-zen .glass-card {
-    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.08),
-      0 2px 8px 0 rgba(0, 0, 0, 0.04);
-  }
-
-  .theme-zen .glass-card:hover {
-    box-shadow: 0 6px 24px 0 rgba(0, 0, 0, 0.12),
-      0 4px 12px 0 rgba(0, 0, 0, 0.06),
-      0 0 20px hsl(130 34% 59% / 0.1);
-    transform: translateY(-1px);
-  }
-
-  /* Solar Mode - Terminal-Inspired Accent Transitions */
-  @keyframes solar-accent-pulse {
-
-    0%,
-    100% {
-      color: hsl(205 69% 49%);
-    }
-
-    33% {
-      color: hsl(175 59% 40%);
-    }
-
-    66% {
-      color: hsl(45 100% 35%);
-    }
-  }
-
-  .theme-solar .gradient-text {
-    background: linear-gradient(135deg, hsl(205 69% 49%), hsl(175 59% 40%), hsl(45 100% 35%));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    background-size: 200% 200%;
-    animation: gradient-shift 6s ease infinite;
-  }
-
-  @keyframes gradient-shift {
-    0% {
-      background-position: 0% 50%;
-    }
-
-    50% {
-      background-position: 100% 50%;
-    }
-
-    100% {
-      background-position: 0% 50%;
-    }
-  }
-
-  /* Enhanced Mirage Mode glassmorphism */
-  .theme-mirage .glass-card {
-    background: linear-gradient(135deg,
-        hsl(253 48% 7% / 0.6),
-        hsl(248 73% 10% / 0.4));
-    backdrop-filter: blur(20px) saturate(180%);
-  }
-
-  /* Zen Mode paper texture effect */
-  .theme-zen {
-    background-image:
-      radial-gradient(circle at 20% 50%, hsl(44 56% 98%) 0%, transparent 50%),
-      radial-gradient(circle at 80% 80%, hsl(130 34% 95%) 0%, transparent 50%);
   }
 
   /* Gradient animation for landing page */

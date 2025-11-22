@@ -3,6 +3,7 @@
  * Clean, minimal CTAs with no heavy animations
  */
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight, Sparkles } from 'lucide-react';
@@ -20,7 +21,7 @@ export const LifeOSSection = () => {
           className="max-w-4xl mx-auto"
         >
           <h2 className="text-5xl sm:text-6xl lg:text-8xl font-bold mb-8">
-            <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-indigo-400 via-cyan-400 to-blue-400 bg-clip-text text-transparent">
               Your Life OS
             </span>
           </h2>
@@ -30,14 +31,14 @@ export const LifeOSSection = () => {
           </p>
 
           <p className="text-xl text-gray-500 mb-12">
-            Your mind, <span className="text-cyan-400">engineered</span>.
+            Your mind, <span className="text-indigo-400">engineered</span>.
           </p>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto">
             {['Tasks', 'Goals', 'Wellbeing', 'Finance'].map((feature) => (
               <div
                 key={feature}
-                className="p-4 bg-white/5 border border-white/10 rounded-xl text-cyan-300 font-medium hover:bg-white/10 transition-colors"
+                className="p-4 bg-white/5 border border-white/10 rounded-xl text-indigo-300 font-medium hover:bg-white/10 transition-colors"
               >
                 {feature}
               </div>
@@ -67,16 +68,16 @@ export const FinalCTASection = () => {
           className="text-center max-w-4xl mx-auto"
         >
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-cyan-500/10 border border-cyan-500/30 mb-8">
-            <Sparkles className="w-5 h-5 text-cyan-400" />
-            <span className="text-cyan-300 font-medium">Ready to get started?</span>
+          <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-indigo-500/10 border border-indigo-500/30 mb-8">
+            <Sparkles className="w-5 h-5 text-indigo-400" />
+            <span className="text-indigo-300 font-medium">Ready to get started?</span>
           </div>
 
           {/* Heading */}
           <h2 className="text-4xl sm:text-5xl lg:text-7xl font-bold mb-6">
             <span className="text-white">Start Your</span>
             <br />
-            <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-indigo-400 via-cyan-400 to-blue-400 bg-clip-text text-transparent">
               Personal OS
             </span>
           </h2>
@@ -108,12 +109,19 @@ export const FinalCTASection = () => {
 // Floating Navbar
 export const FloatingNavbar = () => {
   const navigate = useNavigate();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+    setMobileMenuOpen(false);
+  };
+
+  const scrollToHero = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setMobileMenuOpen(false);
   };
 
   return (
@@ -121,20 +129,20 @@ export const FloatingNavbar = () => {
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="fixed top-6 left-1/2 -translate-x-1/2 z-50 px-4"
+      className="fixed top-4 sm:top-6 left-1/2 -translate-x-1/2 z-50 px-4 w-full max-w-[95%] sm:max-w-fit"
     >
-      <div className="px-6 py-3 bg-black/80 backdrop-blur-sm border border-white/10 rounded-full flex items-center justify-between gap-4 max-w-fit">
-        {/* Logo Text Only */}
+      <div className="px-4 sm:px-6 py-3 bg-black/80 backdrop-blur-sm border border-white/10 rounded-full flex items-center justify-between gap-2 sm:gap-4">
+        {/* Logo Text - Clickable to scroll to hero */}
         <button
-          onClick={() => navigate('/')}
+          onClick={scrollToHero}
           className="hover:opacity-80 transition-opacity flex-shrink-0"
         >
-          <span className="text-xl font-bold bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
+          <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">
             TRELIX
           </span>
         </button>
 
-        {/* Nav Items */}
+        {/* Desktop Nav Items */}
         <div className="hidden md:flex items-center gap-4">
           <button
             onClick={() => scrollToSection('features')}
@@ -156,14 +164,68 @@ export const FloatingNavbar = () => {
           </button>
         </div>
 
+        {/* Mobile Menu Button */}
+        <button
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          className="md:hidden p-2 text-gray-400 hover:text-white transition-colors"
+          aria-label="Toggle menu"
+        >
+          <svg
+            className="w-5 h-5"
+            fill="none"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            {mobileMenuOpen ? (
+              <path d="M6 18L18 6M6 6l12 12" />
+            ) : (
+              <path d="M4 6h16M4 12h16M4 18h16" />
+            )}
+          </svg>
+        </button>
+
         {/* CTA */}
         <button
           onClick={() => navigate('/tasks')}
-          className="px-4 py-2 bg-white text-black rounded-full text-sm font-medium hover:bg-gray-100 transition-colors"
+          className="px-3 sm:px-4 py-2 bg-white text-black rounded-full text-sm font-medium hover:bg-gray-100 transition-colors whitespace-nowrap"
         >
           Get Started
         </button>
       </div>
+
+      {/* Mobile Menu Dropdown */}
+      {mobileMenuOpen && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          className="md:hidden mt-2 p-4 bg-black/90 backdrop-blur-sm border border-white/10 rounded-2xl"
+        >
+          <div className="flex flex-col gap-3">
+            <button
+              onClick={() => scrollToSection('features')}
+              className="text-left text-sm text-gray-400 hover:text-white transition-colors py-2"
+            >
+              Features
+            </button>
+            <button
+              onClick={() => scrollToSection('productivity')}
+              className="text-left text-sm text-gray-400 hover:text-white transition-colors py-2"
+            >
+              Productivity
+            </button>
+            <button
+              onClick={() => scrollToSection('wellbeing')}
+              className="text-left text-sm text-gray-400 hover:text-white transition-colors py-2"
+            >
+              Wellbeing
+            </button>
+          </div>
+        </motion.div>
+      )}
     </motion.nav>
   );
 };

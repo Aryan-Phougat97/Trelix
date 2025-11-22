@@ -26,11 +26,11 @@ export const HeroSection = React.memo(() => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="text-6xl sm:text-7xl lg:text-8xl xl:text-9xl font-bold tracking-tight mb-8"
+          className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight mb-8"
         >
-          <span className="block text-white">Productivity</span>
-          <span className="block bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-            Re-Engineered
+          <span className="block text-white">Your Personal</span>
+          <span className="block bg-gradient-to-r from-indigo-400 via-cyan-400 to-blue-400 bg-clip-text text-transparent">
+            Operating System
           </span>
         </motion.h1>
 
@@ -39,11 +39,11 @@ export const HeroSection = React.memo(() => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="text-xl sm:text-2xl text-gray-400 max-w-3xl mx-auto mb-12 leading-relaxed"
+          className="text-lg sm:text-xl lg:text-2xl text-gray-400 max-w-3xl mx-auto mb-12 leading-relaxed"
         >
-          One unified system for tasks, goals, wellbeing, and finance.
+          Unify tasks, goals, wellbeing, habits, and finances in one place.
           <br className="hidden sm:block" />
-          Your mind, <span className="text-cyan-400">engineered</span>.
+          Your mind, <span className="text-indigo-400 font-semibold">engineered</span>.
         </motion.p>
 
         {/* CTA Buttons - Clean, no glow */}

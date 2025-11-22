@@ -33,6 +33,14 @@ export const AppLayout = ({ children, showHeader = true, onSearch, onFilterClick
 
   return (
     <div className="flex h-screen overflow-hidden bg-background">
+      {/* Mobile Overlay */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-20 lg:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
       {/* Sidebar */}
       <Sidebar isOpen={sidebarOpen} onToggle={() => setSidebarOpen(!sidebarOpen)} />
 
@@ -44,9 +52,9 @@ export const AppLayout = ({ children, showHeader = true, onSearch, onFilterClick
             variant="outline"
             size="icon"
             onClick={() => setSidebarOpen(true)}
-            className="h-10 w-10 rounded-full shadow-lg bg-card/80 backdrop-blur-sm border-border/50"
+            className="h-12 w-12 rounded-full shadow-lg bg-card/90 backdrop-blur-sm border-border/50 hover:bg-card"
           >
-            <Menu className="h-5 w-5" />
+            <Menu className="h-6 w-6" />
           </Button>
         </div>
 
