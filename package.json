@@ -2,7 +2,7 @@
   "name": "trelix",
   "private": true,
   "version": "1.0.0",
-  "description": "Trelix - Smart SaaS Task Management Platform",
+  "description": "Trelix - Your Personal Operating System for Self-Development",
   "type": "module",
   "scripts": {
     "dev": "vite",

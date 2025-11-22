@@ -1,6 +1,6 @@
-# Trelix v1.0 - Smart SaaS Task Management Platform
+# Trelix v1.0 - Your Personal Operating System for Life
 
-A modern, enterprise-grade productivity SaaS platform built with React, TypeScript, Tailwind CSS, and Framer Motion. Trelix combines intelligent task management, focus modes, and real-time analytics to help teams and individuals achieve peak productivity.
+A modern, privacy-first personal operating system built with React, TypeScript, Tailwind CSS, and Framer Motion. Trelix unifies tasks, goals, wellbeing, habits, mood tracking, journaling, and financial management into one intelligent platform to help you engineer your best life.
 
 ![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
 ![React](https://img.shields.io/badge/react-18.3.1-61dafb.svg)
@@ -14,49 +14,47 @@ A modern, enterprise-grade productivity SaaS platform built with React, TypeScri
 
 ## ✨ Features
 
-### 🎯 Enterprise Task Management
-- Create and organize tasks with intelligent categorization (Work/Personal)
-- Priority-based system (High/Medium/Low) with deadline tracking
-- Advanced filtering by status, category, and priority
-- Real-time task completion tracking with analytics
-- Cloud-ready with persistent storage
+### 🎯 Productivity Hub
+- **Smart Task Management**: Create and organize tasks with intelligent categorization (Work/Personal)
+- **Priority System**: Priority-based organization (High/Medium/Low) with deadline tracking
+- **Advanced Filtering**: Filter by status, category, and priority
+- **Real-time Analytics**: Track completion rates and productivity trends
+- **Local-first Storage**: Your data stays on your device, private and secure
+
+### 📋 Planning & Goals
+- **Goal Framework**: Set and track long-term goals with milestone tracking
+- **Strategic Planning**: Break down big goals into actionable steps
+- **Progress Visualization**: See your progress at a glance
+- **Review System**: Regular review prompts to keep you on track
+
+### 🧘 Wellbeing & Habits
+- **Mood Tracker**: Daily mood logging with insights and patterns
+- **Habit Tracking**: Build and maintain positive habits
+- **Journaling**: Integrated daily journaling for reflection
+- **Wellbeing Analytics**: Understand your mental and emotional patterns
+
+### 💰 Financial Management (Trelix Ledger)
+- **Expense Tracking**: Simple, privacy-first expense logging
+- **Financial Overview**: Track spending patterns and budgets
+- **Local Storage**: All financial data stays on your device
 
 ### 🧘 Focus Mode with Pomodoro Timer
-- Distraction-free focus overlay for deep work
-- Built-in 25-minute Pomodoro timer with visual progress indicator
-- Premium ambient soundscapes for enhanced concentration
-- Automatic focus session tracking and analytics
+- **Distraction-free Environment**: Focus overlay for deep work
+- **Built-in Timer**: 25-minute Pomodoro timer with visual progress
+- **Ambient Soundscapes**: Premium sounds for enhanced concentration
+- **Session Tracking**: Automatic focus session analytics
 
-### 📝 Smart Daily Notes
-- Integrated note-taking with cloud-sync capability
-- Auto-save functionality for seamless workflow
-- Word count tracking for productivity insights
+### 📊 Real-time Analytics Dashboard
+- **Comprehensive Metrics**: Total tasks, completion rates, focus hours
+- **Interactive Visualizations**: Charts powered by Recharts
+- **Productivity Insights**: Identify peak productivity days and patterns
+- **Holistic View**: See all aspects of your life in one dashboard
 
-### 📊 Real-time Analytics Dashboard **NEW in v1.0**
-- **Professional Analytics** with interactive Recharts visualizations
-- **Key Performance Metrics:**
-  - Total tasks and completion rate tracking
-  - Focus hours and session duration analysis
-  - Notes activity monitoring
-  - Peak productivity day insights
-- **Interactive Visualizations:**
-  - Task completion trends (bar chart)
-  - Focus time distribution (area chart)
-  - Combined activity analytics (line chart)
-- **About Platform Modal** with feature highlights
-
-### 🎨 Premium Theme Collection
-1. **Cyber Mode** 🌌 - Sleek black background with electric neon accents
-2. **Calm Mode** 🌊 - Sophisticated dark gray with tranquil blues
-3. **Light Focus Mode** ☀️ - Clean white interface
-4. **Solar Mode** 🌅 - Developer classic high contrast
-5. **Mirage Mode** 💭 - Futuristic moody aesthetic
-6. **Zen Mode** 🍃 - Natural notebook-inspired
-
-### 🎭 Smooth Animations
-- Framer Motion powered transitions
-- Glass morphism UI effects
-- Interactive hover states
+### 🎨 Professional Design System
+- **Modern Aesthetic**: Clean, professional indigo and cyan color palette
+- **Dark/Light Modes**: Comfortable viewing in any environment
+- **Smooth Animations**: Framer Motion powered transitions
+- **Glassmorphism UI**: Modern, sophisticated interface effects
 
 ## How can I edit this code?
 
