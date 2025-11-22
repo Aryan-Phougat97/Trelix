@@ -32,11 +32,13 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   useEffect(() => {
     const root = document.documentElement;
 
-    // Remove all theme classes
-    root.classList.remove('dark', 'light');
-
-    // Add new theme class
+    // Add new theme class first, then remove the old one
+    // This prevents the white flash during transition
     root.classList.add(theme);
+
+    // Remove the opposite theme class
+    const oppositeTheme = theme === 'dark' ? 'light' : 'dark';
+    root.classList.remove(oppositeTheme);
 
     // Store in localStorage
     localStorage.setItem('app-theme', theme);
