@@ -25,20 +25,37 @@ interface ThemeProviderProps {
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   const [theme, setThemeState] = useState<ThemeMode>(() => {
     const savedTheme = localStorage.getItem('app-theme') as ThemeMode;
-    return savedTheme || 'dark';
+    const initialTheme = savedTheme || 'dark';
+
+    // Set initial theme class and background immediately to prevent white flash
+    const root = document.documentElement;
+    root.classList.add(initialTheme);
+    root.style.backgroundColor = initialTheme === 'dark' ? '#09090b' : '#ffffff';
+
+    return initialTheme;
   });
   const [isTransitioning, setIsTransitioning] = useState(false);
 
   useEffect(() => {
     const root = document.documentElement;
 
+    // Ensure we always have a background color set to prevent white flash
+    // Set the background color immediately before any class changes
+    if (theme === 'dark') {
+      root.style.backgroundColor = '#09090b'; // Deep dark blue-black
+    } else {
+      root.style.backgroundColor = '#ffffff'; // Pure white
+    }
+
     // Add new theme class first, then remove the old one
     // This prevents the white flash during transition
     root.classList.add(theme);
 
-    // Remove the opposite theme class
+    // Remove the opposite theme class after a small delay to ensure smooth transition
     const oppositeTheme = theme === 'dark' ? 'light' : 'dark';
-    root.classList.remove(oppositeTheme);
+    requestAnimationFrame(() => {
+      root.classList.remove(oppositeTheme);
+    });
 
     // Store in localStorage
     localStorage.setItem('app-theme', theme);
