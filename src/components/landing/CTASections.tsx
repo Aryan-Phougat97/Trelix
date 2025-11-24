@@ -129,7 +129,7 @@ export const FloatingNavbar = () => {
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="fixed top-4 sm:top-6 left-1/2 -translate-x-1/2 z-50 px-4 w-full max-w-[95%] sm:max-w-fit"
+      className="fixed top-4 sm:top-6 left-0 right-0 z-50 px-4 sm:px-6 lg:px-8"
     >
       <div className="px-4 sm:px-6 py-3 bg-black/80 backdrop-blur-sm border border-white/10 rounded-full flex items-center justify-between gap-2 sm:gap-4">
         {/* Logo Text - Clickable to scroll to hero */}
