@@ -4,6 +4,7 @@ import { Sidebar } from '@/components/Sidebar';
 import { Header } from '@/components/Header';
 import { Button } from '@/components/ui/button';
 import { Menu } from 'lucide-react';
+import { useFocusMode } from '@/contexts/FocusModeContext';
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -15,6 +16,7 @@ interface AppLayoutProps {
 export const AppLayout = ({ children, showHeader = true, onSearch, onFilterClick }: AppLayoutProps) => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const location = useLocation();
+  const { isFocusMode } = useFocusMode();
 
   // Close sidebar on mobile by default
   useEffect(() => {
@@ -30,6 +32,18 @@ export const AppLayout = ({ children, showHeader = true, onSearch, onFilterClick
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  // Auto-close sidebar when focus mode is activated
+  useEffect(() => {
+    if (isFocusMode) {
+      setSidebarOpen(false);
+    }
+  }, [isFocusMode]);
+
+  // Reset scroll position when navigating between sections
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
 
   return (
     <div className="flex h-screen overflow-hidden bg-background">
@@ -51,7 +65,7 @@ export const AppLayout = ({ children, showHeader = true, onSearch, onFilterClick
           <Button
             variant="outline"
             size="icon"
-            onClick={() => setSidebarOpen(true)}
+            onClick={() => setSidebarOpen(!sidebarOpen)}
             className="h-12 w-12 rounded-full shadow-lg bg-card/90 backdrop-blur-sm border-border/50 hover:bg-card"
           >
             <Menu className="h-6 w-6" />
