@@ -48,7 +48,7 @@ export const StatsPanel = ({ total, completed, pending }: StatsPanelProps) => {
         </div>
         <div className="h-1 bg-border rounded-full overflow-hidden">
           <div
-            className="h-full bg-gradient-to-r from-electric-red to-cool-blue transition-all duration-700 ease-out"
+            className="h-full bg-linear-to-r from-electric-red to-cool-blue transition-all duration-700 ease-out"
             style={{ width: `${completionRate}%` }}
           />
         </div>

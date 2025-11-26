@@ -48,7 +48,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({ type }) => {
             }}
             className="absolute inset-0 rounded-full bg-primary/20 blur-2xl"
           />
-          <div className="relative bg-background/80 backdrop-blur-sm border border-border rounded-2xl p-8">
+          <div className="relative bg-background/80 backdrop-blur-xs border border-border rounded-2xl p-8">
             {content.icon}
           </div>
         </div>
@@ -91,7 +91,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({ type }) => {
         initial={{ width: 0 }}
         animate={{ width: '100%' }}
         transition={{ duration: 1, delay: 0.6 }}
-        className="mt-8 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent max-w-xs"
+        className="mt-8 h-px bg-linear-to-r from-transparent via-primary/30 to-transparent max-w-xs"
       />
     </motion.div>
   );

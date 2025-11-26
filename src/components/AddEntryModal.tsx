@@ -111,7 +111,7 @@ export const AddEntryModal = ({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
+            className="fixed inset-0 bg-black/60 backdrop-blur-xs z-40"
             onClick={onClose}
           />
 
@@ -235,7 +235,7 @@ export const AddEntryModal = ({
                       placeholder="0.00"
                       value={amount}
                       onChange={(e) => setAmount(e.target.value)}
-                      className="w-full pl-10 pr-4 py-3 rounded-lg border border-border bg-background/50 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                      className="w-full pl-10 pr-4 py-3 rounded-lg border border-border bg-background/50 focus:outline-hidden focus:ring-2 focus:ring-primary/50 transition-all"
                       required
                     />
                   </div>
@@ -251,7 +251,7 @@ export const AddEntryModal = ({
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
                       rows={3}
-                      className="w-full pl-10 pr-4 py-3 rounded-lg border border-border bg-background/50 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all resize-none"
+                      className="w-full pl-10 pr-4 py-3 rounded-lg border border-border bg-background/50 focus:outline-hidden focus:ring-2 focus:ring-primary/50 transition-all resize-none"
                     />
                   </div>
                 </div>
@@ -265,7 +265,7 @@ export const AddEntryModal = ({
                       type="date"
                       value={date}
                       onChange={(e) => setDate(e.target.value)}
-                      className="w-full pl-10 pr-4 py-3 rounded-lg border border-border bg-background/50 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                      className="w-full pl-10 pr-4 py-3 rounded-lg border border-border bg-background/50 focus:outline-hidden focus:ring-2 focus:ring-primary/50 transition-all"
                       required
                     />
                   </div>

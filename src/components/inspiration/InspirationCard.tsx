@@ -72,7 +72,7 @@ export const InspirationCard = ({ snippet, onPlay, onEdit, onDelete }: Inspirati
                         </div>
                         <p className="text-sm text-muted-foreground truncate">{snippet.artist}</p>
                     </div>
-                    <div className={`px-3 py-1 rounded-full bg-gradient-to-r ${moodGradient} text-white text-xs font-medium flex items-center gap-1`}>
+                    <div className={`px-3 py-1 rounded-full bg-linear-to-r ${moodGradient} text-white text-xs font-medium flex items-center gap-1`}>
                         <span>{moodEmoji}</span>
                         <span className="capitalize">{snippet.mood}</span>
                     </div>

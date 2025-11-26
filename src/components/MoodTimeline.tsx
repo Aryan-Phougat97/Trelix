@@ -185,7 +185,7 @@ export const MoodTimeline: React.FC<MoodTimelineProps> = ({ entries }) => {
                   <ChevronRight className="h-4 w-4 text-muted-foreground" />
                 </motion.div>
                 <h4 className="text-sm font-medium text-foreground/80">{group.label}</h4>
-                <div className="h-px flex-1 bg-gradient-to-r from-border to-transparent"></div>
+                <div className="h-px flex-1 bg-linear-to-r from-border to-transparent"></div>
                 <span className="text-xs text-muted-foreground">
                   {group.entries.length} {group.entries.length === 1 ? 'entry' : 'entries'}
                 </span>
@@ -202,7 +202,7 @@ export const MoodTimeline: React.FC<MoodTimelineProps> = ({ entries }) => {
                     className="relative ml-2 pl-4 border-l-2 border-primary/20 space-y-3"
                   >
                     {/* Glow effect on the line */}
-                    <div className="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-primary/40 via-primary/20 to-transparent"></div>
+                    <div className="absolute left-0 top-0 bottom-0 w-px bg-linear-to-b from-primary/40 via-primary/20 to-transparent"></div>
 
                     {group.entries.map((entry, index) => (
                       <MoodCard key={entry.id} entry={entry} index={index} />
@@ -279,7 +279,7 @@ const MoodCard: React.FC<MoodCardProps> = ({ entry, index }) => {
                   initial={{ width: 0 }}
                   animate={{ width: `${entry.score * 10}%` }}
                   transition={{ duration: 0.5, delay: index * 0.05 }}
-                  className="h-full bg-gradient-to-r from-primary/60 to-primary rounded-full"
+                  className="h-full bg-linear-to-r from-primary/60 to-primary rounded-full"
                 ></motion.div>
               </div>
               <span className="text-xs text-muted-foreground mt-1">

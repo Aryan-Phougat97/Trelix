@@ -18,7 +18,7 @@ export const PlanningSection = () => {
   ];
 
   return (
-    <section className="relative py-32 bg-gradient-to-b from-black to-gray-900">
+    <section className="relative py-32 bg-linear-to-b from-black to-gray-900">
       <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -31,7 +31,7 @@ export const PlanningSection = () => {
             // PLANNING & GOALS
           </p>
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
               The Trelix Framework
             </span>
           </h2>
@@ -115,7 +115,7 @@ export const WellbeingSection = () => {
             // WELLBEING & HABITS
           </p>
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">
               Mind & Body
             </span>
           </h2>
@@ -153,7 +153,7 @@ export const LedgerSection = () => {
   const navigate = useNavigate();
 
   return (
-    <section className="relative py-32 bg-gradient-to-b from-gray-900 to-black">
+    <section className="relative py-32 bg-linear-to-b from-gray-900 to-black">
       <div className="container mx-auto px-6">
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <motion.div
@@ -166,7 +166,7 @@ export const LedgerSection = () => {
               // FINANCIAL
             </p>
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
-              <span className="bg-gradient-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent">
+              <span className="bg-linear-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent">
                 Trelix Ledger
               </span>
             </h2>
@@ -187,7 +187,7 @@ export const LedgerSection = () => {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            className="p-8 bg-gradient-to-br from-yellow-500/10 to-orange-500/10 border-2 border-yellow-500/30 rounded-2xl"
+            className="p-8 bg-linear-to-br from-yellow-500/10 to-orange-500/10 border-2 border-yellow-500/30 rounded-2xl"
           >
             <div className="flex items-center justify-center">
               <Wallet className="w-32 h-32 text-yellow-400" />

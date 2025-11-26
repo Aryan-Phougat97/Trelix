@@ -100,7 +100,7 @@ export const MoodInsights: React.FC<MoodInsightsProps> = ({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="glass-card rounded-2xl p-6 border border-border/50 bg-gradient-to-br from-primary/5 to-secondary/5"
+          className="glass-card rounded-2xl p-6 border border-border/50 bg-linear-to-br from-primary/5 to-secondary/5"
         >
           <div className="flex items-center gap-3 mb-4">
             <div className="p-2 rounded-lg bg-primary/10">

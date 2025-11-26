@@ -61,7 +61,7 @@ export const ProductivityHubSection = () => {
             // PRODUCTIVITY HUB
           </p>
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
               Power Tools
             </span>
             <br />
@@ -82,7 +82,7 @@ export const ProductivityHubSection = () => {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
               onClick={() => navigate(card.path)}
-              className={`group relative p-8 bg-gradient-to-br ${colorMap[card.color as keyof typeof colorMap]} border-2 rounded-2xl cursor-pointer transition-all hover:scale-[1.02]`}
+              className={`group relative p-8 bg-linear-to-br ${colorMap[card.color as keyof typeof colorMap]} border-2 rounded-2xl cursor-pointer transition-all hover:scale-[1.02]`}
             >
               {/* Icon */}
               <div className={`mb-6 w-12 h-12 ${iconColorMap[card.color as keyof typeof iconColorMap]}`}>

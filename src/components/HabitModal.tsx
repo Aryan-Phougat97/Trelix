@@ -132,7 +132,7 @@ export const HabitModal = ({
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     placeholder="e.g., Drink 8 glasses of water"
-                    className="w-full px-4 py-2.5 bg-background/50 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                    className="w-full px-4 py-2.5 bg-background/50 border border-border rounded-lg focus:outline-hidden focus:ring-2 focus:ring-primary/50 transition-all"
                     autoFocus
                     maxLength={60}
                   />
@@ -149,7 +149,7 @@ export const HabitModal = ({
                     onChange={(e) => setDescription(e.target.value)}
                     placeholder="Add a short description..."
                     rows={2}
-                    className="w-full px-4 py-2.5 bg-background/50 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all resize-none"
+                    className="w-full px-4 py-2.5 bg-background/50 border border-border rounded-lg focus:outline-hidden focus:ring-2 focus:ring-primary/50 transition-all resize-none"
                     maxLength={150}
                   />
                 </div>

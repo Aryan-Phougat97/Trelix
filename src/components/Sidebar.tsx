@@ -105,7 +105,7 @@ export const Sidebar = ({ isOpen, onToggle }: SidebarProps) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onToggle}
-            className="fixed inset-0 bg-background/80 backdrop-blur-sm z-40 lg:hidden"
+            className="fixed inset-0 bg-background/80 backdrop-blur-xs z-40 lg:hidden"
           />
         )}
       </AnimatePresence>
