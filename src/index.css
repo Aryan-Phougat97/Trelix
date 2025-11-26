@@ -1,6 +1,427 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@plugin 'tailwindcss-animate';
+
+@custom-variant dark (&:is(.dark *));
+
+@utility container {
+  margin-inline: auto;
+  padding-inline: 2rem;
+  @media (width >= --theme(--breakpoint-sm)) {
+    max-width: none;
+  }
+  @media (width >= 1400px) {
+    max-width: 1400px;
+  }
+}
+
+@theme {
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --color-electric-red: hsl(var(--electric-red));
+
+  --color-cool-blue: hsl(var(--cool-blue));
+
+  --color-pure-black: hsl(var(--pure-black));
+  --color-pure-white: hsl(var(--pure-white));
+
+  --color-glass-bg: hsl(var(--glass-bg));
+  --color-glass-border: hsl(var(--glass-border));
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+  --animate-fade-in: fade-in 0.5s ease-out;
+  --animate-slide-in: slide-in 0.4s ease-out;
+  --animate-glow-pulse: glow-pulse 2s ease-in-out infinite;
+  --animate-float: float 3s ease-in-out infinite;
+  --animate-pulse: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-shimmer: shimmer 2s linear infinite;
+  --animate-spin-slow: spin-slow 8s linear infinite;
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes slide-in {
+    0% {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  @keyframes glow-pulse {
+    0%,
+    100% {
+      box-shadow: 0 0 20px hsl(var(--glow-blue) / 0.3);
+    }
+    50% {
+      box-shadow:
+        0 0 30px hsl(var(--glow-blue) / 0.5),
+        0 0 50px hsl(var(--glow-blue) / 0.3);
+    }
+  }
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.8;
+    }
+  }
+  @keyframes shimmer {
+    0% {
+      background-position: -1000px 0;
+    }
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+  @keyframes spin-slow {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
+
+@utility glass-card {
+  /* TaskFlow-X Glass Card - Minimal with translucent backdrop */
+  @apply bg-card/5 backdrop-blur-2xl border border-border;
+  box-shadow:
+    0 8px 32px 0 rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.02);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover {
+    box-shadow:
+      0 12px 48px 0 rgba(0, 0, 0, 0.4),
+      0 0 0 1px rgba(255, 255, 255, 0.05),
+      0 0 40px hsl(var(--glow-blue) / 0.15);
+    transform: translateY(-2px);
+  }
+
+  /* Optimized filter transitions - reduced duration for snappier feel */
+  transition-property: filter, backdrop-filter;
+  transition-duration: 0.3s;
+  /* Reduced from 0.5s */
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Smooth theme color transitions for all elements */
+  transition:
+    background-color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Mobile Performance Optimizations */
+  @media (max-width: 767px) {
+    /* Disable ALL blur effects on mobile */
+    backdrop-filter: none;
+    background: rgba(0, 0, 0, 0.8);
+  }
+
+  /* Respect user's motion preferences */
+}
+
+@utility glass-input {
+  /* TaskFlow-X Input - Clean underline with glowing cursor */
+  @apply bg-transparent border-0 border-b-2 border-border;
+  transition: all 0.3s ease;
+  caret-color: hsl(var(--glow-blue));
+
+  &:focus {
+    border-bottom-color: hsl(var(--glow-blue));
+    box-shadow:
+      0 2px 0 0 hsl(var(--glow-blue) / 0.3),
+      0 0 20px hsl(var(--glow-blue) / 0.1);
+  }
+  transition-property: filter, backdrop-filter;
+  transition-duration: 0.3s;
+  /* Reduced from 0.5s */
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition:
+    background-color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Mobile Performance Optimizations */
+
+  /* Respect user's motion preferences */
+}
+
+@utility glow-primary {
+  /* Primary Glow - Indigo */
+  box-shadow:
+    0 0 20px hsl(var(--glow-primary) / 0.3),
+    0 0 40px hsl(var(--glow-primary) / 0.15),
+    0 0 60px hsl(var(--glow-primary) / 0.08);
+
+  /* Mobile Performance Optimizations */
+
+  /* Respect user's motion preferences */
+}
+
+@utility glow-accent {
+  /* Accent Glow - Cyan */
+  box-shadow:
+    0 0 20px hsl(var(--glow-accent) / 0.3),
+    0 0 40px hsl(var(--glow-accent) / 0.15),
+    0 0 60px hsl(var(--glow-accent) / 0.08);
+
+  /* Mobile Performance Optimizations */
+
+  /* Respect user's motion preferences */
+}
+
+@utility task-completed {
+  /* Red Strike Animation for completed tasks */
+  position: relative;
+  transition: opacity 0.3s ease;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 2px;
+    background: hsl(var(--electric-red));
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: strike-through 0.4s ease-out forwards;
+  }
+
+  /* Mobile Performance Optimizations */
+
+  /* Respect user's motion preferences */
+}
+
+@utility animate-fade-out {
+  /* Fade out animation */
+  animation: fade-out 0.3s ease-out forwards;
+
+  /* Mobile Performance Optimizations */
+
+  /* Respect user's motion preferences */
+}
+
+@utility gradient-text {
+  /* Gradient Text - Indigo to Cyan */
+  background: linear-gradient(
+    135deg,
+    hsl(var(--brand-indigo)),
+    hsl(var(--brand-cyan))
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+
+  /* Mobile Performance Optimizations */
+
+  /* Respect user's motion preferences */
+}
+
+@utility minimal-wordmark {
+  /* Minimal Wordmark - Black/White theme with modern font */
+  font-family:
+    'JetBrains Mono', 'Fira Code', 'Monaco', 'Courier New', monospace;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: hsl(var(--foreground));
+  transition: all 0.3s ease;
+
+  /* Mobile Performance Optimizations */
+
+  /* Respect user's motion preferences */
+}
+
+@utility animate-stagger {
+  /* Staggered fade-in animation for lists */
+
+  /* Scale in animation */
+
+  /* Slide up animation */
+
+  /* Bounce in animation */
+
+  /* Number counter animation */
+  animation: stagger-fade-in 0.4s ease-out forwards;
+
+  /* Mobile Performance Optimizations */
+
+  /* Respect user's motion preferences */
+}
+
+@utility animate-scale-in {
+  animation: scale-in 0.3s ease-out;
+
+  /* Mobile Performance Optimizations */
+
+  /* Respect user's motion preferences */
+}
+
+@utility animate-slide-up {
+  animation: slide-up 0.5s ease-out;
+
+  /* Mobile Performance Optimizations */
+
+  /* Respect user's motion preferences */
+}
+
+@utility animate-bounce-in {
+  animation: bounce-in 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  /* Mobile Performance Optimizations */
+
+  /* Respect user's motion preferences */
+}
+
+@utility animate-number-change {
+  animation: number-change 0.3s ease-out;
+
+  /* Mobile Performance Optimizations */
+
+  /* Respect user's motion preferences */
+}
+
+@utility custom-scrollbar {
+  /* Focus Mode Custom Scrollbar */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: hsl(var(--muted) / 0.2);
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: hsl(var(--cool-blue) / 0.5);
+    border-radius: 3px;
+    transition: background 0.2s ease;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--cool-blue) / 0.8);
+  }
+
+  /* Mobile Performance Optimizations */
+
+  /* Respect user's motion preferences */
+}
+
+@utility animate-focus-glow-pulse {
+  /* Focus Mode Glow Pulse Animation */
+  animation: focus-glow-pulse 3s ease-in-out infinite;
+
+  /* Mobile Performance Optimizations */
+
+  /* Respect user's motion preferences */
+}
+
+@utility animate-theme-glow-pulse {
+  /* Theme switch glow animation */
+  animation: theme-glow-pulse 1.2s ease-in-out;
+
+  /* Mobile Performance Optimizations */
+
+  /* Respect user's motion preferences */
+}
+
+@utility animate-gradient {
+  /* Gradient animation for landing page */
+  background-size: 200% 200%;
+  animation: gradient 3s ease infinite;
+
+  /* Mobile Performance Optimizations */
+
+  /* Respect user's motion preferences */
+}
 
 /* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
 All colors MUST be HSL.
@@ -145,74 +566,11 @@ All colors MUST be HSL.
 
 @layer utilities {
 
-  /* TaskFlow-X Glass Card - Minimal with translucent backdrop */
-  .glass-card {
-    @apply bg-card/5 backdrop-blur-2xl border border-border;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3),
-      0 0 0 1px rgba(255, 255, 255, 0.02);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .glass-card:hover {
-    box-shadow: 0 12px 48px 0 rgba(0, 0, 0, 0.4),
-      0 0 0 1px rgba(255, 255, 255, 0.05),
-      0 0 40px hsl(var(--glow-blue) / 0.15);
-    transform: translateY(-2px);
-  }
-
-  /* TaskFlow-X Input - Clean underline with glowing cursor */
-  .glass-input {
-    @apply bg-transparent border-0 border-b-2 border-border;
-    transition: all 0.3s ease;
-    caret-color: hsl(var(--glow-blue));
-  }
-
-  .glass-input:focus {
-    border-bottom-color: hsl(var(--glow-blue));
-    box-shadow: 0 2px 0 0 hsl(var(--glow-blue) / 0.3),
-      0 0 20px hsl(var(--glow-blue) / 0.1);
-  }
-
-  /* Primary Glow - Indigo */
-  .glow-primary {
-    box-shadow: 0 0 20px hsl(var(--glow-primary) / 0.3),
-      0 0 40px hsl(var(--glow-primary) / 0.15),
-      0 0 60px hsl(var(--glow-primary) / 0.08);
-  }
-
-  /* Accent Glow - Cyan */
-  .glow-accent {
-    box-shadow: 0 0 20px hsl(var(--glow-accent) / 0.3),
-      0 0 40px hsl(var(--glow-accent) / 0.15),
-      0 0 60px hsl(var(--glow-accent) / 0.08);
-  }
-
-  /* Red Strike Animation for completed tasks */
-  .task-completed {
-    position: relative;
-    transition: opacity 0.3s ease;
-  }
-
-  .task-completed::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 50%;
-    width: 100%;
-    height: 2px;
-    background: hsl(var(--electric-red));
-    transform: scaleX(0);
-    transform-origin: left;
-    animation: strike-through 0.4s ease-out forwards;
-  }
-
   @keyframes strike-through {
     to {
       transform: scaleX(1);
     }
   }
-
-  /* Fade out animation */
   @keyframes fade-out {
     from {
       opacity: 1;
@@ -225,27 +583,6 @@ All colors MUST be HSL.
     }
   }
 
-  .animate-fade-out {
-    animation: fade-out 0.3s ease-out forwards;
-  }
-
-  /* Gradient Text - Indigo to Cyan */
-  .gradient-text {
-    background: linear-gradient(135deg, hsl(var(--brand-indigo)), hsl(var(--brand-cyan)));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  /* Minimal Wordmark - Black/White theme with modern font */
-  .minimal-wordmark {
-    font-family: 'JetBrains Mono', 'Fira Code', 'Monaco', 'Courier New', monospace;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    color: hsl(var(--foreground));
-    transition: all 0.3s ease;
-  }
-
   /* Smooth scroll behavior */
   html {
     scroll-behavior: smooth;
@@ -256,8 +593,6 @@ All colors MUST be HSL.
     outline: 2px solid hsl(var(--cool-blue));
     outline-offset: 2px;
   }
-
-  /* Staggered fade-in animation for lists */
   @keyframes stagger-fade-in {
     from {
       opacity: 0;
@@ -269,8 +604,6 @@ All colors MUST be HSL.
       transform: translateY(0);
     }
   }
-
-  /* Scale in animation */
   @keyframes scale-in {
     from {
       opacity: 0;
@@ -282,8 +615,6 @@ All colors MUST be HSL.
       transform: scale(1);
     }
   }
-
-  /* Slide up animation */
   @keyframes slide-up {
     from {
       opacity: 0;
@@ -295,8 +626,6 @@ All colors MUST be HSL.
       transform: translateY(0);
     }
   }
-
-  /* Bounce in animation */
   @keyframes bounce-in {
     0% {
       opacity: 0;
@@ -316,8 +645,6 @@ All colors MUST be HSL.
       transform: scale(1);
     }
   }
-
-  /* Number counter animation */
   @keyframes number-change {
     0% {
       transform: scale(1);
@@ -331,48 +658,6 @@ All colors MUST be HSL.
       transform: scale(1);
     }
   }
-
-  .animate-stagger {
-    animation: stagger-fade-in 0.4s ease-out forwards;
-  }
-
-  .animate-scale-in {
-    animation: scale-in 0.3s ease-out;
-  }
-
-  .animate-slide-up {
-    animation: slide-up 0.5s ease-out;
-  }
-
-  .animate-bounce-in {
-    animation: bounce-in 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  }
-
-  .animate-number-change {
-    animation: number-change 0.3s ease-out;
-  }
-
-  /* Focus Mode Custom Scrollbar */
-  .custom-scrollbar::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  .custom-scrollbar::-webkit-scrollbar-track {
-    background: hsl(var(--muted) / 0.2);
-    border-radius: 3px;
-  }
-
-  .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: hsl(var(--cool-blue) / 0.5);
-    border-radius: 3px;
-    transition: background 0.2s ease;
-  }
-
-  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: hsl(var(--cool-blue) / 0.8);
-  }
-
-  /* Focus Mode Glow Pulse Animation */
   @keyframes focus-glow-pulse {
 
     0%,
@@ -388,22 +673,6 @@ All colors MUST be HSL.
     }
   }
 
-  .animate-focus-glow-pulse {
-    animation: focus-glow-pulse 3s ease-in-out infinite;
-  }
-
-  /* Optimized filter transitions - reduced duration for snappier feel */
-  .glass-card,
-  .glass-input,
-  button,
-  input,
-  textarea {
-    transition-property: filter, backdrop-filter;
-    transition-duration: 0.3s;
-    /* Reduced from 0.5s */
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
   /* Theme Transition Animation */
   html {
     transition: background-color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
@@ -414,20 +683,6 @@ All colors MUST be HSL.
     transition: background-color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
       color 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   }
-
-  /* Smooth theme color transitions for all elements */
-  .glass-card,
-  .glass-input,
-  button,
-  input,
-  textarea {
-    transition: background-color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-      border-color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-      color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-      box-shadow 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  /* Theme switch glow animation */
   @keyframes theme-glow-pulse {
     0% {
       box-shadow: 0 0 20px hsl(var(--glow-red) / 0.4),
@@ -445,12 +700,6 @@ All colors MUST be HSL.
         0 0 40px hsl(var(--glow-red) / 0.2);
     }
   }
-
-  .animate-theme-glow-pulse {
-    animation: theme-glow-pulse 1.2s ease-in-out;
-  }
-
-  /* Gradient animation for landing page */
   @keyframes gradient {
 
     0%,
@@ -462,20 +711,7 @@ All colors MUST be HSL.
       background-position: 100% 50%;
     }
   }
-
-  .animate-gradient {
-    background-size: 200% 200%;
-    animation: gradient 3s ease infinite;
-  }
-
-  /* Mobile Performance Optimizations */
   @media (max-width: 767px) {
-
-    /* Disable ALL blur effects on mobile */
-    .glass-card {
-      backdrop-filter: none;
-      background: rgba(0, 0, 0, 0.8);
-    }
 
     /* Disable ALL animations on mobile */
     *,
@@ -491,8 +727,6 @@ All colors MUST be HSL.
       transition: opacity 0.2s ease !important;
     }
   }
-
-  /* Respect user's motion preferences */
   @media (prefers-reduced-motion: reduce) {
 
     *,

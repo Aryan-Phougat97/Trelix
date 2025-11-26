@@ -78,7 +78,7 @@ export const HabitCard = ({
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={onToggleComplete}
-            className="flex-shrink-0 mt-0.5"
+            className="shrink-0 mt-0.5"
           >
             <motion.div
               animate={{
@@ -197,7 +197,7 @@ export const HabitCard = ({
         </div>
 
         {/* Right side: Actions */}
-        <div className="flex items-start gap-1 flex-shrink-0">
+        <div className="flex items-start gap-1 shrink-0">
           <Button
             variant="ghost"
             size="icon"

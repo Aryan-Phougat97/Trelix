@@ -14,10 +14,10 @@ export const HeroSection = React.memo(() => {
   return (
     <section id="hero" className="relative min-h-screen flex items-center justify-center bg-black">
       {/* Subtle gradient background - no blur */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-black to-gray-900" />
+      <div className="absolute inset-0 bg-linear-to-b from-black via-black to-gray-900" />
 
       {/* Grid pattern - subtle */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:64px_64px]" />
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-size-[64px_64px]" />
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-6 text-center">
@@ -29,7 +29,7 @@ export const HeroSection = React.memo(() => {
           className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight mb-8"
         >
           <span className="block text-white">Your Personal</span>
-          <span className="block bg-gradient-to-r from-indigo-400 via-cyan-400 to-blue-400 bg-clip-text text-transparent">
+          <span className="block bg-linear-to-r from-indigo-400 via-cyan-400 to-blue-400 bg-clip-text text-transparent">
             Operating System
           </span>
         </motion.h1>

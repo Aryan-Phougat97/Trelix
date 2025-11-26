@@ -144,7 +144,7 @@ export const MoodEntry: React.FC<MoodEntryProps> = ({ todayEntry, onSave }) => {
                     ? 'border-primary bg-primary/10 shadow-lg shadow-primary/20'
                     : 'border-border/50 hover:border-foreground/30'
                 }
-                bg-gradient-to-br ${option.color}
+                bg-linear-to-br ${option.color}
               `}
             >
               {/* Emoji */}

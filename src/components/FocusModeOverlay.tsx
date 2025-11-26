@@ -132,7 +132,7 @@ export const FocusModeOverlay = ({
 
                       {/* Glow Effect */}
                       <motion.div
-                        className="absolute -inset-4 bg-gradient-to-r from-cool-blue/20 to-electric-red/20 rounded-xl -z-10 blur-2xl"
+                        className="absolute -inset-4 bg-linear-to-r from-cool-blue/20 to-electric-red/20 rounded-xl -z-10 blur-2xl"
                         animate={{
                           opacity: [0.3, 0.6, 0.3],
                         }}

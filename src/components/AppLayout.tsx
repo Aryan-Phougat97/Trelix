@@ -61,12 +61,12 @@ export const AppLayout = ({ children, showHeader = true, onSearch, onFilterClick
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Mobile Menu Button */}
-        <div className="lg:hidden fixed top-4 left-4 z-[60]">
+        <div className="lg:hidden fixed top-4 left-4 z-60">
           <Button
             variant="outline"
             size="icon"
             onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="h-12 w-12 rounded-full shadow-lg bg-card/90 backdrop-blur-sm border-border/50 hover:bg-card"
+            className="h-12 w-12 rounded-full shadow-lg bg-card/90 backdrop-blur-xs border-border/50 hover:bg-card"
           >
             <Menu className="h-6 w-6" />
           </Button>

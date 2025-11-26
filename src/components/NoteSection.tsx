@@ -29,7 +29,7 @@ export const NoteSection = ({ note, onSaveNote }: NoteSectionProps) => {
         <Button
           onClick={handleSave}
           size="sm"
-          variant={isSaved ? "outline" : "default"}
+          variant={isSaved ? "outline-solid" : "default"}
           className="gap-2"
         >
           <Save className="h-4 w-4" />

@@ -96,7 +96,7 @@ const Inspiration = () => {
     return (
         <div className="min-h-screen bg-background relative overflow-hidden">
             {/* Background pattern */}
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:100px_100px] pointer-events-none animate-fade-in" />
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-size-[100px_100px] pointer-events-none animate-fade-in" />
 
             <div className="relative z-10 container max-w-7xl mx-auto px-8 py-6">
                 {/* Header */}

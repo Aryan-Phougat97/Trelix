@@ -87,7 +87,7 @@ export const MusicPlayer = ({ snippet, onClose }: MusicPlayerProps) => {
             >
                 <div className="relative w-full bg-black/5 dark:bg-white/5 rounded-lg overflow-hidden">
                     {/* Header */}
-                    <div className="flex items-center justify-between p-3 bg-background/80 backdrop-blur-sm border-b border-border">
+                    <div className="flex items-center justify-between p-3 bg-background/80 backdrop-blur-xs border-b border-border">
                         <div className="flex items-center gap-2 flex-1 min-w-0">
                             <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
                             <span className="text-sm font-medium truncate">
@@ -157,7 +157,7 @@ export const MusicPlayer = ({ snippet, onClose }: MusicPlayerProps) => {
                     </div>
 
                     {/* Platform Info */}
-                    <div className="px-3 py-2 bg-background/80 backdrop-blur-sm border-t border-border">
+                    <div className="px-3 py-2 bg-background/80 backdrop-blur-xs border-t border-border">
                         <div className="flex items-center justify-between text-xs text-muted-foreground">
                             <span className="capitalize">
                                 Playing from {snippet.platform}

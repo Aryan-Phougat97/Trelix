@@ -100,17 +100,17 @@ export const HolographicText = ({ children, className = '', animate = true }: Ho
       transition={{ duration: 0.8 }}
     >
       {/* Glow behind text - reduced blur */}
-      <div className="absolute inset-0 blur-xl bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 opacity-30" />
+      <div className="absolute inset-0 blur-xl bg-linear-to-r from-cyan-500 via-blue-500 to-purple-500 opacity-30" />
 
       {/* Main text */}
-      <div className="relative bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
+      <div className="relative bg-linear-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
         {children}
       </div>
 
       {/* Animated scan line - only if motion is allowed */}
       {shouldAnimate && (
         <motion.div
-          className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-400/20 to-transparent"
+          className="absolute inset-0 bg-linear-to-b from-transparent via-cyan-400/20 to-transparent"
           initial={{ y: '-100%' }}
           animate={{ y: '200%' }}
           transition={{
@@ -176,7 +176,7 @@ export const NeonBorder = ({ children, color = 'cyan', className = '' }: NeonBor
   };
 
   return (
-    <div className={`relative p-[2px] bg-gradient-to-r ${colors[color]} rounded-2xl ${className}`}>
+    <div className={`relative p-[2px] bg-linear-to-r ${colors[color]} rounded-2xl ${className}`}>
       <div className="bg-black rounded-2xl">
         {children}
       </div>

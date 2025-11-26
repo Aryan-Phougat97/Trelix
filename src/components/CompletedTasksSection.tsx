@@ -65,7 +65,7 @@ export const CompletedTasksSection = ({ weekOf }: CompletedTasksSectionProps) =>
                 transition={{ duration: 0.2, delay: index * 0.05 }}
                 className="flex items-start gap-3 p-3 rounded-lg bg-background/50 border border-border/30 hover:border-primary/30 transition-all"
               >
-                <CheckCircle2 className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
+                <CheckCircle2 className="h-5 w-5 text-green-500 shrink-0 mt-0.5" />
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-foreground mb-1">{task.title}</p>
                   <div className="flex flex-wrap items-center gap-2 text-xs">
@@ -108,7 +108,7 @@ export const CompletedTasksSection = ({ weekOf }: CompletedTasksSectionProps) =>
                 transition={{ duration: 0.2, delay: index * 0.05 }}
                 className="flex items-start gap-3 p-3 rounded-lg bg-primary/5 border border-primary/20"
               >
-                <CheckCircle2 className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-foreground">{goal.title}</p>
                   {goal.description && (

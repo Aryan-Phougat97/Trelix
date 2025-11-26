@@ -61,7 +61,7 @@ const Review = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Background pattern */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:100px_100px] pointer-events-none animate-fade-in"></div>
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-size-[100px_100px] pointer-events-none animate-fade-in"></div>
 
       <div className="relative z-10">
         <div className="container max-w-7xl mx-auto px-8 py-6">
@@ -72,7 +72,7 @@ const Review = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-3 bg-gradient-to-r from-primary via-primary to-secondary bg-clip-text text-transparent">
+            <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-3 bg-linear-to-r from-primary via-primary to-secondary bg-clip-text text-transparent">
               Weekly Review
             </h1>
             <p className="text-muted-foreground text-lg">
@@ -214,7 +214,7 @@ const Review = () => {
               <Button
                 onClick={handleCompleteReview}
                 disabled={!!isCompleted}
-                className="px-8 py-6 text-lg bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-white hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                className="px-8 py-6 text-lg bg-linear-to-r from-primary to-secondary hover:opacity-90 text-white hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
               >
                 <PartyPopper className="h-5 w-5 mr-2" />
                 {isCompleted ? 'Review Completed ✓' : 'Complete Review'}

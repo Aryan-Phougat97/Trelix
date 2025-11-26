@@ -47,7 +47,7 @@ const Diary = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Background gradient effect */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--primary)/0.03)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--primary)/0.03)_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none animate-fade-in"></div>
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--primary)/0.03)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--primary)/0.03)_1px,transparent_1px)] bg-size-[4rem_4rem] pointer-events-none animate-fade-in"></div>
 
       <div className="relative z-10">
         <div className="container max-w-6xl mx-auto px-6 py-8">
@@ -99,7 +99,7 @@ const Diary = () => {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="flex items-center gap-2 text-xs text-muted-foreground bg-foreground/5 border border-border/50 rounded-lg px-4 py-3"
             >
-              <Info className="h-4 w-4 flex-shrink-0" />
+              <Info className="h-4 w-4 shrink-0" />
               <p>
                 Your diary entries are stored locally on your device and never leave your computer.
                 Complete privacy, always.

@@ -55,7 +55,7 @@ export const DiaryEntryCard: React.FC<DiaryEntryCardProps> = ({
           glass-card rounded-xl p-6 border border-border
           hover:border-foreground/20 transition-all duration-300
           hover:shadow-lg hover:shadow-primary/5
-          ${isBlurred ? 'blur-sm' : ''}
+          ${isBlurred ? 'blur-xs' : ''}
         `}
       >
         {/* Header */}

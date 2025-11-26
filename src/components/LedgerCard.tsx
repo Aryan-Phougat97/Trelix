@@ -79,7 +79,7 @@ export const LedgerCard = ({ entry, onEdit, onDelete }: LedgerCardProps) => {
         {/* Category Icon */}
         <motion.div
           whileHover={{ scale: 1.1, rotate: 5 }}
-          className="flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center text-2xl"
+          className="shrink-0 w-12 h-12 rounded-xl flex items-center justify-center text-2xl"
           style={{
             backgroundColor: `${categoryColor}20`,
             border: `2px solid ${categoryColor}40`,
@@ -101,9 +101,9 @@ export const LedgerCard = ({ entry, onEdit, onDelete }: LedgerCardProps) => {
                   {entry.description || entry.category}
                 </h3>
                 {entry.type === 'income' ? (
-                  <TrendingUp className="w-4 h-4 text-green-500 flex-shrink-0" />
+                  <TrendingUp className="w-4 h-4 text-green-500 shrink-0" />
                 ) : (
-                  <TrendingDown className="w-4 h-4 text-red-500 flex-shrink-0" />
+                  <TrendingDown className="w-4 h-4 text-red-500 shrink-0" />
                 )}
               </div>
 

@@ -236,7 +236,7 @@ export const AddInspirationModal = ({ open, onOpenChange, onSave, editingSnippet
                                     type="button"
                                     onClick={() => setMood(moodOption.value)}
                                     className={`p-3 rounded-lg border-2 transition-all ${mood === moodOption.value
-                                            ? `border-primary bg-gradient-to-r ${moodOption.color} text-white`
+                                            ? `border-primary bg-linear-to-r ${moodOption.color} text-white`
                                             : 'border-border hover:border-primary/50'
                                         }`}
                                 >

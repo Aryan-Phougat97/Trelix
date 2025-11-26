@@ -21,7 +21,7 @@ export const LifeOSSection = () => {
           className="max-w-4xl mx-auto"
         >
           <h2 className="text-5xl sm:text-6xl lg:text-8xl font-bold mb-8">
-            <span className="bg-gradient-to-r from-indigo-400 via-cyan-400 to-blue-400 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-indigo-400 via-cyan-400 to-blue-400 bg-clip-text text-transparent">
               Your Life OS
             </span>
           </h2>
@@ -55,9 +55,9 @@ export const FinalCTASection = () => {
   const navigate = useNavigate();
 
   return (
-    <section className="relative py-32 bg-gradient-to-b from-black to-gray-900">
+    <section className="relative py-32 bg-linear-to-b from-black to-gray-900">
       {/* Vertical line accent */}
-      <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-cyan-500/50 to-transparent" />
+      <div className="absolute left-1/2 top-0 bottom-0 w-px bg-linear-to-b from-transparent via-cyan-500/50 to-transparent" />
 
       <div className="container mx-auto px-6 relative z-10">
         <motion.div
@@ -77,7 +77,7 @@ export const FinalCTASection = () => {
           <h2 className="text-4xl sm:text-5xl lg:text-7xl font-bold mb-6">
             <span className="text-white">Start Your</span>
             <br />
-            <span className="bg-gradient-to-r from-indigo-400 via-cyan-400 to-blue-400 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-indigo-400 via-cyan-400 to-blue-400 bg-clip-text text-transparent">
               Personal OS
             </span>
           </h2>
@@ -131,13 +131,13 @@ export const FloatingNavbar = () => {
       transition={{ duration: 0.5 }}
       className="fixed top-4 sm:top-6 left-0 right-0 z-50 px-4 sm:px-6 lg:px-8"
     >
-      <div className="px-4 sm:px-6 py-3 bg-black/80 backdrop-blur-sm border border-white/10 rounded-full flex items-center justify-between gap-2 sm:gap-4">
+      <div className="px-4 sm:px-6 py-3 bg-black/80 backdrop-blur-xs border border-white/10 rounded-full flex items-center justify-between gap-2 sm:gap-4">
         {/* Logo Text - Clickable to scroll to hero */}
         <button
           onClick={scrollToHero}
-          className="hover:opacity-80 transition-opacity flex-shrink-0"
+          className="hover:opacity-80 transition-opacity shrink-0"
         >
-          <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">
+          <span className="text-lg sm:text-xl font-bold bg-linear-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">
             TRELIX
           </span>
         </button>
@@ -202,7 +202,7 @@ export const FloatingNavbar = () => {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
-          className="md:hidden mt-2 p-4 bg-black/90 backdrop-blur-sm border border-white/10 rounded-2xl"
+          className="md:hidden mt-2 p-4 bg-black/90 backdrop-blur-xs border border-white/10 rounded-2xl"
         >
           <div className="flex flex-col gap-3">
             <button

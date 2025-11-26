@@ -81,7 +81,7 @@ export const ThemeSwitcher: React.FC = () => {
                       whileTap={{ scale: 0.98 }}
                     >
                       {/* Theme Preview Swatch */}
-                      <div className="flex-shrink-0 mt-1">
+                      <div className="shrink-0 mt-1">
                         <div className="w-12 h-12 rounded-lg border border-border overflow-hidden shadow-md">
                           <div
                             className="h-1/3 w-full"
