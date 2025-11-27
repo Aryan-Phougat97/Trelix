@@ -56,7 +56,7 @@ const Review = () => {
   };
 
   const isThisWeek = selectedWeek === weekOptions[0].value;
-  const isCompleted = currentReview?.completedAt;
+  const isCompleted = !!currentReview?.completedAt;
 
   return (
     <div className="min-h-screen bg-background">
@@ -213,20 +213,20 @@ const Review = () => {
             >
               <Button
                 onClick={handleCompleteReview}
-                disabled={!!isCompleted}
-                className="px-8 py-6 text-lg bg-linear-to-r from-primary to-secondary hover:opacity-90 text-white hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                disabled={isCompleted}
+                className="px-8 py-6 text-lg bg-linear-to-r from-primary via-primary to-secondary hover:opacity-90 text-white hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
               >
                 <PartyPopper className="h-5 w-5 mr-2" />
                 {isCompleted ? 'Review Completed ✓' : 'Complete Review'}
               </Button>
 
-              {isCompleted && (
+              {isCompleted && currentReview?.completedAt && (
                 <motion.p
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   className="text-sm text-muted-foreground italic"
                 >
-                  Completed on {new Date(currentReview?.completedAt!).toLocaleDateString()}
+                  Completed on {new Date(currentReview.completedAt).toLocaleDateString()}
                 </motion.p>
               )}
             </motion.div>

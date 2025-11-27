@@ -31,14 +31,6 @@ export const useInspiration = () => {
         }
     }, []);
 
-    // Save to LocalStorage whenever snippets change
-    useEffect(() => {
-        if (snippets.length > 0) {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(snippets));
-            updateStats();
-        }
-    }, [snippets]);
-
     // Update stats
     const updateStats = useCallback(() => {
         const totalPlays = snippets.reduce((sum, s) => sum + s.playCount, 0);
@@ -74,6 +66,14 @@ export const useInspiration = () => {
         setStats(newStats);
         localStorage.setItem(STATS_KEY, JSON.stringify(newStats));
     }, [snippets]);
+
+    // Save to LocalStorage whenever snippets change
+    useEffect(() => {
+        if (snippets.length > 0) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(snippets));
+            updateStats();
+        }
+    }, [snippets, updateStats]);
 
     // Add new snippet
     const addSnippet = useCallback((snippet: Omit<InspirationSnippet, 'id' | 'createdAt' | 'playCount'>) => {

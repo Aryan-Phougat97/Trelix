@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Plus, Target, TrendingUp, Calendar, Zap } from 'lucide-react';
+import { Plus, Target, TrendingUp, Calendar, Zap, LucideProps } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { GoalCard } from './GoalCard';
 import { GoalModal } from './GoalModal';
@@ -23,7 +23,7 @@ const emptyStateMessages: Record<GoalCategory, string> = {
   weekly: 'Sharpen your weekly focus.',
 };
 
-const categoryIcons: Record<GoalCategory, React.ComponentType<any>> = {
+const categoryIcons: Record<GoalCategory, React.ComponentType<LucideProps>> = {
   yearly: Target,
   halfYearly: TrendingUp,
   monthly: Calendar,

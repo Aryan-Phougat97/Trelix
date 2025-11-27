@@ -18,7 +18,9 @@ import {
   Tooltip,
   ResponsiveContainer,
   Cell,
+  TooltipProps
 } from 'recharts';
+import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
 import { useTheme } from '@/contexts/ThemeContext';
 
 interface MoodInsightsProps {
@@ -268,7 +270,7 @@ export const MoodInsights: React.FC<MoodInsightsProps> = ({
                     backdropFilter: 'blur(10px)',
                   }}
                   labelStyle={{ color: 'hsl(var(--foreground))' }}
-                  formatter={(value: any, name: string, props: any) => [
+                  formatter={(value: ValueType, name: NameType, props: { payload: MoodFrequency }) => [
                     `${value} times (${props.payload.percentage}%)`,
                     props.payload.mood,
                   ]}
