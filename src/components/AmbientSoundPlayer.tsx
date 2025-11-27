@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Volume2, VolumeX, Waves, Droplets, Wind, Coffee, Radio } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -20,7 +20,74 @@ const soundOptions: SoundOption[] = [
   { id: 'whitenoise', name: 'White Noise', icon: <Radio className="h-4 w-4" /> },
 ];
 
-// Using Web Audio API to generate ambient sounds
+const generatePinkNoise = (audioContext: AudioContext, bufferSize: number) => {
+  const buffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
+  const output = buffer.getChannelData(0);
+
+  let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
+  for (let i = 0; i < bufferSize; i++) {
+    const white = Math.random() * 2 - 1;
+    b0 = 0.99886 * b0 + white * 0.0555179;
+    b1 = 0.99332 * b1 + white * 0.0750759;
+    b2 = 0.96900 * b2 + white * 0.1538520;
+    b3 = 0.86650 * b3 + white * 0.3104856;
+    b4 = 0.55000 * b4 + white * 0.5329522;
+    b5 = -0.7616 * b5 - white * 0.0168980;
+    output[i] = (b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362) * 0.11;
+    b6 = white * 0.115926;
+  }
+  return buffer;
+};
+
+const generateBrownNoise = (audioContext: AudioContext, bufferSize: number) => {
+  const buffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
+  const output = buffer.getChannelData(0);
+
+  let lastOut = 0;
+  for (let i = 0; i < bufferSize; i++) {
+    const white = Math.random() * 2 - 1;
+    output[i] = (lastOut + (0.02 * white)) / 1.02;
+    lastOut = output[i];
+    output[i] *= 3.5; 
+  }
+  return buffer;
+};
+
+const generateWhiteNoise = (audioContext: AudioContext, bufferSize: number) => {
+  const buffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
+  const output = buffer.getChannelData(0);
+
+  for (let i = 0; i < bufferSize; i++) {
+    output[i] = Math.random() * 2 - 1;
+  }
+  return buffer;
+};
+
+const generateFilteredNoise = (audioContext: AudioContext, bufferSize: number, lowFreq: number, highFreq: number) => {
+  const buffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
+  const output = buffer.getChannelData(0);
+
+  // Generate white noise first
+  for (let i = 0; i < bufferSize; i++) {
+    output[i] = Math.random() * 2 - 1;
+  }
+
+  // Simple low-pass filter for ocean-like sound
+  const filterStrength = 0.95;
+  let lastValue = 0;
+  for (let i = 0; i < bufferSize; i++) {
+    output[i] = filterStrength * lastValue + (1 - filterStrength) * output[i];
+    lastValue = output[i];
+  }
+
+  return buffer;
+};
+
+// Define type for window with webkitAudioContext
+interface WindowWithWebkitAudio extends Window {
+  webkitAudioContext?: typeof AudioContext;
+}
+
 export const AmbientSoundPlayer = () => {
   const { isSoundEnabled, toggleSound, isFocusMode } = useFocusMode();
   const audioContextRef = useRef<AudioContext | null>(null);
@@ -31,92 +98,24 @@ export const AmbientSoundPlayer = () => {
   const [showSoundMenu, setShowSoundMenu] = useState(false);
   const [selectedSound, setSelectedSound] = useState<SoundType>('rain');
 
-  useEffect(() => {
-    if (!isFocusMode) return;
-
-    // Initialize Audio Context
-    if (!audioContextRef.current) {
-      audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
-      gainNodeRef.current = audioContextRef.current.createGain();
-      gainNodeRef.current.connect(audioContextRef.current.destination);
-      gainNodeRef.current.gain.value = 0.15; // Low volume for ambient sound
+  const stopAmbientSound = useCallback(() => {
+    if (sourceRef.current) {
+      sourceRef.current.stop();
+      sourceRef.current.disconnect();
+      sourceRef.current = null;
     }
-
-    if (isSoundEnabled) {
-      startAmbientSound(selectedSound);
-    } else {
-      stopAmbientSound();
+    if (oscillatorRef.current) {
+      oscillatorRef.current.stop();
+      oscillatorRef.current.disconnect();
+      oscillatorRef.current = null;
     }
-
-    return () => {
-      stopAmbientSound();
-    };
-  }, [isSoundEnabled, isFocusMode, selectedSound]);
-
-  const generatePinkNoise = (audioContext: AudioContext, bufferSize: number) => {
-    const buffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
-    const output = buffer.getChannelData(0);
-
-    let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
-    for (let i = 0; i < bufferSize; i++) {
-      const white = Math.random() * 2 - 1;
-      b0 = 0.99886 * b0 + white * 0.0555179;
-      b1 = 0.99332 * b1 + white * 0.0750759;
-      b2 = 0.96900 * b2 + white * 0.1538520;
-      b3 = 0.86650 * b3 + white * 0.3104856;
-      b4 = 0.55000 * b4 + white * 0.5329522;
-      b5 = -0.7616 * b5 - white * 0.0168980;
-      output[i] = (b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362) * 0.11;
-      b6 = white * 0.115926;
+    // Reset gain
+    if (gainNodeRef.current) {
+      gainNodeRef.current.gain.value = 0.15;
     }
-    return buffer;
-  };
+  }, []);
 
-  const generateBrownNoise = (audioContext: AudioContext, bufferSize: number) => {
-    const buffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
-    const output = buffer.getChannelData(0);
-
-    let lastOut = 0;
-    for (let i = 0; i < bufferSize; i++) {
-      const white = Math.random() * 2 - 1;
-      output[i] = (lastOut + (0.02 * white)) / 1.02;
-      lastOut = output[i];
-      output[i] *= 3.5; // Amplify
-    }
-    return buffer;
-  };
-
-  const generateWhiteNoise = (audioContext: AudioContext, bufferSize: number) => {
-    const buffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
-    const output = buffer.getChannelData(0);
-
-    for (let i = 0; i < bufferSize; i++) {
-      output[i] = Math.random() * 2 - 1;
-    }
-    return buffer;
-  };
-
-  const generateFilteredNoise = (audioContext: AudioContext, bufferSize: number, lowFreq: number, highFreq: number) => {
-    const buffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
-    const output = buffer.getChannelData(0);
-
-    // Generate white noise first
-    for (let i = 0; i < bufferSize; i++) {
-      output[i] = Math.random() * 2 - 1;
-    }
-
-    // Simple low-pass filter for ocean-like sound
-    const filterStrength = 0.95;
-    let lastValue = 0;
-    for (let i = 0; i < bufferSize; i++) {
-      output[i] = filterStrength * lastValue + (1 - filterStrength) * output[i];
-      lastValue = output[i];
-    }
-
-    return buffer;
-  };
-
-  const startAmbientSound = (soundType: SoundType) => {
+  const startAmbientSound = useCallback((soundType: SoundType) => {
     if (!audioContextRef.current || !gainNodeRef.current) return;
 
     stopAmbientSound(); // Stop any existing sound
@@ -130,7 +129,7 @@ export const AmbientSoundPlayer = () => {
       case 'rain':
         buffer = generatePinkNoise(audioContext, bufferSize);
         break;
-      case 'ocean':
+      case 'ocean': {
         buffer = generateFilteredNoise(audioContext, bufferSize, 20, 200);
         // Add low frequency oscillation for wave effect
         oscillatorRef.current = audioContext.createOscillator();
@@ -142,6 +141,7 @@ export const AmbientSoundPlayer = () => {
         oscGain.connect(gainNodeRef.current);
         oscillatorRef.current.start();
         break;
+      }
       case 'forest':
         buffer = generatePinkNoise(audioContext, bufferSize);
         // Reduce volume for forest ambience
@@ -165,24 +165,32 @@ export const AmbientSoundPlayer = () => {
     sourceRef.current.loop = true;
     sourceRef.current.connect(gainNodeRef.current);
     sourceRef.current.start();
-  };
+  }, [stopAmbientSound]);
 
-  const stopAmbientSound = () => {
-    if (sourceRef.current) {
-      sourceRef.current.stop();
-      sourceRef.current.disconnect();
-      sourceRef.current = null;
+  useEffect(() => {
+    if (!isFocusMode) return;
+
+    // Initialize Audio Context
+    if (!audioContextRef.current) {
+      const AudioContextClass = window.AudioContext || (window as unknown as WindowWithWebkitAudio).webkitAudioContext;
+      if (AudioContextClass) {
+        audioContextRef.current = new AudioContextClass();
+        gainNodeRef.current = audioContextRef.current.createGain();
+        gainNodeRef.current.connect(audioContextRef.current.destination);
+        gainNodeRef.current.gain.value = 0.15; // Low volume for ambient sound
+      }
     }
-    if (oscillatorRef.current) {
-      oscillatorRef.current.stop();
-      oscillatorRef.current.disconnect();
-      oscillatorRef.current = null;
+
+    if (isSoundEnabled) {
+      startAmbientSound(selectedSound);
+    } else {
+      stopAmbientSound();
     }
-    // Reset gain
-    if (gainNodeRef.current) {
-      gainNodeRef.current.gain.value = 0.15;
-    }
-  };
+
+    return () => {
+      stopAmbientSound();
+    };
+  }, [isSoundEnabled, isFocusMode, selectedSound, startAmbientSound, stopAmbientSound]);
 
   const handleSoundChange = (soundType: SoundType) => {
     setSelectedSound(soundType);

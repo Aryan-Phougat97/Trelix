@@ -14,7 +14,9 @@ import {
   Tooltip,
   ResponsiveContainer,
   Legend,
+  TooltipProps,
 } from 'recharts';
+import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
 import { CategoryBreakdown, WeeklySummary } from '../hooks/useLedger';
 
 interface LedgerChartsProps {
@@ -33,46 +35,6 @@ export const LedgerCharts = ({
   // Theme-aware colors
   const getThemeColors = () => {
     switch (theme) {
-      case 'cyber':
-        return {
-          primary: '#3b82f6',
-          secondary: '#ef4444',
-          grid: '#ffffff10',
-          text: '#ffffff',
-          mutedText: '#ffffff60',
-        };
-      case 'mirage':
-        return {
-          primary: '#a78bfa',
-          secondary: '#f472b6',
-          grid: '#ffffff10',
-          text: '#ffffff',
-          mutedText: '#ffffff60',
-        };
-      case 'zen':
-        return {
-          primary: '#10b981',
-          secondary: '#f59e0b',
-          grid: '#00000015',
-          text: '#1a1a1a',
-          mutedText: '#1a1a1a60',
-        };
-      case 'solar':
-        return {
-          primary: '#f59e0b',
-          secondary: '#ef4444',
-          grid: '#ffffff10',
-          text: '#ffffff',
-          mutedText: '#ffffff60',
-        };
-      case 'calm':
-        return {
-          primary: '#6ee7b7',
-          secondary: '#fca5a5',
-          grid: '#ffffff10',
-          text: '#ffffff',
-          mutedText: '#ffffff60',
-        };
       case 'light':
         return {
           primary: '#3b82f6',
@@ -81,6 +43,7 @@ export const LedgerCharts = ({
           text: '#1a1a1a',
           mutedText: '#1a1a1a60',
         };
+      case 'dark':
       default:
         return {
           primary: '#3b82f6',
@@ -107,7 +70,7 @@ export const LedgerCharts = ({
   ];
 
   // Custom tooltip
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  const CustomTooltip = ({ active, payload, label }: TooltipProps<ValueType, NameType>) => {
     if (active && payload && payload.length) {
       return (
         <div
@@ -120,13 +83,13 @@ export const LedgerCharts = ({
           <p className="text-sm font-semibold mb-1" style={{ color: colors.text }}>
             {label}
           </p>
-          {payload.map((entry: any, index: number) => (
+          {payload.map((entry, index) => (
             <p
               key={index}
               className="text-xs"
               style={{ color: entry.color || colors.primary }}
             >
-              {entry.name}: ₹{entry.value?.toLocaleString('en-IN')}
+              {entry.name}: ₹{typeof entry.value === 'number' ? entry.value.toLocaleString('en-IN') : entry.value}
             </p>
           ))}
         </div>
@@ -179,18 +142,7 @@ export const LedgerCharts = ({
                     <Cell
                       key={`cell-${index}`}
                       fill={categoryColors[index % categoryColors.length]}
-                      stroke={
-                        theme === 'cyber' || theme === 'mirage'
-                          ? categoryColors[index % categoryColors.length]
-                          : 'none'
-                      }
-                      strokeWidth={theme === 'cyber' || theme === 'mirage' ? 1 : 0}
-                      style={{
-                        filter:
-                          theme === 'cyber' || theme === 'mirage'
-                            ? `drop-shadow(0 0 8px ${categoryColors[index % categoryColors.length]}40)`
-                            : 'none',
-                      }}
+                      stroke="none"
                     />
                   ))}
                 </Pie>
@@ -252,12 +204,6 @@ export const LedgerCharts = ({
                     stroke: colors.secondary,
                     strokeWidth: 2,
                   }}
-                  style={{
-                    filter:
-                      theme === 'cyber' || theme === 'mirage'
-                        ? `drop-shadow(0 0 6px ${colors.secondary}60)`
-                        : 'none',
-                  }}
                 />
                 <Line
                   type="monotone"
@@ -271,12 +217,6 @@ export const LedgerCharts = ({
                     fill: colors.primary,
                     stroke: colors.primary,
                     strokeWidth: 2,
-                  }}
-                  style={{
-                    filter:
-                      theme === 'cyber' || theme === 'mirage'
-                        ? `drop-shadow(0 0 6px ${colors.primary}60)`
-                        : 'none',
                   }}
                 />
               </LineChart>
@@ -321,24 +261,12 @@ export const LedgerCharts = ({
                   name="Income"
                   fill={colors.primary}
                   radius={[8, 8, 0, 0]}
-                  style={{
-                    filter:
-                      theme === 'cyber' || theme === 'mirage'
-                        ? `drop-shadow(0 0 8px ${colors.primary}40)`
-                        : 'none',
-                  }}
                 />
                 <Bar
                   dataKey="totalExpense"
                   name="Expense"
                   fill={colors.secondary}
                   radius={[8, 8, 0, 0]}
-                  style={{
-                    filter:
-                      theme === 'cyber' || theme === 'mirage'
-                        ? `drop-shadow(0 0 8px ${colors.secondary}40)`
-                        : 'none',
-                  }}
                 />
               </BarChart>
             </ResponsiveContainer>

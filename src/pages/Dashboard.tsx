@@ -15,7 +15,9 @@ import {
   Tooltip,
   ResponsiveContainer,
   Legend,
+  TooltipProps
 } from 'recharts';
+import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
 import {
   TrendingUp,
   Clock,
@@ -97,12 +99,12 @@ const Dashboard = () => {
   ];
 
   // Custom tooltip for charts
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  const CustomTooltip = ({ active, payload, label }: TooltipProps<ValueType, NameType>) => {
     if (active && payload && payload.length) {
       return (
         <div className="glass-card rounded-lg p-3 shadow-lg border border-border/50">
           <p className="font-semibold text-sm mb-2">{label}</p>
-          {payload.map((entry: any, index: number) => (
+          {payload.map((entry, index) => (
             <p key={index} className="text-xs" style={{ color: entry.color }}>
               {entry.name}: {entry.value}
             </p>

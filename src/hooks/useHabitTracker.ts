@@ -71,7 +71,7 @@ const calculateStreak = (logs: HabitLog[], frequency: HabitFrequency): number =>
   today.setHours(0, 0, 0, 0);
 
   if (frequency === 'daily') {
-    let currentDate = new Date(today);
+    const currentDate = new Date(today);
 
     // Check if habit was completed today or yesterday
     const lastLog = new Date(completedLogs[0].date);

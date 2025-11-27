@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useEffect, useState, useMemo, ReactNode } from 'react';
 import { startOfWeek, endOfWeek, format, parseISO, isWithinInterval } from 'date-fns';
 
 export interface Task {
@@ -53,6 +53,7 @@ interface AnalyticsContextType {
 
 const AnalyticsContext = createContext<AnalyticsContextType | undefined>(undefined);
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAnalytics = () => {
   const context = useContext(AnalyticsContext);
   if (!context) {
@@ -100,7 +101,7 @@ export const AnalyticsProvider: React.FC<AnalyticsProviderProps> = ({ children }
     localStorage.setItem(STORAGE_KEYS.NOTE_ACTIVITIES, JSON.stringify(noteActivities));
   }, [noteActivities]);
 
-  const calculateWeeklyStats = (): WeeklyStats => {
+  const weeklyStats = useMemo((): WeeklyStats => {
     const now = new Date();
     const weekStart = startOfWeek(now, { weekStartsOn: 1 }); // Monday
     const weekEnd = endOfWeek(now, { weekStartsOn: 1 });
@@ -182,13 +183,6 @@ export const AnalyticsProvider: React.FC<AnalyticsProviderProps> = ({ children }
       topProductivityDay: topDay?.date || 'N/A',
       dailyMetrics,
     };
-  };
-
-  const [weeklyStats, setWeeklyStats] = useState<WeeklyStats>(calculateWeeklyStats);
-
-  // Recalculate stats when data changes
-  useEffect(() => {
-    setWeeklyStats(calculateWeeklyStats());
   }, [tasks, focusSessions, noteActivities]);
 
   const recordTaskCompletion = (taskId: string, taskData: Omit<Task, 'id'>) => {
