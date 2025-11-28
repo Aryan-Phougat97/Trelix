@@ -166,11 +166,11 @@ export const AddInspirationModal = ({ open, onOpenChange, onSave, editingSnippet
                             placeholder="https://www.youtube.com/watch?v=... or https://open.spotify.com/track/..."
                             value={url}
                             onChange={(e) => handleURLChange(e.target.value)}
-                            className={urlError ? 'border-red-500' : ''}
-                        />
-                        {urlError && (
-                            <p className="text-sm text-red-500">{urlError}</p>
-                        )}
+                            className={urlError ? 'border-destructive' : ''}
+                          />
+                          {urlError && (
+                            <p className="text-sm text-destructive">{urlError}</p>
+                          )}
                         <p className="text-xs text-muted-foreground">
                             Supports YouTube, Spotify, and SoundCloud
                         </p>
@@ -236,7 +236,7 @@ export const AddInspirationModal = ({ open, onOpenChange, onSave, editingSnippet
                                     type="button"
                                     onClick={() => setMood(moodOption.value)}
                                     className={`p-3 rounded-lg border-2 transition-all ${mood === moodOption.value
-                                            ? `border-primary bg-linear-to-r ${moodOption.color} text-white`
+                                            ? `border-primary bg-linear-to-r ${moodOption.color} text-foreground`
                                             : 'border-border hover:border-primary/50'
                                         }`}
                                 >

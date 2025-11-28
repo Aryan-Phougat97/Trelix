@@ -94,7 +94,7 @@ export const GoalSection = ({
           </div>
           <Button
             onClick={handleAddNew}
-            className="gap-2 bg-cool-blue hover:bg-cool-blue/90 text-white hover:scale-105 transition-all duration-200"
+            className="gap-2 bg-primary hover:bg-primary/90 text-primary-foreground hover:scale-105 transition-all duration-200"
             size="sm"
           >
             <Plus className="h-4 w-4" />

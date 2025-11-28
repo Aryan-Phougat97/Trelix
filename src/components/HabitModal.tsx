@@ -220,7 +220,7 @@ export const HabitModal = ({
                           <motion.svg
                             initial={{ scale: 0 }}
                             animate={{ scale: 1 }}
-                            className="w-6 h-6 text-white absolute inset-0 m-auto"
+                            className="w-6 h-6 text-foreground absolute inset-0 m-auto"
                             fill="none"
                             viewBox="0 0 24 24"
                             stroke="currentColor"

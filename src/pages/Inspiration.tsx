@@ -153,17 +153,17 @@ const Inspiration = () => {
                                 <p className="text-sm text-muted-foreground">Total Inspirations</p>
                             </div>
                             <div>
-                                <p className="text-2xl font-bold text-purple-500">{stats.totalPlays}</p>
+                                <p className="text-2xl font-bold text-brand-purple">{stats.totalPlays}</p>
                                 <p className="text-sm text-muted-foreground">Total Plays</p>
                             </div>
                             <div>
-                                <p className="text-2xl font-bold text-cyan-500">
+                                <p className="text-2xl font-bold text-brand-cyan">
                                     {stats.mostPlayedMood ? getMoodEmoji(stats.mostPlayedMood) : '-'}
                                 </p>
                                 <p className="text-sm text-muted-foreground">Most Played Mood</p>
                             </div>
                             <div>
-                                <p className="text-2xl font-bold text-green-500">{stats.recentlyAdded.length}</p>
+                                <p className="text-2xl font-bold text-primary">{stats.recentlyAdded.length}</p>
                                 <p className="text-sm text-muted-foreground">Recently Added</p>
                             </div>
                         </div>

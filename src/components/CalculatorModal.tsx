@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Copy, Plus, History, Trash2 } from 'lucide-react';
 import { Button } from './ui/button';
-import { useTheme } from '../contexts/ThemeContext';
 import { CalculatorHistory } from '../hooks/useLedger';
 import { toast } from 'sonner';
 
@@ -21,8 +20,6 @@ export const CalculatorModal = ({
   history,
   onClearHistory,
 }: CalculatorModalProps) => {
-  const { theme } = useTheme();
-
   const [display, setDisplay] = useState('0');
   const [expression, setExpression] = useState('');
   const [lastResult, setLastResult] = useState<number | null>(null);
@@ -36,25 +33,6 @@ export const CalculatorModal = ({
       setShowHistory(false);
     }
   }, [isOpen]);
-
-  const getThemeColor = () => {
-    switch (theme) {
-      case 'cyber':
-        return '#3b82f6';
-      case 'mirage':
-        return '#a78bfa';
-      case 'zen':
-        return '#10b981';
-      case 'solar':
-        return '#f59e0b';
-      case 'calm':
-        return '#6ee7b7';
-      default:
-        return '#3b82f6';
-    }
-  };
-
-  const themeColor = getThemeColor();
 
   const handleNumber = (num: string) => {
     if (display === '0' || lastResult !== null) {
@@ -170,7 +148,7 @@ export const CalculatorModal = ({
       case 'operator':
         return `${baseStyle} bg-primary/20 hover:bg-primary/30 border-primary/40 text-primary`;
       case 'equals':
-        return `${baseStyle} border-2`;
+        return `${baseStyle} border-2 border-primary bg-primary/20 text-primary hover:bg-primary/30`;
       case 'secondary':
         return `${baseStyle} bg-muted/50 hover:bg-muted border-border`;
       default:
@@ -200,14 +178,7 @@ export const CalculatorModal = ({
             className="fixed inset-0 z-50 flex items-center justify-center p-4"
           >
             <div
-              className="glass-card rounded-2xl p-6 w-full max-w-md border-2"
-              style={{
-                borderColor: `${themeColor}40`,
-                boxShadow:
-                  theme === 'cyber' || theme === 'mirage'
-                    ? `0 0 40px ${themeColor}20, 0 20px 60px rgba(0,0,0,0.3)`
-                    : '0 20px 60px rgba(0,0,0,0.3)',
-              }}
+              className="glass-card rounded-2xl p-6 w-full max-w-md border-2 border-primary/40 shadow-2xl"
             >
               {/* Header */}
               <div className="flex items-center justify-between mb-4">
@@ -273,16 +244,7 @@ export const CalculatorModal = ({
 
               {/* Display */}
               <div
-                className="mb-4 p-4 rounded-xl border-2"
-                style={{
-                  borderColor: `${themeColor}40`,
-                  backgroundColor:
-                    theme === 'light' ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.2)',
-                  boxShadow:
-                    theme === 'cyber' || theme === 'mirage'
-                      ? `inset 0 0 20px ${themeColor}10`
-                      : undefined,
-                }}
+                className="mb-4 p-4 rounded-xl border-2 border-primary/40 bg-muted/20 shadow-inner"
               >
                 {/* Expression */}
                 <div className="text-sm text-muted-foreground mb-1 h-6 truncate">
@@ -290,14 +252,7 @@ export const CalculatorModal = ({
                 </div>
                 {/* Display */}
                 <div
-                  className="text-3xl font-bold text-right truncate"
-                  style={{
-                    color: themeColor,
-                    textShadow:
-                      theme === 'cyber' || theme === 'mirage'
-                        ? `0 0 10px ${themeColor}60`
-                        : undefined,
-                  }}
+                  className="text-3xl font-bold text-right truncate text-primary"
                 >
                   {display}
                 </div>
@@ -312,19 +267,6 @@ export const CalculatorModal = ({
                     whileTap={{ scale: 0.95 }}
                     onClick={btn.action}
                     className={getButtonStyle(btn.variant)}
-                    style={
-                      btn.variant === 'equals'
-                        ? {
-                            borderColor: themeColor,
-                            backgroundColor: `${themeColor}20`,
-                            color: themeColor,
-                            boxShadow:
-                              theme === 'cyber' || theme === 'mirage'
-                                ? `0 0 15px ${themeColor}30`
-                                : undefined,
-                          }
-                        : undefined
-                    }
                   >
                     {btn.label}
                   </motion.button>
@@ -346,16 +288,7 @@ export const CalculatorModal = ({
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={handleAddExpense}
-                  className="flex-1 py-3 rounded-lg border-2 transition-all flex items-center justify-center gap-2 font-medium"
-                  style={{
-                    borderColor: themeColor,
-                    backgroundColor: `${themeColor}20`,
-                    color: themeColor,
-                    boxShadow:
-                      theme === 'cyber' || theme === 'mirage'
-                        ? `0 0 15px ${themeColor}30`
-                        : undefined,
-                  }}
+                  className="flex-1 py-3 rounded-lg border-2 border-primary bg-primary/20 text-primary hover:bg-primary/30 transition-all flex items-center justify-center gap-2 font-medium"
                 >
                   <Plus className="w-4 h-4" />
                   Add as Expense

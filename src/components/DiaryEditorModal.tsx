@@ -16,10 +16,10 @@ interface DiaryEditorModalProps {
 }
 
 const moods: Array<{ value: DiaryEntry['mood']; icon: React.ReactNode; label: string; color: string }> = [
-  { value: 'excellent', icon: <Heart className="h-5 w-5" />, label: 'Excellent', color: 'text-green-400' },
-  { value: 'good', icon: <Smile className="h-5 w-5" />, label: 'Good', color: 'text-blue-400' },
-  { value: 'neutral', icon: <Meh className="h-5 w-5" />, label: 'Neutral', color: 'text-yellow-400' },
-  { value: 'poor', icon: <Frown className="h-5 w-5" />, label: 'Poor', color: 'text-red-400' },
+  { value: 'excellent', icon: <Heart className="h-5 w-5" />, label: 'Excellent', color: 'text-primary' },
+  { value: 'good', icon: <Smile className="h-5 w-5" />, label: 'Good', color: 'text-secondary' },
+  { value: 'neutral', icon: <Meh className="h-5 w-5" />, label: 'Neutral', color: 'text-muted-foreground' },
+  { value: 'poor', icon: <Frown className="h-5 w-5" />, label: 'Poor', color: 'text-destructive' },
 ];
 
 export const DiaryEditorModal: React.FC<DiaryEditorModalProps> = ({
@@ -170,7 +170,7 @@ export const DiaryEditorModal: React.FC<DiaryEditorModalProps> = ({
                     className="min-h-[300px] bg-background/50 border-border focus:border-primary resize-none text-[15px] leading-relaxed transition-all duration-300 focus:shadow-lg focus:shadow-primary/10"
                     style={{
                       fontFamily: "'Inter', 'Poppins', sans-serif",
-                      caretColor: 'hsl(var(--primary))',
+                      caretColor: 'oklch(var(--primary))',
                     }}
                     autoFocus
                   />
@@ -178,7 +178,7 @@ export const DiaryEditorModal: React.FC<DiaryEditorModalProps> = ({
 
                 {/* Tags */}
                 <div>
-                  <label className="text-sm font-semibold text-foreground mb-3 block flex items-center gap-2">
+                  <label className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
                     <TagIcon className="h-4 w-4" />
                     Tags
                   </label>

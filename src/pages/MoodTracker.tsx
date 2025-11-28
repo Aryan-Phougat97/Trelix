@@ -21,7 +21,7 @@ export const MoodTracker = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Background gradient effect */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border))_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border))_1px,transparent_1px)] bg-size-[4rem_4rem] pointer-events-none animate-fade-in opacity-20"></div>
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,oklch(var(--border))_1px,transparent_1px),linear-gradient(to_bottom,oklch(var(--border))_1px,transparent_1px)] bg-size-[4rem_4rem] pointer-events-none animate-fade-in opacity-20"></div>
 
       <div className="relative z-10">
         <div className="container max-w-7xl mx-auto px-6 py-8">

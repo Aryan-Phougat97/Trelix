@@ -83,24 +83,7 @@ export const AddEntryModal = ({
     onClose();
   };
 
-  const getThemeColor = () => {
-    switch (theme) {
-      case 'cyber':
-        return type === 'income' ? '#10b981' : '#ef4444';
-      case 'mirage':
-        return type === 'income' ? '#a78bfa' : '#f472b6';
-      case 'zen':
-        return type === 'income' ? '#10b981' : '#f59e0b';
-      case 'solar':
-        return type === 'income' ? '#10b981' : '#ef4444';
-      case 'calm':
-        return type === 'income' ? '#6ee7b7' : '#fca5a5';
-      default:
-        return type === 'income' ? '#10b981' : '#ef4444';
-    }
-  };
-
-  const themeColor = getThemeColor();
+  const themeColor = type === 'income' ? 'oklch(var(--primary))' : 'oklch(var(--destructive))';
 
   return (
     <AnimatePresence>
@@ -124,14 +107,9 @@ export const AddEntryModal = ({
             className="fixed inset-0 z-50 flex items-center justify-center p-4"
           >
             <div
-              className="glass-card rounded-2xl p-6 w-full max-w-lg border-2"
-              style={{
-                borderColor: `${themeColor}40`,
-                boxShadow:
-                  theme === 'cyber' || theme === 'mirage'
-                    ? `0 0 40px ${themeColor}20, 0 20px 60px rgba(0,0,0,0.3)`
-                    : '0 20px 60px rgba(0,0,0,0.3)',
-              }}
+              className={`glass-card rounded-2xl p-6 w-full max-w-lg border-2 shadow-2xl ${
+                type === 'income' ? 'border-primary/40' : 'border-destructive/40'
+              }`}
             >
               {/* Header */}
               <div className="flex items-center justify-between mb-6">
@@ -158,16 +136,11 @@ export const AddEntryModal = ({
                       onClick={() => setType('expense')}
                       className={`p-4 rounded-xl border-2 transition-all ${
                         type === 'expense'
-                          ? 'bg-red-500/10 border-red-500/50'
+                          ? 'bg-destructive/10 border-destructive/50'
                           : 'border-border/50 hover:border-border'
                       }`}
-                      style={
-                        type === 'expense' && (theme === 'cyber' || theme === 'mirage')
-                          ? { boxShadow: `0 0 20px ${themeColor}30` }
-                          : undefined
-                      }
                     >
-                      <TrendingDown className="w-6 h-6 mx-auto mb-2 text-red-500" />
+                      <TrendingDown className="w-6 h-6 mx-auto mb-2 text-destructive" />
                       <div className="font-semibold">Expense</div>
                     </motion.button>
 
@@ -178,16 +151,11 @@ export const AddEntryModal = ({
                       onClick={() => setType('income')}
                       className={`p-4 rounded-xl border-2 transition-all ${
                         type === 'income'
-                          ? 'bg-green-500/10 border-green-500/50'
+                          ? 'bg-primary/10 border-primary/50'
                           : 'border-border/50 hover:border-border'
                       }`}
-                      style={
-                        type === 'income' && (theme === 'cyber' || theme === 'mirage')
-                          ? { boxShadow: `0 0 20px ${themeColor}30` }
-                          : undefined
-                      }
                     >
-                      <TrendingUp className="w-6 h-6 mx-auto mb-2 text-green-500" />
+                      <TrendingUp className="w-6 h-6 mx-auto mb-2 text-primary" />
                       <div className="font-semibold">Income</div>
                     </motion.button>
                   </div>
@@ -288,14 +256,7 @@ export const AddEntryModal = ({
                   >
                     <Button
                       type="submit"
-                      className="w-full"
-                      style={{
-                        background: `linear-gradient(135deg, ${themeColor}, ${themeColor}dd)`,
-                        boxShadow:
-                          theme === 'cyber' || theme === 'mirage'
-                            ? `0 0 20px ${themeColor}40`
-                            : undefined,
-                      }}
+                      className={`w-full ${type === 'income' ? 'bg-primary hover:bg-primary/90' : 'bg-destructive hover:bg-destructive/90'}`}
                     >
                       {editingEntry ? 'Update' : 'Add Entry'}
                     </Button>

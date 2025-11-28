@@ -58,43 +58,43 @@ const Dashboard = () => {
       icon: Target,
       label: 'Total Tasks',
       value: weeklyStats.totalTasks,
-      color: 'text-blue-500',
-      bgColor: 'bg-blue-500/10',
+      color: 'text-brand-indigo',
+      bgColor: 'bg-brand-indigo/10',
     },
     {
       icon: CheckCircle2,
       label: 'Completion Rate',
       value: `${weeklyStats.completionRate.toFixed(1)}%`,
-      color: 'text-green-500',
-      bgColor: 'bg-green-500/10',
+      color: 'text-brand-emerald',
+      bgColor: 'bg-brand-emerald/10',
     },
     {
       icon: Clock,
       label: 'Focus Hours',
       value: `${(weeklyStats.totalFocusMinutes / 60).toFixed(1)}h`,
-      color: 'text-purple-500',
-      bgColor: 'bg-purple-500/10',
+      color: 'text-brand-purple',
+      bgColor: 'bg-brand-purple/10',
     },
     {
       icon: TrendingUp,
       label: 'Avg Focus Duration',
       value: `${weeklyStats.averageFocusDuration.toFixed(0)}m`,
-      color: 'text-orange-500',
-      bgColor: 'bg-orange-500/10',
+      color: 'text-brand-amber',
+      bgColor: 'bg-brand-amber/10',
     },
     {
       icon: FileText,
       label: 'Notes Activity',
       value: weeklyStats.notesActivity,
-      color: 'text-cyan-500',
-      bgColor: 'bg-cyan-500/10',
+      color: 'text-brand-cyan',
+      bgColor: 'bg-brand-cyan/10',
     },
     {
       icon: Trophy,
       label: 'Top Day',
       value: weeklyStats.topProductivityDay,
-      color: 'text-yellow-500',
-      bgColor: 'bg-yellow-500/10',
+      color: 'text-brand-rose',
+      bgColor: 'bg-brand-rose/10',
     },
   ];
 
@@ -308,12 +308,12 @@ const Dashboard = () => {
                 </div>
 
                 {/* Today's Progress */}
-                <div className="p-4 rounded-lg bg-green-500/5 border border-green-500/20">
+                <div className="p-4 rounded-lg bg-brand-emerald/5 border border-brand-emerald/20">
                   <div className="flex items-center gap-3 mb-2">
-                    <Calendar className="h-5 w-5 text-green-500" />
+                    <Calendar className="h-5 w-5 text-brand-emerald" />
                     <p className="text-sm text-muted-foreground">Today</p>
                   </div>
-                  <p className="text-2xl font-bold text-green-500">
+                  <p className="text-2xl font-bold text-brand-emerald">
                     {getTodayCompletionStatus().completed}/{getTodayCompletionStatus().total}
                   </p>
                   <p className="text-xs text-muted-foreground mt-1">
@@ -324,12 +324,12 @@ const Dashboard = () => {
                 </div>
 
                 {/* This Week */}
-                <div className="p-4 rounded-lg bg-purple-500/5 border border-purple-500/20">
+                <div className="p-4 rounded-lg bg-brand-purple/5 border border-brand-purple/20">
                   <div className="flex items-center gap-3 mb-2">
-                    <Flame className="h-5 w-5 text-purple-500" />
+                    <Flame className="h-5 w-5 text-brand-purple" />
                     <p className="text-sm text-muted-foreground">This Week</p>
                   </div>
-                  <p className="text-2xl font-bold text-purple-500">
+                  <p className="text-2xl font-bold text-brand-purple">
                     {getWeekCompletionStatus().completed}/{getWeekCompletionStatus().total}
                   </p>
                   <p className="text-xs text-muted-foreground mt-1">
@@ -340,12 +340,12 @@ const Dashboard = () => {
                 </div>
 
                 {/* Best Streak */}
-                <div className="p-4 rounded-lg bg-orange-500/5 border border-orange-500/20">
+                <div className="p-4 rounded-lg bg-brand-amber/5 border border-brand-amber/20">
                   <div className="flex items-center gap-3 mb-2">
-                    <Trophy className="h-5 w-5 text-orange-500" />
+                    <Trophy className="h-5 w-5 text-brand-amber" />
                     <p className="text-sm text-muted-foreground">Best Streak</p>
                   </div>
-                  <p className="text-2xl font-bold text-orange-500">
+                  <p className="text-2xl font-bold text-brand-amber">
                     {Math.max(...habits.map(h => getHabitStats(h.id).longestStreak), 0)}
                   </p>
                   <p className="text-xs text-muted-foreground mt-1">
@@ -366,7 +366,7 @@ const Dashboard = () => {
               transition={{ duration: 0.5, delay: 0.6 }}
             >
               <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                <CheckCircle2 className="h-5 w-5 text-green-500" />
+                <CheckCircle2 className="h-5 w-5 text-brand-emerald" />
                 Tasks Completed This Week
               </h3>
               <ResponsiveContainer width="100%" height={300}>
@@ -398,7 +398,7 @@ const Dashboard = () => {
               transition={{ duration: 0.5, delay: 0.7 }}
             >
               <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                <Clock className="h-5 w-5 text-purple-500" />
+                <Clock className="h-5 w-5 text-brand-purple" />
                 Focus Time Distribution
               </h3>
               <ResponsiveContainer width="100%" height={300}>
@@ -438,7 +438,7 @@ const Dashboard = () => {
               transition={{ duration: 0.5, delay: 0.8 }}
             >
               <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                <TrendingUp className="h-5 w-5 text-blue-500" />
+                <TrendingUp className="h-5 w-5 text-primary" />
                 Weekly Activity Overview
               </h3>
               <ResponsiveContainer width="100%" height={300}>
@@ -499,11 +499,11 @@ const Dashboard = () => {
                   {weeklyStats.topProductivityDay}
                 </p>
               </div>
-              <div className="p-4 rounded-lg bg-green-500/5 border border-green-500/20">
+              <div className="p-4 rounded-lg bg-brand-emerald/5 border border-brand-emerald/20">
                 <p className="text-sm text-muted-foreground mb-1">
                   Tasks to Go
                 </p>
-                <p className="text-xl font-bold text-green-500">
+                <p className="text-xl font-bold text-brand-emerald">
                   {weeklyStats.totalTasks - weeklyStats.completedTasks}
                 </p>
               </div>

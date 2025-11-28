@@ -1,4 +1,3 @@
-import { ThemeSwitcher } from '@/components/ThemeSwitcher';
 import { HeroSection } from '@/components/landing/HeroSection';
 import { ProblemSolutionSection } from '@/components/landing/ProblemSolutionSection';
 import { ProductivityHubSection } from '@/components/landing/ProductivityHubSection';
@@ -7,7 +6,7 @@ import { LifeOSSection, FinalCTASection, FloatingNavbar } from '@/components/lan
 
 const Home = () => {
   return (
-    <div className="min-h-screen bg-black text-white overflow-x-hidden">
+    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       {/* Floating Navbar */}
       <FloatingNavbar />
 
@@ -36,12 +35,12 @@ const Home = () => {
       <FinalCTASection />
 
       {/* Footer */}
-      <footer className="relative py-12 bg-black border-t border-white/10">
+      <footer className="relative py-12 bg-brand-indigo/10 border-t border-muted-foreground/10">
         <div className="container mx-auto px-6 text-center">
-          <p className="text-white/40 text-sm">
+          <p className="text-muted-foreground text-sm">
             © 2025 Trelix. Built with ❤️ for productivity enthusiasts.
           </p>
-          <p className="text-white/30 text-xs mt-2">
+          <p className="text-muted-foreground/55 text-xs mt-2">
             Your data stays yours. Private. Local-first. Forever free.
           </p>
         </div>

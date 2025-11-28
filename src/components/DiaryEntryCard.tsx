@@ -14,13 +14,13 @@ interface DiaryEntryCardProps {
 const getMoodIcon = (mood: DiaryEntry['mood']) => {
   switch (mood) {
     case 'excellent':
-      return <Heart className="h-4 w-4 text-green-400" fill="currentColor" />;
+      return <Heart className="h-4 w-4 text-primary" fill="currentColor" />;
     case 'good':
-      return <Smile className="h-4 w-4 text-blue-400" />;
+      return <Smile className="h-4 w-4 text-secondary" />;
     case 'neutral':
-      return <Meh className="h-4 w-4 text-yellow-400" />;
+      return <Meh className="h-4 w-4 text-muted-foreground" />;
     case 'poor':
-      return <Frown className="h-4 w-4 text-red-400" />;
+      return <Frown className="h-4 w-4 text-destructive" />;
     default:
       return null;
   }
