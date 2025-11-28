@@ -14,7 +14,7 @@ export const HeroSection = React.memo(() => {
   return (
     <section id="hero" className="relative min-h-screen flex items-center justify-center bg-background">
       {/* Subtle gradient background - no blur */}
-      <div className="absolute inset-0 bg-linear-to-b from-background via-background to-muted/20" />
+      <div className="absolute inset-0 bg-linear-to-b from-background via-background to-brand-indigo/15" />
 
       {/* Grid pattern - subtle */}
       <div className="absolute inset-0 bg-[linear-gradient(oklch(var(--foreground)/0.02)_1px,transparent_1px),linear-gradient(90deg,oklch(var(--foreground)/0.02)_1px,transparent_1px)] bg-size-[64px_64px]" />
