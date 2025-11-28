@@ -66,7 +66,7 @@ export const HeroSection = React.memo(() => {
 
           {/* Secondary CTA */}
           <button
-            onClick={() => navigate('/tasks')}
+            onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })}
             className="px-8 py-4 border-2 border-border text-foreground rounded-lg font-semibold text-lg hover:border-muted-foreground hover:bg-muted transition-colors w-full sm:w-auto"
           >
             Explore Features
