@@ -18,7 +18,7 @@ export const PlanningSection = () => {
   ];
 
   return (
-    <section className="relative py-32 bg-linear-to-b from-black to-gray-900">
+    <section className="relative py-32 bg-linear-to-b from-background to-brand-indigo/10">
       <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -27,15 +27,15 @@ export const PlanningSection = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <p className="text-cyan-400 text-sm font-mono tracking-wider mb-4">
+          <p className="text-brand-cyan text-sm font-mono tracking-wider mb-4">
             // PLANNING & GOALS
           </p>
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
-            <span className="bg-linear-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-brand-purple to-destructive-foreground bg-clip-text text-transparent">
               The Trelix Framework
             </span>
           </h2>
-          <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Structure your growth. Define your direction.
           </p>
         </motion.div>
@@ -49,10 +49,10 @@ export const PlanningSection = () => {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
               onClick={() => navigate('/framework')}
-              className="group p-8 bg-white/5 border-2 border-white/10 rounded-2xl hover:border-purple-500/50 hover:bg-white/10 transition-all cursor-pointer"
+              className="group p-8 bg-muted border-2 border-foreground/10 rounded-2xl hover:border-brand-purple/80 hover:bg-forgeound/10 transition-all cursor-pointer"
             >
-              <feature.icon className="w-10 h-10 text-purple-400 mb-4" />
-              <h3 className="text-xl font-bold text-white">{feature.title}</h3>
+              <feature.icon className="w-10 h-10 text-brand-purple mb-4" />
+              <h3 className="text-xl font-bold text-foreground">{feature.title}</h3>
             </motion.div>
           ))}
         </div>
@@ -90,15 +90,15 @@ export const WellbeingSection = () => {
   ];
 
   const colorMap = {
-    green: 'border-secondary/30 hover:border-secondary/50',
-    yellow: 'border-secondary/30 hover:border-secondary/50',
-    pink: 'border-primary/30 hover:border-primary/50',
+    green: 'border-green-400/30 hover:border-green-400/50',
+    yellow: 'border-yellow-300/30 hover:border-yellow-300/50',
+    pink: 'border-destructive-foreground/30 hover:border-destructive-foreground/50',
   };
 
   const iconColorMap = {
-    green: 'text-secondary',
-    yellow: 'text-secondary',
-    pink: 'text-primary',
+    green: 'text-green-400',
+    yellow: 'text-yellow-200',
+    pink: 'text-destructive-foreground',
   };
 
   return (
@@ -111,7 +111,7 @@ export const WellbeingSection = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <p className="text-primary text-sm font-mono tracking-wider mb-4">
+          <p className="text-brand-purple text-sm font-mono tracking-wider mb-4">
             // WELLBEING & HABITS
           </p>
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
@@ -162,11 +162,11 @@ export const LedgerSection = () => {
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
           >
-            <p className="text-secondary text-sm font-mono tracking-wider mb-4">
+            <p className="text-brand-emerald text-sm font-mono tracking-wider mb-4">
               // FINANCIAL
             </p>
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
-              <span className="bg-linear-to-r from-secondary to-primary bg-clip-text text-transparent">
+              <span className="bg-linear-to-r from-brand-emerald to-brand-cyan bg-clip-text text-transparent">
                 Trelix Ledger
               </span>
             </h2>
@@ -176,7 +176,7 @@ export const LedgerSection = () => {
 
             <button
               onClick={() => navigate('/ledger')}
-              className="px-8 py-4 border-2 border-secondary/50 text-secondary rounded-lg font-semibold hover:bg-secondary/10 transition-colors"
+              className="px-8 py-4 border-2 border-brand-emerald/50 text-brand-emerald rounded-lg font-semibold hover:bg-brand-emerald/10 transition-colors"
             >
               Explore Ledger
             </button>
@@ -187,10 +187,10 @@ export const LedgerSection = () => {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            className="p-8 bg-linear-to-br from-secondary/10 to-primary/10 border-2 border-secondary/30 rounded-2xl"
+            className="p-8 bg-linear-to-br from-brand-emerald/10 to-brand-cyan/10 border-2 border-brand-emerald/30 rounded-2xl"
           >
             <div className="flex items-center justify-center">
-              <Wallet className="w-32 h-32 text-secondary" />
+              <Wallet className="w-32 h-32 text-brand-emerald" />
             </div>
           </motion.div>
         </div>

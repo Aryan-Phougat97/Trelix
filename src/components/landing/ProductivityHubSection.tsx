@@ -4,7 +4,7 @@
  */
 
 import { motion } from 'framer-motion';
-import { CheckSquare, BarChart3, Focus } from 'lucide-react';
+import { CheckSquare, BarChart3, Focus, Wallet } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export const ProductivityHubSection = () => {
@@ -32,18 +32,27 @@ export const ProductivityHubSection = () => {
       color: 'purple',
       path: '/focus',
     },
+    {
+      title: 'Ledger',
+      description: 'Track income, expenses, and financial health',
+      icon: Wallet,
+      color: 'green',
+      path: '/ledger',
+    },
   ];
 
   const colorMap = {
-    cyan: 'from-secondary/20 to-secondary/20 border-secondary/30 hover:border-secondary/50',
-    blue: 'from-primary/20 to-primary/20 border-primary/30 hover:border-primary/50',
-    purple: 'from-primary/20 to-primary/20 border-primary/30 hover:border-primary/50',
+    cyan: 'from-brand-cyan/20 to-brand-cyan/20 border-brand-cyan/30 hover:border-brand-cyan/50',
+    blue: 'from-brand-indigo/20 to-brand-indigo/20 border-brand-indigo/30 hover:border-brand-indigo/50',
+    purple: 'from-brand-purple/20 to-brand-purple/20 border-brand-purple/30 hover:border-brand-purple/50',
+    green: 'from-brand-emerald/20 to-brand-emerald/20 border-brand-emerald/30 hover:border-brand-emerald/50',
   };
 
   const iconColorMap = {
-    cyan: 'text-secondary',
-    blue: 'text-primary',
-    purple: 'text-primary',
+    cyan: 'text-brand-cyan',
+    blue: 'text-brand-indigo',
+    purple: 'text-brand-purple',
+    green: 'text-brand-emerald',
   };
 
   return (
@@ -73,7 +82,7 @@ export const ProductivityHubSection = () => {
         </motion.div>
 
         {/* Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
           {cards.map((card, index) => (
             <motion.div
               key={card.title}

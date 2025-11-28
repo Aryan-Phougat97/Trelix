@@ -8,9 +8,9 @@ import { X, Check } from 'lucide-react';
 
 export const ProblemSolutionSection = () => {
   return (
-    <section id="features" className="relative py-32 bg-black">
+    <section id="features" className="relative py-32 bg-background">
       {/* Subtle gradient */}
-      <div className="absolute inset-0 bg-linear-to-b from-gray-900 to-black opacity-50" />
+      <div className="absolute inset-0 bg-linear-to-b from-muted/20 to-background opacity-50" />
 
       <div className="container mx-auto px-6 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center max-w-7xl mx-auto">
@@ -24,7 +24,7 @@ export const ProblemSolutionSection = () => {
             className="space-y-8"
           >
             <div>
-              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white/90 mb-6">
+              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-6">
                 Fragmented
                 <br />
                 apps.
@@ -42,8 +42,8 @@ export const ProblemSolutionSection = () => {
                 'Data everywhere',
                 'Context switching hell',
               ].map((problem) => (
-                <div key={problem} className="flex items-start gap-3 text-gray-400">
-                  <X className="w-5 h-5 text-destructive shrink-0 mt-0.5" />
+                <div key={problem} className="flex items-start gap-3 text-muted-foreground">
+                  <X className="w-5 h-5 text-brand-rose shrink-0 mt-0.5" />
                   <span className="text-lg">{problem}</span>
                 </div>
               ))}
@@ -60,13 +60,13 @@ export const ProblemSolutionSection = () => {
           >
             <div>
               <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
-                <span className="bg-linear-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+                <span className="bg-linear-to-r from-brand-cyan to-brand-indigo bg-clip-text text-transparent">
                   Trelix
                 </span>
                 <br />
-                <span className="text-white/90">unifies</span>
+                <span className="text-foreground">unifies</span>
                 <br />
-                <span className="text-white/90">your life.</span>
+                <span className="text-foreground">your life.</span>
               </h2>
             </div>
 
@@ -77,14 +77,14 @@ export const ProblemSolutionSection = () => {
                 'Local-first data',
                 'Zero context switching',
               ].map((benefit) => (
-                <div key={benefit} className="flex items-start gap-3 text-gray-300">
-                  <Check className="w-5 h-5 text-cyan-400 shrink-0 mt-0.5" />
+                <div key={benefit} className="flex items-start gap-3 text-muted-foreground">
+                  <Check className="w-5 h-5 text-brand-cyan shrink-0 mt-0.5" />
                   <span className="text-lg">{benefit}</span>
                 </div>
               ))}
             </div>
 
-            <button className="mt-8 px-6 py-3 border-2 border-cyan-500/50 text-cyan-400 rounded-lg font-semibold hover:bg-cyan-500/10 transition-colors">
+            <button className="mt-8 px-6 py-3 border-2 border-brand-cyan/50 text-brand-cyan rounded-lg font-semibold hover:bg-brand-cyan/10 transition-colors">
               See how it works →
             </button>
           </motion.div>

@@ -1,4 +1,3 @@
-import { ThemeSwitcher } from '@/components/ThemeSwitcher';
 import { HeroSection } from '@/components/landing/HeroSection';
 import { ProblemSolutionSection } from '@/components/landing/ProblemSolutionSection';
 import { ProductivityHubSection } from '@/components/landing/ProductivityHubSection';
@@ -36,7 +35,7 @@ const Home = () => {
       <FinalCTASection />
 
       {/* Footer */}
-      <footer className="relative py-12 bg-background border-t border-muted-foreground/10">
+      <footer className="relative py-12 bg-brand-indigo/10 border-t border-muted-foreground/10">
         <div className="container mx-auto px-6 text-center">
           <p className="text-muted-foreground text-sm">
             © 2025 Trelix. Built with ❤️ for productivity enthusiasts.

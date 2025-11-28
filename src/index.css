@@ -46,7 +46,7 @@
 
   --destructive: 0.65 0.22 25;
   /* Softer red for errors */
-  --destructive-foreground: 1 0 0;
+  --destructive-foreground: 0.64 0.2763 355.12 / 94.19%;
 
   --border: 0.92 0.02 265;
   --input: 0.92 0.02 265;
@@ -59,8 +59,12 @@
   /* #6366f1 - Primary brand color */
   --brand-cyan: 0.76 0.16 230;
   /* #06b6d4 - Accent color */
-  --brand-purple: 0.85 0.15 290;
+  --brand-purple: 0.6276 0.2121 290;
   /* #a78bfa - Highlight color */
+  --brand-emerald: 0.696 0.17 149.57;
+  --brand-rose: 0.62 0.22 12.5;
+  --brand-amber: 0.75 0.18 70;
+  --brand-slate: 0.55 0.06 250;
   --pure-black: 0 0 0;
   /* #000000 */
   --pure-white: 1 0 0;
@@ -100,7 +104,7 @@
 
   --destructive: 0.65 0.22 25;
   /* Softer red */
-  --destructive-foreground: 1 0 0;
+  --destructive-foreground: 0.64 0.2763 355.12 / 94.19%;
 
   --border: 0.25 0.02 265;
   --input: 0.20 0.02 265;
@@ -109,7 +113,11 @@
   /* Trelix Dark Theme - Professional Palette */
   --brand-indigo: 0.623 0.214 259.3;
   --brand-cyan: 0.76 0.16 230;
-  --brand-purple: 0.85 0.15 290;
+  --brand-purple: 0.6276 0.2121 290;
+  --brand-emerald: 0.696 0.17 149.57;
+  --brand-rose: 0.62 0.22 12.5;
+  --brand-amber: 0.75 0.18 70;
+  --brand-slate: 0.55 0.06 250;
   --pure-black: 0 0 0;
   --pure-white: 0.98 0 0;
   --glass-bg: 0.15 0.02 265;
@@ -146,10 +154,6 @@
   --color-card: oklch(var(--card));
   --color-card-foreground: oklch(var(--card-foreground));
 
-  --color-electric-red: oklch(var(--electric-red));
-
-  --color-cool-blue: oklch(var(--cool-blue));
-
   --color-pure-black: oklch(var(--pure-black));
   --color-pure-white: oklch(var(--pure-white));
 
@@ -160,6 +164,11 @@
   --color-brand-cyan: oklch(var(--brand-cyan));
   --color-glow-primary: oklch(var(--glow-primary));
   --color-glow-accent: oklch(var(--glow-accent));
+  --color-brand-purple: oklch(var(--brand-purple));
+  --color-brand-emerald: oklch(var(--brand-emerald));
+  --color-brand-rose: oklch(var(--brand-rose));
+  --color-brand-amber: oklch(var(--brand-amber));
+  --color-brand-slate: oklch(var(--brand-slate));
 
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
