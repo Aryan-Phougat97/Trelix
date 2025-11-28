@@ -13,14 +13,14 @@ interface MoodEntryProps {
 }
 
 const MOOD_OPTIONS: Array<{ mood: MoodType; label: string; color: string }> = [
-  { mood: 'happy', label: 'Happy', color: 'from-yellow-500/20 to-orange-500/20 hover:from-yellow-500/30 hover:to-orange-500/30' },
-  { mood: 'calm', label: 'Calm', color: 'from-blue-500/20 to-cyan-500/20 hover:from-blue-500/30 hover:to-cyan-500/30' },
-  { mood: 'neutral', label: 'Neutral', color: 'from-gray-500/20 to-slate-500/20 hover:from-gray-500/30 hover:to-slate-500/30' },
-  { mood: 'confused', label: 'Confused', color: 'from-purple-500/20 to-pink-500/20 hover:from-purple-500/30 hover:to-pink-500/30' },
-  { mood: 'low', label: 'Low', color: 'from-indigo-500/20 to-blue-600/20 hover:from-indigo-500/30 hover:to-blue-600/30' },
-  { mood: 'frustrated', label: 'Frustrated', color: 'from-red-500/20 to-rose-500/20 hover:from-red-500/30 hover:to-rose-500/30' },
-  { mood: 'tired', label: 'Tired', color: 'from-slate-500/20 to-gray-600/20 hover:from-slate-500/30 hover:to-gray-600/30' },
-  { mood: 'motivated', label: 'Motivated', color: 'from-orange-500/20 to-red-500/20 hover:from-orange-500/30 hover:to-red-500/30' },
+  { mood: 'happy', label: 'Happy', color: 'from-brand-amber/20 to-brand-rose/20 hover:from-brand-amber/30 hover:to-brand-rose/30' },
+  { mood: 'calm', label: 'Calm', color: 'from-brand-cyan/20 to-brand-indigo/20 hover:from-brand-cyan/30 hover:to-brand-indigo/30' },
+  { mood: 'neutral', label: 'Neutral', color: 'from-brand-slate/20 to-brand-slate/20 hover:from-brand-slate/30 hover:to-brand-slate/30' },
+  { mood: 'confused', label: 'Confused', color: 'from-brand-purple/20 to-brand-rose/20 hover:from-brand-purple/30 hover:to-brand-rose/30' },
+  { mood: 'low', label: 'Low', color: 'from-brand-indigo/20 to-brand-slate/20 hover:from-brand-indigo/30 hover:to-brand-slate/30' },
+  { mood: 'frustrated', label: 'Frustrated', color: 'from-brand-rose/20 to-destructive/20 hover:from-brand-rose/30 hover:to-destructive/30' },
+  { mood: 'tired', label: 'Tired', color: 'from-brand-slate/20 to-muted/20 hover:from-brand-slate/30 hover:to-muted/30' },
+  { mood: 'motivated', label: 'Motivated', color: 'from-brand-amber/20 to-brand-purple/20 hover:from-brand-amber/30 hover:to-brand-purple/30' },
 ];
 
 export const MoodEntry: React.FC<MoodEntryProps> = ({ todayEntry, onSave }) => {

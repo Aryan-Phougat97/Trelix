@@ -1,4 +1,4 @@
-import { Search, Settings, Filter } from "lucide-react";
+import { Search, Settings, Filter, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FocusModeToggle } from "@/components/FocusModeToggle";
 import { ThemeSwitcher } from "@/components/ThemeSwitcher";
@@ -10,9 +10,11 @@ import { Input } from "@/components/ui/input";
 interface HeaderProps {
   onSearch?: (query: string) => void;
   onFilterClick?: () => void;
+  onToggleSidebar?: () => void;
+  isSidebarOpen?: boolean;
 }
 
-export const Header = ({ onSearch, onFilterClick }: HeaderProps = {}) => {
+export const Header = ({ onSearch, onFilterClick, onToggleSidebar, isSidebarOpen }: HeaderProps = {}) => {
   const location = useLocation();
   const isOnTasksPage = location.pathname === '/tasks' || location.pathname === '/';
   const [showSearch, setShowSearch] = useState(false);
@@ -57,8 +59,24 @@ export const Header = ({ onSearch, onFilterClick }: HeaderProps = {}) => {
 
   return (
     <header className="sticky top-0 z-40 bg-background/80 backdrop-blur-xl border-b border-border/50 px-6 py-3 animate-slide-up">
-      <div className="flex items-center justify-end gap-2">
-        {/* Utility Actions - Search, Filter, Focus Mode, Theme, Settings */}
+      <div className="flex items-center justify-between gap-2">
+        {onToggleSidebar ? (
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={onToggleSidebar}
+            className="lg:hidden h-10 w-10 rounded-full shadow-sm border-border/50 backdrop-blur-xs bg-card/80 hover:text-primary hover:bg-card"
+            aria-label={isSidebarOpen ? "Close navigation" : "Open navigation"}
+            aria-expanded={isSidebarOpen}
+          >
+            <Menu className="h-5 w-5" />
+          </Button>
+        ) : (
+          <span className="lg:hidden h-10 w-10" aria-hidden="true" />
+        )}
+
+        <div className="flex flex-1 items-center justify-end gap-2">
+          {/* Utility Actions - Search, Filter, Focus Mode, Theme, Settings */}
         <Button
           variant="ghost"
           size="icon"
@@ -88,6 +106,7 @@ export const Header = ({ onSearch, onFilterClick }: HeaderProps = {}) => {
         >
           <Settings className="h-4 w-4 group-hover:text-primary transition-all duration-200 group-hover:rotate-90" strokeWidth={2} />
         </Button>
+        </div>
       </div>
 
       {/* Search Bar - Slides in when search is active */}

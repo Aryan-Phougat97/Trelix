@@ -42,7 +42,7 @@ export const FinancialInsights = ({
       return 'text-primary';
     }
     if (insight.includes('higher') || insight.includes('spending more')) {
-      return 'text-yellow-500';
+      return 'text-brand-amber';
     }
     return 'text-primary';
   };

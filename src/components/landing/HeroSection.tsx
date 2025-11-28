@@ -17,7 +17,7 @@ export const HeroSection = React.memo(() => {
       <div className="absolute inset-0 bg-linear-to-b from-background via-background to-muted/20" />
 
       {/* Grid pattern - subtle */}
-      <div className="absolute inset-0 bg-[linear-gradient(hsl(var(--foreground)/0.02)_1px,transparent_1px),linear-gradient(90deg,hsl(var(--foreground)/0.02)_1px,transparent_1px)] bg-size-[64px_64px]" />
+      <div className="absolute inset-0 bg-[linear-gradient(oklch(var(--foreground)/0.02)_1px,transparent_1px),linear-gradient(90deg,oklch(var(--foreground)/0.02)_1px,transparent_1px)] bg-size-[64px_64px]" />
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-6 text-center">

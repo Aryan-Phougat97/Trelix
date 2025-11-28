@@ -21,7 +21,7 @@ export const LedgerCard = ({ entry, onEdit, onDelete }: LedgerCardProps) => {
   const categoryIcon = categoryInfo?.icon || '💰';
 
   // Get theme-aware glow color
-  const glowColor = entry.type === 'income' ? 'hsl(var(--primary))' : 'hsl(var(--destructive))';
+  const glowColor = entry.type === 'income' ? 'oklch(var(--primary))' : 'oklch(var(--destructive))';
 
   // Format date
   const formatDate = (dateStr: string) => {

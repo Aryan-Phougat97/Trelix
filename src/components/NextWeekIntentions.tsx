@@ -78,7 +78,7 @@ export const NextWeekIntentions = ({
         <Button
           onClick={handleAddIntention}
           disabled={!newIntention.trim()}
-          className="bg-cool-blue hover:bg-cool-blue/90 text-white hover:scale-105 transition-all duration-200"
+          className="bg-primary hover:bg-primary/90 text-primary-foreground hover:scale-105 transition-all duration-200"
         >
           <Plus className="h-4 w-4" />
         </Button>

@@ -74,9 +74,9 @@ export const ProductivityHubSection = () => {
               Power Tools
             </span>
             <br />
-            <span className="text-white/90">For Your Work</span>
+            <span className="text-foreground/90">For Your Work</span>
           </h2>
-          <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Everything you need to stay focused, organized, and productive.
           </p>
         </motion.div>
@@ -99,11 +99,11 @@ export const ProductivityHubSection = () => {
               </div>
 
               {/* Content */}
-              <h3 className="text-2xl font-bold text-white mb-3">{card.title}</h3>
-              <p className="text-gray-400">{card.description}</p>
+              <h3 className="text-2xl font-bold text-foreground mb-3">{card.title}</h3>
+              <p className="text-muted-foreground">{card.description}</p>
 
               {/* Arrow */}
-              <div className="mt-6 text-gray-500 group-hover:text-gray-300 transition-colors">
+              <div className="mt-6 text-muted-foreground group-hover:text-foreground transition-colors">
                 →
               </div>
             </motion.div>

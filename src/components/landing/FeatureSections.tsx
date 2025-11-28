@@ -49,7 +49,7 @@ export const PlanningSection = () => {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
               onClick={() => navigate('/framework')}
-              className="group p-8 bg-muted border-2 border-foreground/10 rounded-2xl hover:border-brand-purple/80 hover:bg-forgeound/10 transition-all cursor-pointer"
+              className="group p-8 bg-muted border-2 border-foreground/10 rounded-2xl hover:border-brand-purple/80 hover:bg-foreground/10 transition-all cursor-pointer"
             >
               <feature.icon className="w-10 h-10 text-brand-purple mb-4" />
               <h3 className="text-xl font-bold text-foreground">{feature.title}</h3>
@@ -90,14 +90,14 @@ export const WellbeingSection = () => {
   ];
 
   const colorMap = {
-    green: 'border-green-400/30 hover:border-green-400/50',
+    green: 'border-brand-emerald/30 hover:border-brand-emerald/50',
     yellow: 'border-yellow-300/30 hover:border-yellow-300/50',
     pink: 'border-destructive-foreground/30 hover:border-destructive-foreground/50',
   };
 
   const iconColorMap = {
-    green: 'text-green-400',
-    yellow: 'text-yellow-200',
+    green: 'text-brand-emerald',
+    yellow: 'text-brand-amber',
     pink: 'text-destructive-foreground',
   };
 

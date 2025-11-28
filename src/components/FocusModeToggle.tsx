@@ -15,7 +15,7 @@ export const FocusModeToggle = () => {
         variant="ghost"
         size="icon"
         onClick={toggleFocusMode}
-        className={`h-9 w-9 hover:bg-foreground/5 hover:scale-110 transition-all duration-200 group active:scale-95 relative ${
+        className={`h-9 w-9 hover:bg-foreground/5 hover:scale-110 hover:text-primary transition-all duration-200 group active:scale-95 relative ${
           isFocusMode ? "bg-cool-blue/10" : ""
         }`}
       >

@@ -85,7 +85,7 @@ export const MusicPlayer = ({ snippet, onClose }: MusicPlayerProps) => {
                 transition={{ duration: 0.3 }}
                 className="overflow-hidden"
             >
-                <div className="relative w-full bg-black/5 dark:bg-white/5 rounded-lg overflow-hidden">
+                <div className="relative w-full bg-black/5 dark:bg-foreground/5 rounded-lg overflow-hidden">
                     {/* Header */}
                     <div className="flex items-center justify-between p-3 bg-background/80 backdrop-blur-xs border-b border-border">
                         <div className="flex items-center gap-2 flex-1 min-w-0">

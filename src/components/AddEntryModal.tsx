@@ -83,7 +83,7 @@ export const AddEntryModal = ({
     onClose();
   };
 
-  const themeColor = type === 'income' ? 'hsl(var(--primary))' : 'hsl(var(--destructive))';
+  const themeColor = type === 'income' ? 'oklch(var(--primary))' : 'oklch(var(--destructive))';
 
   return (
     <AnimatePresence>

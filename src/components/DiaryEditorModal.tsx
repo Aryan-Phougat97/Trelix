@@ -170,7 +170,7 @@ export const DiaryEditorModal: React.FC<DiaryEditorModalProps> = ({
                     className="min-h-[300px] bg-background/50 border-border focus:border-primary resize-none text-[15px] leading-relaxed transition-all duration-300 focus:shadow-lg focus:shadow-primary/10"
                     style={{
                       fontFamily: "'Inter', 'Poppins', sans-serif",
-                      caretColor: 'hsl(var(--primary))',
+                      caretColor: 'oklch(var(--primary))',
                     }}
                     autoFocus
                   />

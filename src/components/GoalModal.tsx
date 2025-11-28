@@ -138,7 +138,7 @@ export const GoalModal = ({ isOpen, onClose, onSave, editingGoal, category }: Go
                   </Button>
                   <Button
                     type="submit"
-                    className="flex-1 bg-cool-blue hover:bg-cool-blue/90 text-white"
+                    className="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground"
                     disabled={!title.trim()}
                   >
                     {editingGoal ? 'Update' : 'Create'}
