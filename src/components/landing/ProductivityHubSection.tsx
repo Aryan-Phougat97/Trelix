@@ -35,19 +35,19 @@ export const ProductivityHubSection = () => {
   ];
 
   const colorMap = {
-    cyan: 'from-cyan-500/20 to-cyan-600/20 border-cyan-500/30 hover:border-cyan-500/50',
-    blue: 'from-blue-500/20 to-blue-600/20 border-blue-500/30 hover:border-blue-500/50',
-    purple: 'from-purple-500/20 to-purple-600/20 border-purple-500/30 hover:border-purple-500/50',
+    cyan: 'from-secondary/20 to-secondary/20 border-secondary/30 hover:border-secondary/50',
+    blue: 'from-primary/20 to-primary/20 border-primary/30 hover:border-primary/50',
+    purple: 'from-primary/20 to-primary/20 border-primary/30 hover:border-primary/50',
   };
 
   const iconColorMap = {
-    cyan: 'text-cyan-400',
-    blue: 'text-blue-400',
-    purple: 'text-purple-400',
+    cyan: 'text-secondary',
+    blue: 'text-primary',
+    purple: 'text-primary',
   };
 
   return (
-    <section id="productivity" className="relative py-32 bg-black">
+    <section id="productivity" className="relative py-32 bg-background">
       <div className="container mx-auto px-6">
         {/* Section Header */}
         <motion.div
@@ -57,7 +57,7 @@ export const ProductivityHubSection = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <p className="text-cyan-400 text-sm font-mono tracking-wider mb-4">
+          <p className="text-secondary text-sm font-mono tracking-wider mb-4">
             // PRODUCTIVITY HUB
           </p>
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">

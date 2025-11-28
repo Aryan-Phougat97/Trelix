@@ -89,7 +89,7 @@ export const MusicPlayer = ({ snippet, onClose }: MusicPlayerProps) => {
                     {/* Header */}
                     <div className="flex items-center justify-between p-3 bg-background/80 backdrop-blur-xs border-b border-border">
                         <div className="flex items-center gap-2 flex-1 min-w-0">
-                            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                            <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
                             <span className="text-sm font-medium truncate">
                                 Now Playing: {snippet.title}
                             </span>

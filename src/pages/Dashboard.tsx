@@ -58,7 +58,7 @@ const Dashboard = () => {
       icon: Target,
       label: 'Total Tasks',
       value: weeklyStats.totalTasks,
-      color: 'text-blue-500',
+      color: 'text-primary',
       bgColor: 'bg-blue-500/10',
     },
     {
@@ -438,7 +438,7 @@ const Dashboard = () => {
               transition={{ duration: 0.5, delay: 0.8 }}
             >
               <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                <TrendingUp className="h-5 w-5 text-blue-500" />
+                <TrendingUp className="h-5 w-5 text-primary" />
                 Weekly Activity Overview
               </h3>
               <ResponsiveContainer width="100%" height={300}>

@@ -187,7 +187,7 @@ export const InspirationCard = ({ snippet, onPlay, onEdit, onDelete }: Inspirati
                                 onDelete(snippet.id);
                                 setShowDeleteDialog(false);
                             }}
-                            className="bg-red-500 hover:bg-red-600"
+                            className="bg-destructive hover:bg-destructive/90"
                         >
                             Delete
                         </AlertDialogAction>

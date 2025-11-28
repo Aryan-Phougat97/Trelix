@@ -163,7 +163,7 @@ const Inspiration = () => {
                                 <p className="text-sm text-muted-foreground">Most Played Mood</p>
                             </div>
                             <div>
-                                <p className="text-2xl font-bold text-green-500">{stats.recentlyAdded.length}</p>
+                                <p className="text-2xl font-bold text-primary">{stats.recentlyAdded.length}</p>
                                 <p className="text-sm text-muted-foreground">Recently Added</p>
                             </div>
                         </div>

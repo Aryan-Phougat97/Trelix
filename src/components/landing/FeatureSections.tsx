@@ -90,19 +90,19 @@ export const WellbeingSection = () => {
   ];
 
   const colorMap = {
-    green: 'border-green-500/30 hover:border-green-500/50',
-    yellow: 'border-yellow-500/30 hover:border-yellow-500/50',
-    pink: 'border-pink-500/30 hover:border-pink-500/50',
+    green: 'border-secondary/30 hover:border-secondary/50',
+    yellow: 'border-secondary/30 hover:border-secondary/50',
+    pink: 'border-primary/30 hover:border-primary/50',
   };
 
   const iconColorMap = {
-    green: 'text-green-400',
-    yellow: 'text-yellow-400',
-    pink: 'text-pink-400',
+    green: 'text-secondary',
+    yellow: 'text-secondary',
+    pink: 'text-primary',
   };
 
   return (
-    <section id="wellbeing" className="relative py-32 bg-black">
+    <section id="wellbeing" className="relative py-32 bg-background">
       <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -111,15 +111,15 @@ export const WellbeingSection = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <p className="text-purple-400 text-sm font-mono tracking-wider mb-4">
+          <p className="text-primary text-sm font-mono tracking-wider mb-4">
             // WELLBEING & HABITS
           </p>
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
-            <span className="bg-linear-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent">
               Mind & Body
             </span>
           </h2>
-          <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Track your wellbeing. Build better habits.
           </p>
         </motion.div>
@@ -133,13 +133,13 @@ export const WellbeingSection = () => {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
               onClick={() => navigate(module.path)}
-              className={`group p-8 bg-white/5 border-2 ${colorMap[module.color as keyof typeof colorMap]} rounded-2xl hover:bg-white/10 transition-all cursor-pointer text-center`}
+              className={`group p-8 bg-muted/5 border-2 ${colorMap[module.color as keyof typeof colorMap]} rounded-2xl hover:bg-muted/10 transition-all cursor-pointer text-center`}
             >
               <div className="mx-auto w-16 h-16 mb-6 flex items-center justify-center">
                 <module.icon className={`w-full h-full ${iconColorMap[module.color as keyof typeof iconColorMap]}`} />
               </div>
-              <h3 className="text-2xl font-bold text-white mb-3">{module.title}</h3>
-              <p className="text-gray-400">{module.description}</p>
+              <h3 className="text-2xl font-bold text-foreground mb-3">{module.title}</h3>
+              <p className="text-muted-foreground">{module.description}</p>
             </motion.div>
           ))}
         </div>
@@ -153,7 +153,7 @@ export const LedgerSection = () => {
   const navigate = useNavigate();
 
   return (
-    <section className="relative py-32 bg-linear-to-b from-gray-900 to-black">
+    <section className="relative py-32 bg-linear-to-b from-muted/20 to-background">
       <div className="container mx-auto px-6">
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <motion.div
@@ -162,21 +162,21 @@ export const LedgerSection = () => {
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
           >
-            <p className="text-yellow-400 text-sm font-mono tracking-wider mb-4">
+            <p className="text-secondary text-sm font-mono tracking-wider mb-4">
               // FINANCIAL
             </p>
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
-              <span className="bg-linear-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent">
+              <span className="bg-linear-to-r from-secondary to-primary bg-clip-text text-transparent">
                 Trelix Ledger
               </span>
             </h2>
-            <p className="text-xl text-gray-400 mb-8">
+            <p className="text-xl text-muted-foreground mb-8">
               Track income, manage expenses, and gain financial insights.
             </p>
 
             <button
               onClick={() => navigate('/ledger')}
-              className="px-8 py-4 border-2 border-yellow-500/50 text-yellow-300 rounded-lg font-semibold hover:bg-yellow-500/10 transition-colors"
+              className="px-8 py-4 border-2 border-secondary/50 text-secondary rounded-lg font-semibold hover:bg-secondary/10 transition-colors"
             >
               Explore Ledger
             </button>
@@ -187,10 +187,10 @@ export const LedgerSection = () => {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            className="p-8 bg-linear-to-br from-yellow-500/10 to-orange-500/10 border-2 border-yellow-500/30 rounded-2xl"
+            className="p-8 bg-linear-to-br from-secondary/10 to-primary/10 border-2 border-secondary/30 rounded-2xl"
           >
             <div className="flex items-center justify-center">
-              <Wallet className="w-32 h-32 text-yellow-400" />
+              <Wallet className="w-32 h-32 text-secondary" />
             </div>
           </motion.div>
         </div>
