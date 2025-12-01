@@ -1,6 +1,5 @@
 import { useTable, useMetric } from 'tinybase/ui-react';
 import { store } from '../store';
-import { nanoid } from 'nanoid'; 
 
 // Keep your interfaces (I modified them slightly for TinyBase)
 export interface LedgerEntry {
