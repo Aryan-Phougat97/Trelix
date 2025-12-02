@@ -47,6 +47,11 @@ export const TABLES_SCHEMA = {
     date: { type: 'string' },
     createdAt: { type: 'string' },
   },
+  calculator_history: {
+    expression: { type: 'string' },
+    result: { type: 'number' },
+    timestamp: { type: 'string' },
+  },
 
   // --- WELLBEING ---
   habits: {

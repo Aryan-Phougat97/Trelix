@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { TaskInput } from "@/components/TaskInput";
 import { TaskCard } from "@/components/TaskCard";
 import { FilterTabs } from "@/components/FilterTabs";
@@ -11,6 +11,7 @@ import { useAnalytics } from "@/contexts/AnalyticsContext";
 import { useTasks, Task } from "@/hooks/useTasks";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
+import { useDiary } from "@/hooks/useDiary";
 
 type NewTaskData = Omit<Task, "id" | "completed" | "completedAt" | "createdAt">;
 
@@ -24,12 +25,7 @@ const Index = () => {
   const [dailyNote, setDailyNote] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
 
-  useEffect(() => {
-    const savedNote = localStorage.getItem("dailyNote");
-    if (savedNote) {
-      setDailyNote(savedNote);
-    }
-  }, []);
+ const { todayEntry, addEntry, updateEntry } = useDiary();
 
   const saveNote = (note: string) => {
     setDailyNote(note);
@@ -39,7 +35,25 @@ const Index = () => {
     toast.success("Note saved successfully!");
   };
 
-  // Fixed: Replaced 'any' with proper type
+  const getTodayString = () => new Date().toISOString().split('T')[0];
+
+  const handleSaveNote = (content: string) => {
+    const today = getTodayString();
+    
+    if (todayEntry) {
+      updateEntry(today, { content });
+    } else {
+      addEntry(today, content, [], 'neutral');
+    }
+
+    const wordCount = content.trim().split(/\s+/).filter(Boolean).length;
+    recordNoteActivity(wordCount);
+    
+    toast.success("Daily note updated!");
+  };
+
+  const currentDailyNote = todayEntry?.content || "";
+
   const handleAddTask = (taskData: NewTaskData) => {
     addTask(taskData);
     toast.success("Task added successfully!", {
@@ -156,8 +170,8 @@ const Index = () => {
         tasks={tasks}
         onToggleTask={handleToggleTask}
         onDeleteTask={handleDeleteTask}
-        dailyNote={dailyNote}
-        onSaveNote={saveNote}
+        dailyNote={currentDailyNote}
+        onSaveNote={handleSaveNote}
       />
 
       <PomodoroTimer />

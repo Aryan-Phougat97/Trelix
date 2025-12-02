@@ -1,7 +1,7 @@
 import { useTable, useMetric } from 'tinybase/ui-react';
+import { Row } from 'tinybase';
 import { store } from '../store';
 
-// Keep your interfaces (I modified them slightly for TinyBase)
 export interface LedgerEntry {
   id: string;
   date: string;
@@ -12,18 +12,27 @@ export interface LedgerEntry {
   createdAt: string;
 }
 
-interface CategorySummary {
-  category: string;
-  amount: number;
-  count: number;
-  percentage: number;
-}
-
-export interface CalculatorHistory {
+// DB Shape for Calculator
+interface CalcRow {
   expression: string;
   result: number;
   timestamp: string;
 }
+
+export interface CalculatorHistory {
+  id: string;
+  expression: string;
+  result: number;
+  timestamp: string;
+}
+
+export interface CategoryBreakdown {
+  category: string;
+  amount: number;
+  percentage: number;
+  count: number;
+}
+
 export interface WeeklySummary {
   weekStart: string;
   weekEnd: string;
@@ -51,22 +60,41 @@ export const INCOME_CATEGORIES = [
   { name: 'Other Income', color: '#6b7280', icon: '💰' },
 ];
 
+// --- Helpers ---
+const getWeekStart = (date: Date): string => {
+  const d = new Date(date);
+  const day = d.getDay();
+  const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+  const monday = new Date(d.setDate(diff));
+  return monday.toISOString().split('T')[0];
+};
+
 export const useLedger = () => {
   // 1. READ DATA
-  // This automatically re-renders when the 'ledger' table changes
   const ledgerTable = useTable('ledger');
-  
-  // Convert the TinyBase object to an Array 
+  const calculatorTable = useTable('calculator_history');
+
   const entries = Object.entries(ledgerTable).map(([id, data]) => ({
     id,
-    ...data,
-  })) as LedgerEntry[];
+    ...(data as object),
+  })) as unknown as LedgerEntry[];
 
-  // Sort by date (Newest first)
+  const calculatorHistory = Object.entries(calculatorTable)
+    .map(([id, data]) => {
+      const row = data as unknown as CalcRow;
+      return {
+        id,
+        expression: row.expression,
+        result: row.result,
+        timestamp: row.timestamp
+      };
+    })
+    .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
+    .slice(0, 10); // Keep last 10
+
   entries.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-  // 2. READ METRICS
-  // These update instantly using the definitions in store.ts
+  // 2. METRICS
   const totalIncome = useMetric('totalIncome') || 0;
   const totalExpense = useMetric('totalExpense') || 0;
   const netBalance = totalIncome - totalExpense;
@@ -83,50 +111,124 @@ export const useLedger = () => {
     store.setPartialRow('ledger', id, updates);
   };
 
-  const deleteEntry = (id: string) => {
-    store.delRow('ledger', id);
+  const deleteEntry = (id: string) => store.delRow('ledger', id);
+
+  const addCalculatorHistory = (expression: string, result: number) => {
+    const newRow: CalcRow = {
+      expression,
+      result,
+      timestamp: new Date().toISOString()
+    };
+    store.addRow('calculator_history', newRow as unknown as Row);
   };
 
-  // 4. DERIVED STATS (Simple JS is fine here for jugaad)
-  // Calculate weekly stats from the raw entries array
-  const weeklyExpense = entries
-    .filter(e => {
-        const date = new Date(e.date);
-        const now = new Date();
-        const oneWeekAgo = new Date(now.setDate(now.getDate() - 7));
-        return e.type === 'expense' && date >= oneWeekAgo;
-    })
+  const clearCalculatorHistory = () => {
+    // Delete all rows in the table
+    Object.keys(calculatorTable).forEach(id => store.delRow('calculator_history', id));
+  };
+
+  // 4. ANALYTICS LOGIC
+  
+  // Weekly Stats (Current Week)
+  const currentWeekStart = getWeekStart(new Date());
+  const currentWeekEntries = entries.filter(e => {
+    const entryWeek = getWeekStart(new Date(e.date));
+    return entryWeek === currentWeekStart;
+  });
+  
+  const weeklyExpense = currentWeekEntries
+    .filter(e => e.type === 'expense')
     .reduce((sum, e) => sum + e.amount, 0);
 
-  const weeklyIncome = entries
-    .filter(e => {
-        const date = new Date(e.date);
-        const now = new Date();
-        const oneWeekAgo = new Date(now.setDate(now.getDate() - 7));
-        return e.type === 'income' && date >= oneWeekAgo;
-    })
+  const weeklyIncome = currentWeekEntries
+    .filter(e => e.type === 'income')
     .reduce((sum, e) => sum + e.amount, 0);
 
-  // Category Breakdown logic (Group by category)
-  const categoryBreakdown = Object.values(
-    entries
-      .filter(e => e.type === 'expense')
-      .reduce((acc, curr) => {
-        if (!acc[curr.category]) {
-          acc[curr.category] = { category: curr.category, amount: 0, count: 0, percentage: 0 };
-        }
-        acc[curr.category].amount += curr.amount;
-        acc[curr.category].count += 1;
-        return acc;
-      }, {} as Record<string, CategorySummary>)
-  ).map((cat) => ({
-    ...cat,
-    percentage: totalExpense > 0 ? (cat.amount / totalExpense) * 100 : 0
-  })).sort((a, b) => b.amount - a.amount);
+  // Category Breakdown
+  const categoryMap = entries
+    .filter(e => e.type === 'expense')
+    .reduce((acc, curr) => {
+      if (!acc[curr.category]) {
+        acc[curr.category] = { category: curr.category, amount: 0, count: 0, percentage: 0 };
+      }
+      acc[curr.category].amount += curr.amount;
+      acc[curr.category].count += 1;
+      return acc;
+    }, {} as Record<string, CategoryBreakdown>);
+
+  const categoryBreakdown = Object.values(categoryMap)
+    .map(cat => ({
+      ...cat,
+      percentage: totalExpense > 0 ? (cat.amount / totalExpense) * 100 : 0
+    }))
+    .sort((a, b) => b.amount - a.amount);
 
   const topCategory = categoryBreakdown[0] || null;
 
-  // Return the API expected by TrelixLedger.tsx
+  // Weekly Data for Charts (Last 4 weeks)
+  const weeklyData: WeeklySummary[] = [];
+  for (let i = 0; i < 4; i++) {
+    const date = new Date();
+    date.setDate(date.getDate() - i * 7);
+    const weekStart = getWeekStart(date);
+    
+    // Calculate week end
+    const end = new Date(weekStart);
+    end.setDate(end.getDate() + 6);
+    const weekEnd = end.toISOString().split('T')[0];
+
+    const weekEntries = entries.filter(e => e.date >= weekStart && e.date <= weekEnd);
+    
+    const wExpense = weekEntries.filter(e => e.type === 'expense').reduce((sum, e) => sum + e.amount, 0);
+    const wIncome = weekEntries.filter(e => e.type === 'income').reduce((sum, e) => sum + e.amount, 0);
+
+    weeklyData.unshift({
+      weekStart,
+      weekEnd,
+      totalExpense: wExpense,
+      totalIncome: wIncome,
+      netChange: wIncome - wExpense
+    });
+  }
+
+  // Daily Spending (Last 30 days)
+  const dailySpending: { date: string; expense: number; income: number }[] = [];
+  for (let i = 29; i >= 0; i--) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    const dateStr = d.toISOString().split('T')[0];
+    
+    const dayEntries = entries.filter(e => e.date === dateStr);
+    const expense = dayEntries.filter(e => e.type === 'expense').reduce((sum, e) => sum + e.amount, 0);
+    const income = dayEntries.filter(e => e.type === 'income').reduce((sum, e) => sum + e.amount, 0);
+
+    dailySpending.push({ date: dateStr, expense, income });
+  }
+
+  // Insights Generation
+  const insights: string[] = [];
+  if (topCategory) {
+    insights.push(`You spend the most on ${topCategory.category} (${topCategory.percentage.toFixed(0)}%).`);
+  }
+  
+  const lastWeekExpense = weeklyData[weeklyData.length - 2]?.totalExpense || 0;
+  const thisWeekExpense = weeklyData[weeklyData.length - 1]?.totalExpense || 0;
+  
+  if (thisWeekExpense > lastWeekExpense) {
+    insights.push(`Spending is up ₹${(thisWeekExpense - lastWeekExpense).toFixed(0)} from last week.`);
+  } else if (lastWeekExpense > 0) {
+    insights.push(`You've saved ₹${(lastWeekExpense - thisWeekExpense).toFixed(0)} compared to last week!`);
+  }
+
+  if (totalIncome > 0) {
+    const savingsRate = (netBalance / totalIncome) * 100;
+    if (savingsRate > 20) {
+      insights.push(`Great job! You're saving ${savingsRate.toFixed(0)}% of your income.`);
+    } else if (savingsRate < 0) {
+      insights.push(`Warning: You are spending more than you earn.`);
+    }
+  }
+
   return {
     entries,
     totalIncome,
@@ -136,14 +238,14 @@ export const useLedger = () => {
     weeklyIncome,
     categoryBreakdown,
     topCategory,
+    weeklyData,
+    dailySpending,
+    insights,
     addEntry,
     updateEntry,
     deleteEntry,
-    
-    // Placeholders for things I haven't migrated yet to prevent errors
-    dailySpending: [], 
-    insights: [],
-    addCalculatorHistory: () => {}, 
-    clearCalculatorHistory: () => {}, 
+    calculatorHistory,
+    addCalculatorHistory,
+    clearCalculatorHistory,
   };
 };
