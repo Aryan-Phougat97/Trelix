@@ -1,153 +1,132 @@
-/**
- * useInspiration Hook
- * Manages inspiration snippets with LocalStorage persistence
- */
+import { useTable } from 'tinybase/ui-react';
+import { store } from '../store';
+import { InspirationSnippet, InspirationStats, MoodType, PlatformType } from '@/types/inspiration';
+import { Row } from 'tinybase';
 
-import { useState, useEffect, useCallback } from 'react';
-import { InspirationSnippet, InspirationStats, MoodType } from '@/types/inspiration';
-
-const STORAGE_KEY = 'inspiration_snippets';
-const STATS_KEY = 'inspiration_stats';
+// DB Shape
+interface InspirationRow {
+  title: string;
+  artist: string;
+  url: string;
+  platform: string;
+  timestamp?: number;
+  endTimestamp?: number;
+  notes?: string;
+  mood: string;
+  tags: string; // Serialized
+  playCount: number;
+  lastPlayed?: string;
+  createdAt: string;
+}
 
 export const useInspiration = () => {
-    const [snippets, setSnippets] = useState<InspirationSnippet[]>([]);
-    const [stats, setStats] = useState<InspirationStats>({
-        totalSnippets: 0,
-        mostPlayedMood: null,
-        totalPlays: 0,
-        recentlyAdded: [],
-    });
+  const inspirationTable = useTable('inspiration');
 
-    // Load from LocalStorage on mount
-    useEffect(() => {
-        const savedSnippets = localStorage.getItem(STORAGE_KEY);
-        const savedStats = localStorage.getItem(STATS_KEY);
-
-        if (savedSnippets) {
-            setSnippets(JSON.parse(savedSnippets));
-        }
-        if (savedStats) {
-            setStats(JSON.parse(savedStats));
-        }
-    }, []);
-
-    // Update stats
-    const updateStats = useCallback(() => {
-        const totalPlays = snippets.reduce((sum, s) => sum + s.playCount, 0);
-
-        // Find most played mood
-        const moodCounts: Record<MoodType, number> = {
-            motivational: 0,
-            calm: 0,
-            energizing: 0,
-            focus: 0,
-        };
-
-        snippets.forEach(s => {
-            moodCounts[s.mood] += s.playCount;
-        });
-
-        const mostPlayedMood = Object.entries(moodCounts).reduce((a, b) =>
-            b[1] > a[1] ? b : a
-        )[0] as MoodType;
-
-        const recentlyAdded = snippets
-            .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-            .slice(0, 5)
-            .map(s => s.id);
-
-        const newStats: InspirationStats = {
-            totalSnippets: snippets.length,
-            mostPlayedMood: snippets.length > 0 ? mostPlayedMood : null,
-            totalPlays,
-            recentlyAdded,
-        };
-
-        setStats(newStats);
-        localStorage.setItem(STATS_KEY, JSON.stringify(newStats));
-    }, [snippets]);
-
-    // Save to LocalStorage whenever snippets change
-    useEffect(() => {
-        if (snippets.length > 0) {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(snippets));
-            updateStats();
-        }
-    }, [snippets, updateStats]);
-
-    // Add new snippet
-    const addSnippet = useCallback((snippet: Omit<InspirationSnippet, 'id' | 'createdAt' | 'playCount'>) => {
-        const newSnippet: InspirationSnippet = {
-            ...snippet,
-            id: Date.now().toString(),
-            createdAt: new Date().toISOString(),
-            playCount: 0,
-        };
-
-        setSnippets(prev => [newSnippet, ...prev]);
-        return newSnippet;
-    }, []);
-
-    // Update existing snippet
-    const updateSnippet = useCallback((id: string, updates: Partial<InspirationSnippet>) => {
-        setSnippets(prev =>
-            prev.map(snippet =>
-                snippet.id === id ? { ...snippet, ...updates } : snippet
-            )
-        );
-    }, []);
-
-    // Delete snippet
-    const deleteSnippet = useCallback((id: string) => {
-        setSnippets(prev => prev.filter(snippet => snippet.id !== id));
-    }, []);
-
-    // Record play
-    const recordPlay = useCallback((id: string) => {
-        setSnippets(prev =>
-            prev.map(snippet =>
-                snippet.id === id
-                    ? {
-                        ...snippet,
-                        playCount: snippet.playCount + 1,
-                        lastPlayed: new Date().toISOString(),
-                    }
-                    : snippet
-            )
-        );
-    }, []);
-
-    // Get snippets by mood
-    const getByMood = useCallback((mood: MoodType) => {
-        return snippets.filter(s => s.mood === mood);
-    }, [snippets]);
-
-    // Get random snippets
-    const getRandomSnippets = useCallback((count: number = 3) => {
-        const shuffled = [...snippets].sort(() => 0.5 - Math.random());
-        return shuffled.slice(0, count);
-    }, [snippets]);
-
-    // Search snippets
-    const searchSnippets = useCallback((query: string) => {
-        const lowerQuery = query.toLowerCase();
-        return snippets.filter(s =>
-            s.title.toLowerCase().includes(lowerQuery) ||
-            s.artist.toLowerCase().includes(lowerQuery) ||
-            s.tags.some(tag => tag.toLowerCase().includes(lowerQuery)) ||
-            s.notes?.toLowerCase().includes(lowerQuery)
-        );
-    }, [snippets]);
-
+  const snippets: InspirationSnippet[] = Object.entries(inspirationTable).map(([id, row]) => {
+    const dbRow = row as unknown as InspirationRow;
     return {
-        snippets,
-        stats,
-        addSnippet,
-        updateSnippet,
-        deleteSnippet,
-        recordPlay,
-        getByMood,
-        getRandomSnippets,
-        searchSnippets,
+      id,
+      title: dbRow.title,
+      artist: dbRow.artist,
+      url: dbRow.url,
+      platform: dbRow.platform as PlatformType, // Cast to union type defined in types/inspiration
+      timestamp: dbRow.timestamp,
+      endTimestamp: dbRow.endTimestamp,
+      notes: dbRow.notes,
+      mood: dbRow.mood as MoodType,
+      tags: dbRow.tags ? JSON.parse(dbRow.tags) : [],
+      playCount: dbRow.playCount || 0,
+      lastPlayed: dbRow.lastPlayed,
+      createdAt: dbRow.createdAt,
     };
+  });
+
+  const totalPlays = snippets.reduce((sum, s) => sum + s.playCount, 0);
+  
+  const moodCounts: Record<string, number> = {};
+  snippets.forEach(s => { moodCounts[s.mood] = (moodCounts[s.mood] || 0) + s.playCount; });
+  
+  const mostPlayedMoodEntry = Object.entries(moodCounts).reduce((a, b) => 
+    b[1] > a[1] ? b : a, ['none', 0] as [string, number]
+  );
+  
+  const mostPlayedMood = mostPlayedMoodEntry[0] === 'none' ? null : mostPlayedMoodEntry[0] as MoodType;
+
+  const stats: InspirationStats = {
+    totalSnippets: snippets.length,
+    mostPlayedMood,
+    totalPlays,
+    recentlyAdded: snippets
+      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+      .slice(0, 5)
+      .map(s => s.id),
+  };
+
+  const addSnippet = (snippet: Omit<InspirationSnippet, 'id' | 'createdAt' | 'playCount'>) => {
+    const newRow: InspirationRow = {
+      ...snippet,
+      tags: JSON.stringify(snippet.tags),
+      playCount: 0,
+      createdAt: new Date().toISOString(),
+    };
+    store.addRow('inspiration', newRow as unknown as Row);
+  };
+
+  const updateSnippet = (id: string, updates: Partial<InspirationSnippet>) => {
+    const rowUpdates: Partial<InspirationRow> = {};
+    
+    // Manual mapping for strict safety
+    if (updates.title !== undefined) rowUpdates.title = updates.title;
+    if (updates.artist !== undefined) rowUpdates.artist = updates.artist;
+    if (updates.url !== undefined) rowUpdates.url = updates.url;
+    if (updates.notes !== undefined) rowUpdates.notes = updates.notes;
+    if (updates.mood !== undefined) rowUpdates.mood = updates.mood;
+    if (updates.playCount !== undefined) rowUpdates.playCount = updates.playCount;
+    if (updates.lastPlayed !== undefined) rowUpdates.lastPlayed = updates.lastPlayed;
+    
+    if (updates.tags !== undefined) {
+      rowUpdates.tags = JSON.stringify(updates.tags);
+    }
+
+    store.setPartialRow('inspiration', id, rowUpdates);
+  };
+
+  const deleteSnippet = (id: string) => store.delRow('inspiration', id);
+
+  const recordPlay = (id: string) => {
+    const snippet = snippets.find(s => s.id === id);
+    if (snippet) {
+      store.setPartialRow('inspiration', id, {
+        playCount: (snippet.playCount || 0) + 1,
+        lastPlayed: new Date().toISOString()
+      });
+    }
+  };
+
+  const getByMood = (mood: MoodType) => snippets.filter(s => s.mood === mood);
+
+  const getRandomSnippets = (count: number = 3) => {
+    return [...snippets].sort(() => 0.5 - Math.random()).slice(0, count);
+  };
+
+  const searchSnippets = (query: string) => {
+    const lower = query.toLowerCase();
+    return snippets.filter(s => 
+      s.title.toLowerCase().includes(lower) || 
+      s.artist.toLowerCase().includes(lower) ||
+      s.tags.some(t => t.toLowerCase().includes(lower))
+    );
+  };
+
+  return {
+    snippets,
+    stats,
+    addSnippet,
+    updateSnippet,
+    deleteSnippet,
+    recordPlay,
+    getByMood,
+    getRandomSnippets,
+    searchSnippets,
+  };
 };
