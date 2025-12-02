@@ -19,6 +19,19 @@ interface CategorySummary {
   percentage: number;
 }
 
+export interface CalculatorHistory {
+  expression: string;
+  result: number;
+  timestamp: string;
+}
+export interface WeeklySummary {
+  weekStart: string;
+  weekEnd: string;
+  totalExpense: number;
+  totalIncome: number;
+  netChange: number;
+}
+
 export const EXPENSE_CATEGORIES = [
   { name: 'Food', color: '#f59e0b', icon: '🍔' },
   { name: 'Travel', color: '#3b82f6', icon: '✈️' },
@@ -123,17 +136,13 @@ export const useLedger = () => {
     weeklyIncome,
     categoryBreakdown,
     topCategory,
-    
-    // Actions
     addEntry,
     updateEntry,
     deleteEntry,
     
     // Placeholders for things I haven't migrated yet to prevent errors
-    weeklyData: [], 
     dailySpending: [], 
     insights: [],
-    calculatorHistory: [], 
     addCalculatorHistory: () => {}, 
     clearCalculatorHistory: () => {}, 
   };

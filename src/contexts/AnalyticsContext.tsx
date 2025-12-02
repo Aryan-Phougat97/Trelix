@@ -1,6 +1,10 @@
-import React, { createContext, useContext, useEffect, useState, useMemo, ReactNode } from 'react';
+/* eslint-disable react-refresh/only-export-components */
+import React, { createContext, useContext, useMemo, ReactNode } from 'react';
 import { startOfWeek, endOfWeek, format, parseISO, isWithinInterval } from 'date-fns';
+import { useTable } from 'tinybase/ui-react';
+import { store } from '../store';
 
+// Keep interfaces for type safety
 export interface Task {
   id: string;
   title: string;
@@ -20,6 +24,7 @@ export interface FocusSession {
 }
 
 export interface NoteActivity {
+  id: string;
   date: string;
   wordCount: number;
 }
@@ -53,7 +58,6 @@ interface AnalyticsContextType {
 
 const AnalyticsContext = createContext<AnalyticsContextType | undefined>(undefined);
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const useAnalytics = () => {
   const context = useContext(AnalyticsContext);
   if (!context) {
@@ -66,41 +70,29 @@ interface AnalyticsProviderProps {
   children: ReactNode;
 }
 
-const STORAGE_KEYS = {
-  TASKS: 'analytics-tasks',
-  FOCUS_SESSIONS: 'analytics-focus-sessions',
-  NOTE_ACTIVITIES: 'analytics-note-activities',
-};
-
 export const AnalyticsProvider: React.FC<AnalyticsProviderProps> = ({ children }) => {
-  const [tasks, setTasks] = useState<Task[]>(() => {
-    const stored = localStorage.getItem(STORAGE_KEYS.TASKS);
-    return stored ? JSON.parse(stored) : [];
-  });
+  // 1. READ DATA (Reactive from TinyBase)
+  const tasksTable = useTable('tasks');
+  const focusSessionsTable = useTable('focus_sessions');
+  const noteActivitiesTable = useTable('note_activities');
 
-  const [focusSessions, setFocusSessions] = useState<FocusSession[]>(() => {
-    const stored = localStorage.getItem(STORAGE_KEYS.FOCUS_SESSIONS);
-    return stored ? JSON.parse(stored) : [];
-  });
+  // Convert to Arrays
+  const tasks = Object.entries(tasksTable).map(([id, data]) => ({
+    id,
+    ...(data as object),
+  })) as unknown as Task[];
 
-  const [noteActivities, setNoteActivities] = useState<NoteActivity[]>(() => {
-    const stored = localStorage.getItem(STORAGE_KEYS.NOTE_ACTIVITIES);
-    return stored ? JSON.parse(stored) : [];
-  });
+  const focusSessions = Object.entries(focusSessionsTable).map(([id, data]) => ({
+    id,
+    ...(data as object),
+  })) as unknown as FocusSession[];
 
-  // Persist to localStorage
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEYS.TASKS, JSON.stringify(tasks));
-  }, [tasks]);
+  const noteActivities = Object.entries(noteActivitiesTable).map(([id, data]) => ({
+    id,
+    ...(data as object),
+  })) as unknown as NoteActivity[];
 
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEYS.FOCUS_SESSIONS, JSON.stringify(focusSessions));
-  }, [focusSessions]);
-
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEYS.NOTE_ACTIVITIES, JSON.stringify(noteActivities));
-  }, [noteActivities]);
-
+  // 2. CALCULATE STATS
   const weeklyStats = useMemo((): WeeklyStats => {
     const now = new Date();
     const weekStart = startOfWeek(now, { weekStartsOn: 1 }); // Monday
@@ -133,9 +125,9 @@ export const AnalyticsProvider: React.FC<AnalyticsProviderProps> = ({ children }
     const totalTasks = weekTasks.length;
     const completedTasks = weekCompletedTasks.length;
     const completionRate = totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0;
-    const totalFocusMinutes = weekFocusSessions.reduce((sum, session) => sum + session.duration, 0);
+    const totalFocusMinutes = weekFocusSessions.reduce((sum, session) => sum + (session.duration || 0), 0);
     const averageFocusDuration = weekFocusSessions.length > 0 ? totalFocusMinutes / weekFocusSessions.length : 0;
-    const notesActivity = weekNoteActivities.reduce((sum, activity) => sum + activity.wordCount, 0);
+    const notesActivity = weekNoteActivities.reduce((sum, activity) => sum + (activity.wordCount || 0), 0);
 
     // Daily metrics for charts
     const dailyMetrics: DayMetrics[] = [];
@@ -152,11 +144,11 @@ export const AnalyticsProvider: React.FC<AnalyticsProviderProps> = ({ children }
 
       const dayFocusMinutes = weekFocusSessions
         .filter((session) => format(parseISO(session.date), 'yyyy-MM-dd') === dateStr)
-        .reduce((sum, session) => sum + session.duration, 0);
+        .reduce((sum, session) => sum + (session.duration || 0), 0);
 
       const dayNotesCount = weekNoteActivities
         .filter((activity) => format(parseISO(activity.date), 'yyyy-MM-dd') === dateStr)
-        .reduce((sum, activity) => sum + activity.wordCount, 0);
+        .reduce((sum, activity) => sum + (activity.wordCount || 0), 0);
 
       dailyMetrics.push({
         date: dayName,
@@ -185,64 +177,48 @@ export const AnalyticsProvider: React.FC<AnalyticsProviderProps> = ({ children }
     };
   }, [tasks, focusSessions, noteActivities]);
 
+  // 3. ACTIONS (Write to DB)
+  
+  // NOTE: Tasks are now managed by useTasks.ts, so this might be redundant, 
+  // but we keep it compatible with existing calls.
   const recordTaskCompletion = (taskId: string, taskData: Omit<Task, 'id'>) => {
-    const now = new Date().toISOString();
-    const existingTask = tasks.find((t) => t.id === taskId);
-
-    if (existingTask) {
-      // Update existing task
-      setTasks((prev) =>
-        prev.map((t) =>
-          t.id === taskId
-            ? { ...t, completed: true, completedAt: now }
-            : t
-        )
-      );
-    } else {
-      // Add new completed task
-      const newTask: Task = {
-        id: taskId,
-        ...taskData,
-        completed: true,
-        completedAt: now,
-        createdAt: taskData.createdAt || now,
-      };
-      setTasks((prev) => [...prev, newTask]);
-    }
+    // In the new architecture, useTasks handles the toggle. 
+    // This function is kept just in case other components call it for logging purposes.
+    // If we purely rely on the 'tasks' table state, we don't strictly need to do anything here
+    // unless we are logging a separate "completion event" history.
+    // For V1 simplicity, we assume the task update in DB is enough.
+    console.log("Task completion recorded via AnalyticsContext", taskId);
   };
 
   const recordFocusSession = (duration: number, taskId?: string) => {
-    const newSession: FocusSession = {
-      id: Date.now().toString(),
+    store.addRow('focus_sessions', {
       date: new Date().toISOString(),
       duration,
-      taskId,
-    };
-    setFocusSessions((prev) => [...prev, newSession]);
+      taskId: taskId || '',
+    });
   };
 
   const recordNoteActivity = (wordCount: number) => {
     const today = format(new Date(), 'yyyy-MM-dd');
-    const existingActivity = noteActivities.find((a) => a.date === today);
+    
+    // Check if we already have an activity record for today
+    // (Had to scan the array because TinyBase IDs are random)
+    const existingActivity = noteActivities.find((a) => a.date.startsWith(today));
 
     if (existingActivity) {
-      setNoteActivities((prev) =>
-        prev.map((a) => (a.date === today ? { ...a, wordCount } : a))
-      );
+      store.setCell('note_activities', existingActivity.id, 'wordCount', wordCount);
     } else {
-      const newActivity: NoteActivity = {
+      store.addRow('note_activities', {
         date: new Date().toISOString(),
         wordCount,
-      };
-      setNoteActivities((prev) => [...prev, newActivity]);
+      });
     }
   };
 
   const getTasks = () => tasks;
 
-  const updateTasks = (newTasks: Task[]) => {
-    setTasks(newTasks);
-  };
+  // won't have to manually update state
+  const updateTasks = () => {};
 
   return (
     <AnalyticsContext.Provider

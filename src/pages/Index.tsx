@@ -3,34 +3,28 @@ import { TaskInput } from "@/components/TaskInput";
 import { TaskCard } from "@/components/TaskCard";
 import { FilterTabs } from "@/components/FilterTabs";
 import { StatsPanel } from "@/components/StatsPanel";
-import { NoteSection } from "@/components/NoteSection";
 import { FocusModeOverlay } from "@/components/FocusModeOverlay";
 import { PomodoroTimer } from "@/components/PomodoroTimer";
 import { AmbientSoundPlayer } from "@/components/AmbientSoundPlayer";
 import { useFocusMode } from "@/contexts/FocusModeContext";
 import { useAnalytics } from "@/contexts/AnalyticsContext";
+import { useTasks, Task } from "@/hooks/useTasks";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
 
-interface Task {
-  id: string;
-  title: string;
-  category: string;
-  priority: string;
-  deadline: string;
-  completed: boolean;
-}
+type NewTaskData = Omit<Task, "id" | "completed" | "completedAt" | "createdAt">;
 
 const Index = () => {
   const { isFocusMode } = useFocusMode();
   const { recordTaskCompletion, recordNoteActivity } = useAnalytics();
-  const [tasks, setTasks] = useState<Task[]>([]);
+  
+  const { tasks, addTask, toggleTask, deleteTask } = useTasks();
+
   const [activeFilter, setActiveFilter] = useState("all");
   const [dailyNote, setDailyNote] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
-    // Load note from localStorage
     const savedNote = localStorage.getItem("dailyNote");
     if (savedNote) {
       setDailyNote(savedNote);
@@ -40,33 +34,25 @@ const Index = () => {
   const saveNote = (note: string) => {
     setDailyNote(note);
     localStorage.setItem("dailyNote", note);
-    // Track note activity
     const wordCount = note.trim().split(/\s+/).filter(Boolean).length;
     recordNoteActivity(wordCount);
     toast.success("Note saved successfully!");
   };
 
-  const addTask = (taskData: Omit<Task, "id" | "completed">) => {
-    const newTask: Task = {
-      ...taskData,
-      id: Date.now().toString(),
-      completed: false,
-    };
-    setTasks([newTask, ...tasks]);
+  // Fixed: Replaced 'any' with proper type
+  const handleAddTask = (taskData: NewTaskData) => {
+    addTask(taskData);
     toast.success("Task added successfully!", {
       description: taskData.title,
     });
   };
 
-  const toggleTask = (id: string) => {
-    setTasks(
-      tasks.map((task) =>
-        task.id === id ? { ...task, completed: !task.completed } : task
-      )
-    );
+  const handleToggleTask = (id: string) => {
     const task = tasks.find((t) => t.id === id);
+    
+    toggleTask(id);
+
     if (task && !task.completed) {
-      // Track task completion in analytics
       recordTaskCompletion(id, {
         title: task.title,
         category: task.category,
@@ -79,13 +65,12 @@ const Index = () => {
     }
   };
 
-  const deleteTask = (id: string) => {
-    setTasks(tasks.filter((task) => task.id !== id));
+  const handleDeleteTask = (id: string) => {
+    deleteTask(id);
     toast.info("Task deleted");
   };
 
   const filteredTasks = tasks.filter((task) => {
-    // First apply search filter
     const matchesSearch = searchQuery.trim() === "" ||
       task.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       task.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -93,7 +78,6 @@ const Index = () => {
 
     if (!matchesSearch) return false;
 
-    // Then apply category filter
     if (activeFilter === "all") return true;
     if (activeFilter === "completed") return task.completed;
     return task.category === activeFilter && !task.completed;
@@ -114,10 +98,9 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
-      {/* Minimal Grid Pattern Overlay - Very Subtle with Animation */}
+      {/* Minimal Grid Pattern Overlay */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-size-[100px_100px] pointer-events-none animate-fade-in"></div>
 
-      {/* Main Content - Fades when Focus Mode is active */}
       <AnimatePresence>
         <motion.div
           className="relative z-10"
@@ -129,9 +112,9 @@ const Index = () => {
         >
           <div className="container max-w-7xl mx-auto px-8 py-6">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {/* Main Content - 2/3 Width */}
+              {/* Main Content */}
               <div className="lg:col-span-2 space-y-6">
-                <TaskInput onAddTask={addTask} />
+                <TaskInput onAddTask={handleAddTask} />
                 <FilterTabs activeFilter={activeFilter} onFilterChange={setActiveFilter} counts={counts} />
 
                 <div className="space-y-3 pb-8">
@@ -152,15 +135,15 @@ const Index = () => {
                       <TaskCard
                         key={task.id}
                         task={task}
-                        onToggle={toggleTask}
-                        onDelete={deleteTask}
+                        onToggle={handleToggleTask}
+                        onDelete={handleDeleteTask}
                       />
                     ))
                   )}
                 </div>
               </div>
 
-              {/* Stats Sidebar - 1/3 Width */}
+              {/* Stats Sidebar */}
               <div className="lg:col-span-1 space-y-6">
                 <StatsPanel {...stats} />
               </div>
@@ -169,19 +152,15 @@ const Index = () => {
         </motion.div>
       </AnimatePresence>
 
-      {/* Focus Mode Overlay */}
       <FocusModeOverlay
         tasks={tasks}
-        onToggleTask={toggleTask}
-        onDeleteTask={deleteTask}
+        onToggleTask={handleToggleTask}
+        onDeleteTask={handleDeleteTask}
         dailyNote={dailyNote}
         onSaveNote={saveNote}
       />
 
-      {/* Pomodoro Timer */}
       <PomodoroTimer />
-
-      {/* Ambient Sound Player */}
       <AmbientSoundPlayer />
     </div>
   );
