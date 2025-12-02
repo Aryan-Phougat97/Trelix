@@ -165,17 +165,6 @@ const Index = () => {
           </div>
         </motion.div>
       </AnimatePresence>
-
-      <FocusModeOverlay
-        tasks={tasks}
-        onToggleTask={handleToggleTask}
-        onDeleteTask={handleDeleteTask}
-        dailyNote={currentDailyNote}
-        onSaveNote={handleSaveNote}
-      />
-
-      <PomodoroTimer />
-      <AmbientSoundPlayer />
     </div>
   );
 };
