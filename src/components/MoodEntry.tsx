@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -23,23 +23,13 @@ const MOOD_OPTIONS: Array<{ mood: MoodType; label: string; color: string }> = [
   { mood: 'motivated', label: 'Motivated', color: 'from-brand-amber/20 to-brand-purple/20 hover:from-brand-amber/30 hover:to-brand-purple/30' },
 ];
 
-export const MoodEntry: React.FC<MoodEntryProps> = ({ todayEntry, onSave }) => {
+const MoodEntryContent = ({ todayEntry, onSave }: MoodEntryProps) => {
   const [isEditing, setIsEditing] = useState(!todayEntry);
   const [selectedMood, setSelectedMood] = useState<MoodType | null>(todayEntry?.mood || null);
   const [note, setNote] = useState(todayEntry?.note || '');
   const [tags, setTags] = useState<string[]>(todayEntry?.tags || []);
   const [tagInput, setTagInput] = useState('');
   const [intensity, setIntensity] = useState(todayEntry?.score || 5);
-
-  useEffect(() => {
-    if (todayEntry) {
-      setSelectedMood(todayEntry.mood);
-      setNote(todayEntry.note || '');
-      setTags(todayEntry.tags || []);
-      setIntensity(todayEntry.score);
-      setIsEditing(false);
-    }
-  }, [todayEntry]);
 
   const handleMoodSelect = (mood: MoodType) => {
     setSelectedMood(mood);
@@ -289,5 +279,15 @@ export const MoodEntry: React.FC<MoodEntryProps> = ({ todayEntry, onSave }) => {
         </motion.div>
       )}
     </div>
+  );
+};
+
+export const MoodEntry: React.FC<MoodEntryProps> = ({ todayEntry, onSave }) => {
+  return (
+    <MoodEntryContent 
+      key={todayEntry ? todayEntry.id : 'new-mood-entry'}
+      todayEntry={todayEntry}
+      onSave={onSave}
+    />
   );
 };

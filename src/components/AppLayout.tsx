@@ -17,29 +17,29 @@ interface AppLayoutProps {
 }
 
 export const AppLayout = ({ children, showHeader = true, onSearch, onFilterClick }: AppLayoutProps) => {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [userSidebarOpen, setUserSidebarOpen] = useState(() => typeof window !== 'undefined' ? window.innerWidth >= 1024 : true);
   const location = useLocation();
   const { isFocusMode } = useFocusMode();
+
+  const sidebarOpen = isFocusMode ? false : userSidebarOpen;
+  const handleSidebarToggle = () => {
+    if (!isFocusMode) {
+      setUserSidebarOpen(!userSidebarOpen);
+    }
+  };
 
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 1024) {
-        setSidebarOpen(false);
+        setUserSidebarOpen(false);
       } else {
-        setSidebarOpen(true);
+        setUserSidebarOpen(true);
       }
     };
 
-    handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
-  useEffect(() => {
-    if (isFocusMode) {
-      setSidebarOpen(false);
-    }
-  }, [isFocusMode]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -51,18 +51,18 @@ export const AppLayout = ({ children, showHeader = true, onSearch, onFilterClick
       {sidebarOpen && (
         <div
           className="fixed inset-0 bg-black/50 z-20 lg:hidden"
-          onClick={() => setSidebarOpen(false)}
+          onClick={() => setUserSidebarOpen(false)}
         />
       )}
 
-      <Sidebar isOpen={sidebarOpen} onToggle={() => setSidebarOpen(!sidebarOpen)} />
+      <Sidebar isOpen={sidebarOpen} onToggle={handleSidebarToggle} />
 
       <div className="flex-1 flex flex-col overflow-hidden">
         <div className="lg:hidden fixed top-4 left-4 z-60">
           <Button
             variant="outline"
             size="icon"
-            onClick={() => setSidebarOpen(!sidebarOpen)}
+            onClick={handleSidebarToggle}
             className="h-12 w-12 rounded-full shadow-lg bg-card/90 backdrop-blur-xs border-border/50 hover:bg-card"
           >
             <Menu className="h-6 w-6" />

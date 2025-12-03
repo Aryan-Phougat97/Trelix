@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Copy, Plus, History, Trash2 } from 'lucide-react';
 import { Button } from './ui/button';
@@ -13,26 +13,16 @@ interface CalculatorModalProps {
   onClearHistory: () => void;
 }
 
-export const CalculatorModal = ({
-  isOpen,
+const CalculatorContent = ({
   onClose,
   onAddToExpense,
   history,
   onClearHistory,
-}: CalculatorModalProps) => {
+}: Omit<CalculatorModalProps, 'isOpen'>) => {
   const [display, setDisplay] = useState('0');
   const [expression, setExpression] = useState('');
   const [lastResult, setLastResult] = useState<number | null>(null);
   const [showHistory, setShowHistory] = useState(false);
-
-  useEffect(() => {
-    if (!isOpen) {
-      setDisplay('0');
-      setExpression('');
-      setLastResult(null);
-      setShowHistory(false);
-    }
-  }, [isOpen]);
 
   const handleNumber = (num: string) => {
     if (display === '0' || lastResult !== null) {
@@ -157,6 +147,135 @@ export const CalculatorModal = ({
   };
 
   return (
+    <div
+      className="glass-card rounded-2xl p-6 w-full max-w-md border-2 border-primary/40 shadow-2xl"
+    >
+      {/* Header */}
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-xl font-bold">Calculator</h2>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setShowHistory(!showHistory)}
+            className="text-muted-foreground hover:text-foreground transition-colors"
+            title="History"
+          >
+            <History className="w-5 h-5" />
+          </button>
+          <button
+            onClick={onClose}
+            className="text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+      </div>
+
+      {/* History Panel */}
+      <AnimatePresence>
+        {showHistory && history.length > 0 && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="mb-4 overflow-hidden"
+          >
+            <div className="bg-background/50 rounded-lg p-3 space-y-2 max-h-40 overflow-y-auto">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs text-muted-foreground font-medium">
+                  Recent calculations
+                </span>
+                <button
+                  onClick={onClearHistory}
+                  className="text-xs text-red-500 hover:text-red-400 flex items-center gap-1"
+                >
+                  <Trash2 className="w-3 h-3" />
+                  Clear
+                </button>
+              </div>
+              {history.map((item) => (
+                <motion.button
+                  key={item.timestamp}
+                  whileHover={{ scale: 1.02 }}
+                  onClick={() => handleHistoryClick(item)}
+                  className="w-full text-left p-2 rounded border border-border/50 hover:border-border hover:bg-foreground/5 transition-all"
+                >
+                  <div className="text-sm text-muted-foreground">
+                    {item.expression}
+                  </div>
+                  <div className="text-sm font-semibold text-foreground">
+                    = {item.result}
+                  </div>
+                </motion.button>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Display */}
+      <div
+        className="mb-4 p-4 rounded-xl border-2 border-primary/40 bg-muted/20 shadow-inner"
+      >
+        {/* Expression */}
+        <div className="text-sm text-muted-foreground mb-1 h-6 truncate">
+          {expression || ' '}
+        </div>
+        {/* Display */}
+        <div
+          className="text-3xl font-bold text-right truncate text-primary"
+        >
+          {display}
+        </div>
+      </div>
+
+      {/* Button Grid */}
+      <div className="grid grid-cols-4 gap-2 mb-4">
+        {buttons.map((btn, index) => (
+          <motion.button
+            key={`${btn.label}-${index}`}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={btn.action}
+            className={getButtonStyle(btn.variant)}
+          >
+            {btn.label}
+          </motion.button>
+        ))}
+      </div>
+
+      {/* Action Buttons */}
+      <div className="flex gap-2">
+        <motion.button
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          onClick={handleCopy}
+          className="flex-1 py-3 rounded-lg border border-border hover:bg-foreground/5 transition-all flex items-center justify-center gap-2 font-medium"
+        >
+          <Copy className="w-4 h-4" />
+          Copy
+        </motion.button>
+        <motion.button
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          onClick={handleAddExpense}
+          className="flex-1 py-3 rounded-lg border-2 border-primary bg-primary/20 text-primary hover:bg-primary/30 transition-all flex items-center justify-center gap-2 font-medium"
+        >
+          <Plus className="w-4 h-4" />
+          Add as Expense
+        </motion.button>
+      </div>
+    </div>
+  );
+};
+
+export const CalculatorModal = ({
+  isOpen,
+  onClose,
+  onAddToExpense,
+  history,
+  onClearHistory,
+}: CalculatorModalProps) => {
+  return (
     <AnimatePresence>
       {isOpen && (
         <>
@@ -177,124 +296,12 @@ export const CalculatorModal = ({
             transition={{ duration: 0.2 }}
             className="fixed inset-0 z-50 flex items-center justify-center p-4"
           >
-            <div
-              className="glass-card rounded-2xl p-6 w-full max-w-md border-2 border-primary/40 shadow-2xl"
-            >
-              {/* Header */}
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-bold">Calculator</h2>
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => setShowHistory(!showHistory)}
-                    className="text-muted-foreground hover:text-foreground transition-colors"
-                    title="History"
-                  >
-                    <History className="w-5 h-5" />
-                  </button>
-                  <button
-                    onClick={onClose}
-                    className="text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    <X className="w-5 h-5" />
-                  </button>
-                </div>
-              </div>
-
-              {/* History Panel */}
-              <AnimatePresence>
-                {showHistory && history.length > 0 && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    className="mb-4 overflow-hidden"
-                  >
-                    <div className="bg-background/50 rounded-lg p-3 space-y-2 max-h-40 overflow-y-auto">
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-xs text-muted-foreground font-medium">
-                          Recent calculations
-                        </span>
-                        <button
-                          onClick={onClearHistory}
-                          className="text-xs text-red-500 hover:text-red-400 flex items-center gap-1"
-                        >
-                          <Trash2 className="w-3 h-3" />
-                          Clear
-                        </button>
-                      </div>
-                      {history.map((item) => (
-                        <motion.button
-                          key={item.timestamp}
-                          whileHover={{ scale: 1.02 }}
-                          onClick={() => handleHistoryClick(item)}
-                          className="w-full text-left p-2 rounded border border-border/50 hover:border-border hover:bg-foreground/5 transition-all"
-                        >
-                          <div className="text-sm text-muted-foreground">
-                            {item.expression}
-                          </div>
-                          <div className="text-sm font-semibold text-foreground">
-                            = {item.result}
-                          </div>
-                        </motion.button>
-                      ))}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              {/* Display */}
-              <div
-                className="mb-4 p-4 rounded-xl border-2 border-primary/40 bg-muted/20 shadow-inner"
-              >
-                {/* Expression */}
-                <div className="text-sm text-muted-foreground mb-1 h-6 truncate">
-                  {expression || ' '}
-                </div>
-                {/* Display */}
-                <div
-                  className="text-3xl font-bold text-right truncate text-primary"
-                >
-                  {display}
-                </div>
-              </div>
-
-              {/* Button Grid */}
-              <div className="grid grid-cols-4 gap-2 mb-4">
-                {buttons.map((btn, index) => (
-                  <motion.button
-                    key={`${btn.label}-${index}`}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={btn.action}
-                    className={getButtonStyle(btn.variant)}
-                  >
-                    {btn.label}
-                  </motion.button>
-                ))}
-              </div>
-
-              {/* Action Buttons */}
-              <div className="flex gap-2">
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={handleCopy}
-                  className="flex-1 py-3 rounded-lg border border-border hover:bg-foreground/5 transition-all flex items-center justify-center gap-2 font-medium"
-                >
-                  <Copy className="w-4 h-4" />
-                  Copy
-                </motion.button>
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={handleAddExpense}
-                  className="flex-1 py-3 rounded-lg border-2 border-primary bg-primary/20 text-primary hover:bg-primary/30 transition-all flex items-center justify-center gap-2 font-medium"
-                >
-                  <Plus className="w-4 h-4" />
-                  Add as Expense
-                </motion.button>
-              </div>
-            </div>
+            <CalculatorContent
+              onClose={onClose}
+              onAddToExpense={onAddToExpense}
+              history={history}
+              onClearHistory={onClearHistory}
+            />
           </motion.div>
         </>
       )}

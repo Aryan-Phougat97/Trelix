@@ -19,8 +19,6 @@ export const FinancialInsights = ({
 }: FinancialInsightsProps) => {
   const { theme } = useTheme();
 
-  const themeColor = 'oklch(var(--primary))';
-
   const savingsRate = totalIncome > 0 ? (netBalance / totalIncome) * 100 : 0;
   const isOverspending = netBalance < 0;
 

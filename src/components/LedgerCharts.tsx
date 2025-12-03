@@ -19,6 +19,43 @@ import {
 import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
 import { CategoryBreakdown, WeeklySummary } from '../hooks/useLedger';
 
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: {
+    name: string;
+    value: number;
+    color?: string;
+    fill?: string;
+    payload?: unknown;
+  }[];
+  label?: string;
+}
+
+const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="glass-card p-3 border border-border/50 shadow-xl rounded-lg !bg-background/95 backdrop-blur-xl">
+        <p className="font-medium text-sm mb-2">{label}</p>
+        {payload.map((entry, index: number) => (
+          <div key={index} className="flex items-center gap-2 text-xs text-muted-foreground">
+            <div 
+              className="w-2 h-2 rounded-full" 
+              style={{ backgroundColor: entry.color || entry.fill }}
+            />
+            <span className="font-medium" style={{ color: entry.color || entry.fill }}>
+              {entry.name}:
+            </span>
+            <span className="text-foreground font-mono">
+              ₹{entry.value?.toLocaleString()}
+            </span>
+          </div>
+        ))}
+      </div>
+    );
+  }
+  return null;
+};
+
 interface LedgerChartsProps {
   categoryBreakdown: CategoryBreakdown[];
   weeklyData: WeeklySummary[];
@@ -69,35 +106,6 @@ export const LedgerCharts = ({
     '#6b7280', // Other
   ];
 
-  // Custom tooltip
-  const CustomTooltip = ({ active, payload, label }: TooltipProps<ValueType, NameType>) => {
-    if (active && payload && payload.length) {
-      return (
-        <div
-          className="glass-card p-3 rounded-lg border border-border/50 shadow-lg"
-          style={{
-            backgroundColor:
-              theme === 'light' ? 'rgba(255,255,255,0.95)' : 'rgba(0,0,0,0.9)',
-          }}
-        >
-          <p className="text-sm font-semibold mb-1" style={{ color: colors.text }}>
-            {label}
-          </p>
-          {payload.map((entry, index) => (
-            <p
-              key={index}
-              className="text-xs"
-              style={{ color: entry.color || colors.primary }}
-            >
-              {entry.name}: ₹{typeof entry.value === 'number' ? entry.value.toLocaleString('en-IN') : entry.value}
-            </p>
-          ))}
-        </div>
-      );
-    }
-    return null;
-  };
-
   // Format week label
   const formatWeekLabel = (weekStart: string) => {
     const date = new Date(weekStart);
@@ -127,7 +135,7 @@ export const LedgerCharts = ({
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
-                  data={categoryBreakdown}
+                  data={categoryBreakdown as any[]} // eslint-disable-line @typescript-eslint/no-explicit-any
                   dataKey="amount"
                   nameKey="category"
                   cx="50%"

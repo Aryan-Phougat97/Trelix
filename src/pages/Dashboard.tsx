@@ -39,6 +39,46 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 
+  interface CustomTooltipProps {
+    active?: boolean;
+    payload?: {
+      name: string;
+      value: number | string;
+      stroke?: string;
+      fill?: string;
+      payload?: unknown;
+    }[];
+    label?: string;
+  }
+
+  // Custom tooltip for charts
+  const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="glass-card p-3 border border-border/50 shadow-xl rounded-lg !bg-background/95 backdrop-blur-xl">
+        <p className="font-medium text-sm mb-2">{label}</p>
+        {payload.map((entry, index: number) => (
+          <div key={index} className="flex items-center gap-2 text-xs">
+            <div 
+              className="w-2 h-2 rounded-full" 
+              style={{ backgroundColor: entry.stroke || entry.fill }} 
+            />
+            <span className="text-muted-foreground">{entry.name}:</span>
+            <span className="font-mono font-medium">
+              {typeof entry.value === 'number' 
+                ? (entry.name === 'Focus' 
+                    ? `${entry.value}m` 
+                    : entry.value) 
+                : entry.value}
+            </span>
+          </div>
+        ))}
+      </div>
+    );
+  }
+  return null;
+};
+
 const Dashboard = () => {
   const { weeklyStats } = useAnalytics();
   const {
@@ -97,23 +137,6 @@ const Dashboard = () => {
       bgColor: 'bg-brand-rose/10',
     },
   ];
-
-  // Custom tooltip for charts
-  const CustomTooltip = ({ active, payload, label }: TooltipProps<ValueType, NameType>) => {
-    if (active && payload && payload.length) {
-      return (
-        <div className="glass-card rounded-lg p-3 shadow-lg border border-border/50">
-          <p className="font-semibold text-sm mb-2">{label}</p>
-          {payload.map((entry, index) => (
-            <p key={index} className="text-xs" style={{ color: entry.color }}>
-              {entry.name}: {entry.value}
-            </p>
-          ))}
-        </div>
-      );
-    }
-    return null;
-  };
 
   return (
     <div className="min-h-screen bg-background">
