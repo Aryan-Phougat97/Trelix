@@ -1,12 +1,7 @@
-import { useState, useEffect } from 'react';
-
-export interface WeeklyReview {
-  weekOf: string; // ISO date string of Monday of that week
-  whatWorkedWell: string;
-  whatNeedsImprovement: string;
-  nextWeekIntentions: Intention[];
-  completedAt?: string;
-}
+import { useState } from 'react';
+import { useTable } from 'tinybase/ui-react';
+import { store } from '../store';
+import { Row } from 'tinybase';
 
 export interface Intention {
   id: string;
@@ -14,125 +9,114 @@ export interface Intention {
   createdAt: string;
 }
 
-interface UseWeeklyReviewReturn {
-  currentReview: WeeklyReview | null;
-  saveWhatWorkedWell: (text: string) => void;
-  saveWhatNeedsImprovement: (text: string) => void;
-  addIntention: (text: string) => void;
-  removeIntention: (id: string) => void;
-  updateIntention: (id: string, text: string) => void;
-  completeReview: () => void;
-  getReviewForWeek: (weekOf: string) => WeeklyReview | null;
-  getAllReviews: () => WeeklyReview[];
-  selectedWeek: string;
-  setSelectedWeek: (weekOf: string) => void;
+export interface WeeklyReview {
+  weekOf: string;
+  whatWorkedWell: string;
+  whatNeedsImprovement: string;
+  nextWeekIntentions: Intention[];
+  completedAt?: string;
 }
 
-const STORAGE_KEY = 'trelix-weekly-reviews';
+// DB Shape
+interface ReviewRow {
+  weekOf: string;
+  whatWorkedWell: string;
+  whatNeedsImprovement: string;
+  nextWeekIntentions: string; // Serialized
+  completedAt?: string;
+}
 
 const getMonday = (date: Date): string => {
   const d = new Date(date);
   const day = d.getDay();
-  const diff = d.getDate() - day + (day === 0 ? -6 : 1); // Adjust when day is Sunday
+  const diff = d.getDate() - day + (day === 0 ? -6 : 1);
   d.setDate(diff);
   d.setHours(0, 0, 0, 0);
   return d.toISOString().split('T')[0];
 };
 
-export const useWeeklyReview = (): UseWeeklyReviewReturn => {
-  const [reviews, setReviews] = useState<WeeklyReview[]>(() => {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      return stored ? JSON.parse(stored) : [];
-    } catch (error) {
-      console.error('Failed to load weekly reviews:', error);
-      return [];
-    }
-  });
-
+export const useWeeklyReview = () => {
   const [selectedWeek, setSelectedWeek] = useState<string>(() => getMonday(new Date()));
+  const reviewsTable = useTable('weekly_reviews');
 
-  useEffect(() => {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(reviews));
-    } catch (error) {
-      console.error('Failed to save weekly reviews:', error);
-    }
-  }, [reviews]);
-
-  const getCurrentOrCreateReview = (): WeeklyReview => {
-    const existing = reviews.find((r) => r.weekOf === selectedWeek);
-    if (existing) return existing;
-
-    const newReview: WeeklyReview = {
-      weekOf: selectedWeek,
-      whatWorkedWell: '',
-      whatNeedsImprovement: '',
-      nextWeekIntentions: [],
+  const reviews = Object.entries(reviewsTable).map(([id, row]) => {
+    const dbRow = row as unknown as ReviewRow;
+    return {
+      weekOf: dbRow.weekOf,
+      whatWorkedWell: dbRow.whatWorkedWell,
+      whatNeedsImprovement: dbRow.whatNeedsImprovement,
+      nextWeekIntentions: dbRow.nextWeekIntentions ? JSON.parse(dbRow.nextWeekIntentions) : [],
+      completedAt: dbRow.completedAt,
+      _rowId: id 
     };
-    return newReview;
+  }) as (WeeklyReview & { _rowId: string })[];
+
+  const currentReview = reviews.find(r => r.weekOf === selectedWeek) || {
+    weekOf: selectedWeek,
+    whatWorkedWell: '',
+    whatNeedsImprovement: '',
+    nextWeekIntentions: [],
+    _rowId: null
   };
 
-  const currentReview = getCurrentOrCreateReview();
+  const saveReviewUpdate = (updates: Partial<WeeklyReview>) => {
+    const existing = reviews.find(r => r.weekOf === selectedWeek);
+    
+    const rowUpdate: Partial<ReviewRow> = {};
+    if (updates.whatWorkedWell !== undefined) rowUpdate.whatWorkedWell = updates.whatWorkedWell;
+    if (updates.whatNeedsImprovement !== undefined) rowUpdate.whatNeedsImprovement = updates.whatNeedsImprovement;
+    if (updates.completedAt !== undefined) rowUpdate.completedAt = updates.completedAt;
+    if (updates.nextWeekIntentions !== undefined) {
+        rowUpdate.nextWeekIntentions = JSON.stringify(updates.nextWeekIntentions);
+    }
 
-  const updateReview = (updates: Partial<WeeklyReview>) => {
-    setReviews((prev) => {
-      const existing = prev.find((r) => r.weekOf === selectedWeek);
-      if (existing) {
-        return prev.map((r) =>
-          r.weekOf === selectedWeek ? { ...r, ...updates } : r
-        );
-      } else {
-        return [...prev, { ...getCurrentOrCreateReview(), ...updates }];
-      }
-    });
+    if (existing) {
+      store.setPartialRow('weekly_reviews', existing._rowId, rowUpdate);
+    } else {
+      // For new rows, we must provide all required fields
+      const newRow: ReviewRow = {
+        weekOf: selectedWeek,
+        whatWorkedWell: rowUpdate.whatWorkedWell || '',
+        whatNeedsImprovement: rowUpdate.whatNeedsImprovement || '',
+        nextWeekIntentions: rowUpdate.nextWeekIntentions || '[]',
+        completedAt: rowUpdate.completedAt
+      };
+      store.addRow('weekly_reviews', newRow as unknown as Row);
+    }
   };
 
-  const saveWhatWorkedWell = (text: string) => {
-    updateReview({ whatWorkedWell: text });
-  };
-
-  const saveWhatNeedsImprovement = (text: string) => {
-    updateReview({ whatNeedsImprovement: text });
-  };
+  const saveWhatWorkedWell = (text: string) => saveReviewUpdate({ whatWorkedWell: text });
+  const saveWhatNeedsImprovement = (text: string) => saveReviewUpdate({ whatNeedsImprovement: text });
 
   const addIntention = (text: string) => {
-    const newIntention: Intention = {
-      id: crypto.randomUUID(),
-      text,
-      createdAt: new Date().toISOString(),
-    };
-    updateReview({
-      nextWeekIntentions: [...currentReview.nextWeekIntentions, newIntention],
-    });
+    const newIntention = { id: crypto.randomUUID(), text, createdAt: new Date().toISOString() };
+    const currentIntentions = currentReview.nextWeekIntentions || [];
+    saveReviewUpdate({ nextWeekIntentions: [...currentIntentions, newIntention] });
   };
 
   const removeIntention = (id: string) => {
-    updateReview({
-      nextWeekIntentions: currentReview.nextWeekIntentions.filter((i) => i.id !== id),
-    });
+    const filtered = currentReview.nextWeekIntentions.filter(i => i.id !== id);
+    saveReviewUpdate({ nextWeekIntentions: filtered });
   };
 
   const updateIntention = (id: string, text: string) => {
-    updateReview({
-      nextWeekIntentions: currentReview.nextWeekIntentions.map((i) =>
-        i.id === id ? { ...i, text } : i
-      ),
-    });
+    const updated = currentReview.nextWeekIntentions.map(i => i.id === id ? { ...i, text } : i);
+    saveReviewUpdate({ nextWeekIntentions: updated });
   };
 
-  const completeReview = () => {
-    updateReview({
-      completedAt: new Date().toISOString(),
-    });
-  };
+  const completeReview = () => saveReviewUpdate({ completedAt: new Date().toISOString() });
 
-  const getReviewForWeek = (weekOf: string): WeeklyReview | null => {
-    return reviews.find((r) => r.weekOf === weekOf) || null;
-  };
-
-  const getAllReviews = (): WeeklyReview[] => {
-    return reviews.sort((a, b) => b.weekOf.localeCompare(a.weekOf));
+  const getWeekOptions = (count: number = 4) => {
+    const options: { label: string; value: string }[] = [];
+    const today = new Date();
+    for (let i = 0; i < count; i++) {
+        const date = new Date(today);
+        date.setDate(date.getDate() - i * 7);
+        const monday = getMonday(date);
+        const label = i === 0 ? 'This Week' : i === 1 ? 'Last Week' : `${i} Weeks Ago`;
+        options.push({ label, value: monday });
+    }
+    return options;
   };
 
   return {
@@ -143,25 +127,24 @@ export const useWeeklyReview = (): UseWeeklyReviewReturn => {
     removeIntention,
     updateIntention,
     completeReview,
-    getReviewForWeek,
-    getAllReviews,
+    getAllReviews: () => reviews.sort((a, b) => b.weekOf.localeCompare(a.weekOf)),
     selectedWeek,
     setSelectedWeek,
+    getWeekOptions,
   };
 };
 
-// Helper to get week options for dropdown
-export const getWeekOptions = (count: number = 4): { label: string; value: string }[] => {
-  const options: { label: string; value: string }[] = [];
-  const today = new Date();
-
-  for (let i = 0; i < count; i++) {
-    const date = new Date(today);
-    date.setDate(date.getDate() - i * 7);
-    const monday = getMonday(date);
-    const label = i === 0 ? 'This Week' : i === 1 ? 'Last Week' : `${i} Weeks Ago`;
-    options.push({ label, value: monday });
-  }
-
-  return options;
+export const getWeekOptions = (count: number = 4) => {
+    const today = new Date();
+    const options = [];
+    for (let i = 0; i < count; i++) {
+        const date = new Date(today);
+        date.setDate(date.getDate() - i * 7);
+        const monday = getMonday(date);
+        options.push({ 
+            label: i === 0 ? 'This Week' : i === 1 ? 'Last Week' : `${i} Weeks Ago`, 
+            value: monday 
+        });
+    }
+    return options;
 };

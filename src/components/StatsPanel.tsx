@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { usePrevious } from "../hooks/usePrevious";
 
 interface StatsPanelProps {
   total: number;
@@ -8,32 +8,31 @@ interface StatsPanelProps {
 
 export const StatsPanel = ({ total, completed, pending }: StatsPanelProps) => {
   const completionRate = total > 0 ? Math.round((completed / total) * 100) : 0;
-  const [prevStats, setPrevStats] = useState({ total, completed, pending });
-
-  useEffect(() => {
-    setPrevStats({ total, completed, pending });
-  }, [total, completed, pending]);
+  
+  const prevTotal = usePrevious(total);
+  const prevCompleted = usePrevious(completed);
+  const prevPending = usePrevious(pending);
 
   return (
     <div className="glass-card rounded-lg p-6 space-y-8 animate-slide-up sticky top-24">
       {/* Minimal Metrics Grid */}
       <div className="grid grid-cols-3 gap-6">
         <div className="text-center border-r border-border/50 last:border-0">
-          <p className={`text-3xl font-bold text-foreground tracking-tight transition-all duration-300 ${prevStats.total !== total ? 'animate-number-change' : ''}`}>
+          <p className={`text-3xl font-bold text-foreground tracking-tight transition-all duration-300 ${prevTotal !== undefined && prevTotal !== total ? 'animate-number-change' : ''}`}>
             {total}
           </p>
           <p className="text-xs text-muted-foreground mt-1 uppercase tracking-wide">Total</p>
         </div>
 
         <div className="text-center border-r border-border/50 last:border-0">
-          <p className={`text-3xl font-bold text-cool-blue tracking-tight transition-all duration-300 ${prevStats.pending !== pending ? 'animate-number-change' : ''}`}>
+          <p className={`text-3xl font-bold text-cool-blue tracking-tight transition-all duration-300 ${prevPending !== undefined && prevPending !== pending ? 'animate-number-change' : ''}`}>
             {pending}
           </p>
           <p className="text-xs text-muted-foreground mt-1 uppercase tracking-wide">Active</p>
         </div>
 
         <div className="text-center">
-          <p className={`text-3xl font-bold text-electric-red tracking-tight transition-all duration-300 ${prevStats.completed !== completed ? 'animate-number-change' : ''}`}>
+          <p className={`text-3xl font-bold text-electric-red tracking-tight transition-all duration-300 ${prevCompleted !== undefined && prevCompleted !== completed ? 'animate-number-change' : ''}`}>
             {completed}
           </p>
           <p className="text-xs text-muted-foreground mt-1 uppercase tracking-wide">Done</p>

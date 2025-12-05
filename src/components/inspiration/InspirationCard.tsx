@@ -72,7 +72,7 @@ export const InspirationCard = ({ snippet, onPlay, onEdit, onDelete }: Inspirati
                         </div>
                         <p className="text-sm text-muted-foreground truncate">{snippet.artist}</p>
                     </div>
-                    <div className={`px-3 py-1 rounded-full bg-linear-to-r ${moodGradient} text-white text-xs font-medium flex items-center gap-1`}>
+                    <div className={`px-3 py-1 rounded-full bg-linear-to-r ${moodGradient} text-foreground text-xs font-medium flex items-center gap-1`}>
                         <span>{moodEmoji}</span>
                         <span className="capitalize">{snippet.mood}</span>
                     </div>
@@ -187,7 +187,7 @@ export const InspirationCard = ({ snippet, onPlay, onEdit, onDelete }: Inspirati
                                 onDelete(snippet.id);
                                 setShowDeleteDialog(false);
                             }}
-                            className="bg-red-500 hover:bg-red-600"
+                            className="bg-destructive hover:bg-destructive/90"
                         >
                             Delete
                         </AlertDialogAction>

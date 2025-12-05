@@ -6,7 +6,6 @@ import { cn } from '@/lib/utils';
 import {
   CheckSquare,
   BarChart3,
-  Focus,
   Target,
   ClipboardCheck,
   BookOpen,
@@ -15,10 +14,8 @@ import {
   Wallet,
   Home,
   ChevronDown,
-  ChevronRight,
-  PanelLeftClose,
-  PanelLeft,
   Music,
+  X,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -127,6 +124,15 @@ export const Sidebar = ({ isOpen, onToggle }: SidebarProps) => {
           {/* Header */}
           <div className="flex items-center justify-between p-4 border-b border-border/50">
             <Logo size="sm" showText />
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onToggle}
+              className="lg:hidden h-9 w-9 hover:bg-foreground/10 hover:text-primary"
+              aria-label="Close navigation"
+            >
+              <X className="h-5 w-5" />
+            </Button>
           </div>
 
           {/* Navigation */}

@@ -34,7 +34,7 @@ export const ReflectionInput = ({
       <motion.div
         animate={{
           boxShadow: isFocused
-            ? '0 0 0 2px hsl(var(--primary) / 0.2)'
+            ? '0 0 0 2px oklch(var(--primary) / 0.2)'
             : '0 0 0 0px transparent',
         }}
         transition={{ duration: 0.2 }}

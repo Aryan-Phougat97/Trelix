@@ -1,4 +1,5 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useTable } from 'tinybase/ui-react';
+import { store } from '../store';
 
 export type HabitFrequency = 'daily' | 'weekly';
 
@@ -12,8 +13,9 @@ export interface Habit {
 }
 
 export interface HabitLog {
+  id: string;
   habitId: string;
-  date: string; // ISO date (YYYY-MM-DD)
+  date: string;
   completed: boolean;
   completedAt?: string;
 }
@@ -22,39 +24,21 @@ export interface HabitStats {
   currentStreak: number;
   longestStreak: number;
   totalCompletions: number;
-  completionRate: number; // percentage
+  completionRate: number;
 }
 
-interface UseHabitTrackerReturn {
-  habits: Habit[];
-  dailyHabits: Habit[];
-  weeklyHabits: Habit[];
-  logs: HabitLog[];
-  addHabit: (habit: Omit<Habit, 'id' | 'createdAt'>) => void;
-  updateHabit: (id: string, updates: Partial<Habit>) => void;
-  deleteHabit: (id: string) => void;
-  toggleHabitCompletion: (habitId: string, date: string) => void;
-  getHabitLogs: (habitId: string) => HabitLog[];
-  getHabitStats: (habitId: string) => HabitStats;
-  isHabitCompletedForDate: (habitId: string, date: string) => boolean;
-  getTodayCompletionStatus: () => { completed: number; total: number };
-  getWeekCompletionStatus: () => { completed: number; total: number };
-}
-
-const STORAGE_KEY_HABITS = 'trelix-habits';
-const STORAGE_KEY_LOGS = 'trelix-habit-logs';
-
-// Helper functions
-const getTodayDate = (): string => {
-  return new Date().toISOString().split('T')[0];
-};
+// --- Helper Functions ---
 
 const getWeekStart = (date: Date = new Date()): string => {
   const d = new Date(date);
   const day = d.getDay();
-  const diff = d.getDate() - day + (day === 0 ? -6 : 1); // Adjust to Monday
+  const diff = d.getDate() - day + (day === 0 ? -6 : 1);
   const monday = new Date(d.setDate(diff));
   return monday.toISOString().split('T')[0];
+};
+
+const getTodayDate = (): string => {
+  return new Date().toISOString().split('T')[0];
 };
 
 const calculateStreak = (logs: HabitLog[], frequency: HabitFrequency): number => {
@@ -72,13 +56,12 @@ const calculateStreak = (logs: HabitLog[], frequency: HabitFrequency): number =>
 
   if (frequency === 'daily') {
     const currentDate = new Date(today);
-
     // Check if habit was completed today or yesterday
     const lastLog = new Date(completedLogs[0].date);
     lastLog.setHours(0, 0, 0, 0);
     const diffDays = Math.floor((today.getTime() - lastLog.getTime()) / (1000 * 60 * 60 * 24));
 
-    if (diffDays > 1) return 0; // Streak broken
+    if (diffDays > 1) return 0;
 
     for (let i = 0; i < completedLogs.length; i++) {
       const logDate = new Date(completedLogs[i].date);
@@ -94,11 +77,8 @@ const calculateStreak = (logs: HabitLog[], frequency: HabitFrequency): number =>
       }
     }
   } else if (frequency === 'weekly') {
-    // For weekly habits, check consecutive weeks
     const currentWeekStart = getWeekStart(today);
     const lastLogWeek = getWeekStart(new Date(completedLogs[0].date));
-
-    // If last log is not from this week or last week, streak is broken
     const weekDiff = Math.floor(
       (new Date(currentWeekStart).getTime() - new Date(lastLogWeek).getTime()) / (1000 * 60 * 60 * 24 * 7)
     );
@@ -118,7 +98,6 @@ const calculateStreak = (logs: HabitLog[], frequency: HabitFrequency): number =>
       }
     }
   }
-
   return streak;
 };
 
@@ -151,7 +130,6 @@ const calculateLongestStreak = (logs: HabitLog[], frequency: HabitFrequency): nu
     } else if (frequency === 'weekly') {
       const prevWeek = getWeekStart(prevDate);
       const currWeek = getWeekStart(currDate);
-
       const prevWeekDate = new Date(prevWeek);
       prevWeekDate.setDate(prevWeekDate.getDate() + 7);
       const expectedNextWeek = getWeekStart(prevWeekDate);
@@ -164,89 +142,50 @@ const calculateLongestStreak = (logs: HabitLog[], frequency: HabitFrequency): nu
       }
     }
   }
-
   return longestStreak;
 };
 
-export const useHabitTracker = (): UseHabitTrackerReturn => {
-  // Initialize habits from localStorage
-  const [habits, setHabits] = useState<Habit[]>(() => {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY_HABITS);
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        return Array.isArray(parsed) ? parsed : [];
-      }
-      return [];
-    } catch (error) {
-      console.error('Failed to load habits:', error);
-      return [];
-    }
-  });
+// --- Hook Implementation ---
 
-  // Initialize logs from localStorage
-  const [logs, setLogs] = useState<HabitLog[]>(() => {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY_LOGS);
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        return Array.isArray(parsed) ? parsed : [];
-      }
-      return [];
-    } catch (error) {
-      console.error('Failed to load habit logs:', error);
-      return [];
-    }
-  });
+export const useHabitTracker = () => {
+  // 1. READ DATA
+  const habitsTable = useTable('habits');
+  const logsTable = useTable('habit_logs');
 
-  // Sync habits to localStorage
-  useEffect(() => {
-    try {
-      localStorage.setItem(STORAGE_KEY_HABITS, JSON.stringify(habits));
-    } catch (error) {
-      console.error('Failed to save habits:', error);
-    }
-  }, [habits]);
+  // Fix 1: Explicit cast to unknown then array to satisfy TypeScript
+  const habits = Object.entries(habitsTable).map(([id, data]) => ({
+    id,
+    ...(data as object),
+  })) as unknown as Habit[];
 
-  // Sync logs to localStorage
-  useEffect(() => {
-    try {
-      localStorage.setItem(STORAGE_KEY_LOGS, JSON.stringify(logs));
-    } catch (error) {
-      console.error('Failed to save habit logs:', error);
-    }
-  }, [logs]);
+  // Fix 2: Explicit cast for logs as well
+  const logs = Object.entries(logsTable).map(([id, data]) => ({
+    id,
+    ...(data as object),
+  })) as unknown as HabitLog[];
 
-  // Computed values
-  const dailyHabits = useMemo(() =>
-    habits.filter(h => h.frequency === 'daily'),
-    [habits]
-  );
+  // 2. COMPUTED LISTS
+  const dailyHabits = habits.filter(h => h.frequency === 'daily');
+  const weeklyHabits = habits.filter(h => h.frequency === 'weekly');
 
-  const weeklyHabits = useMemo(() =>
-    habits.filter(h => h.frequency === 'weekly'),
-    [habits]
-  );
-
-  // Methods
+  // 3. ACTIONS
   const addHabit = (habit: Omit<Habit, 'id' | 'createdAt'>) => {
-    const newHabit: Habit = {
+    store.addRow('habits', {
       ...habit,
-      id: crypto.randomUUID(),
       createdAt: new Date().toISOString(),
-    };
-    setHabits(prev => [...prev, newHabit]);
+    });
   };
 
   const updateHabit = (id: string, updates: Partial<Habit>) => {
-    setHabits(prev =>
-      prev.map(h => (h.id === id ? { ...h, ...updates } : h))
-    );
+    store.setPartialRow('habits', id, updates);
   };
 
   const deleteHabit = (id: string) => {
-    setHabits(prev => prev.filter(h => h.id !== id));
-    setLogs(prev => prev.filter(log => log.habitId !== id));
+    store.delRow('habits', id);
+    // Cleanup logs
+    logs
+      .filter(log => log.habitId === id)
+      .forEach(log => store.delRow('habit_logs', log.id));
   };
 
   const toggleHabitCompletion = (habitId: string, date: string) => {
@@ -255,69 +194,53 @@ export const useHabitTracker = (): UseHabitTrackerReturn => {
     );
 
     if (existingLog) {
-      // Toggle completion
-      setLogs(prev =>
-        prev.map(log =>
-          log.habitId === habitId && log.date === date
-            ? { ...log, completed: !log.completed, completedAt: !log.completed ? new Date().toISOString() : undefined }
-            : log
-        )
-      );
+      // Toggle off -> Delete log
+      store.delRow('habit_logs', existingLog.id);
     } else {
-      // Create new log
-      const newLog: HabitLog = {
+      // Toggle on -> Create log
+      store.addRow('habit_logs', {
         habitId,
         date,
         completed: true,
-        completedAt: new Date().toISOString(),
-      };
-      setLogs(prev => [...prev, newLog]);
+        completedAt: new Date().toISOString(), // This is optional in schema but good to store
+      });
     }
   };
 
+  // 4. READ HELPERS
   const getHabitLogs = (habitId: string): HabitLog[] => {
     return logs.filter(log => log.habitId === habitId);
   };
 
   const isHabitCompletedForDate = (habitId: string, date: string): boolean => {
-    const log = logs.find(log => log.habitId === habitId && log.date === date);
-    return log?.completed ?? false;
+    return logs.some(log => log.habitId === habitId && log.date === date);
   };
 
   const getHabitStats = (habitId: string): HabitStats => {
     const habit = habits.find(h => h.id === habitId);
-    if (!habit) {
-      return {
-        currentStreak: 0,
-        longestStreak: 0,
-        totalCompletions: 0,
-        completionRate: 0,
-      };
-    }
+    if (!habit) return { currentStreak: 0, longestStreak: 0, totalCompletions: 0, completionRate: 0 };
 
     const habitLogs = getHabitLogs(habitId);
-    const completedLogs = habitLogs.filter(log => log.completed);
-
     const currentStreak = calculateStreak(habitLogs, habit.frequency);
     const longestStreak = calculateLongestStreak(habitLogs, habit.frequency);
-    const totalCompletions = completedLogs.length;
+    const totalCompletions = habitLogs.length;
 
-    // Calculate completion rate based on habit age
+    // Calculate completion rate
     const createdDate = new Date(habit.createdAt);
     const today = new Date();
-    const daysSinceCreation = Math.floor(
+    const daysSinceCreation = Math.max(1, Math.floor(
       (today.getTime() - createdDate.getTime()) / (1000 * 60 * 60 * 24)
-    );
+    ));
 
     let expectedCompletions = 0;
     if (habit.frequency === 'daily') {
-      expectedCompletions = daysSinceCreation + 1;
+      expectedCompletions = daysSinceCreation;
     } else if (habit.frequency === 'weekly') {
-      expectedCompletions = Math.floor(daysSinceCreation / 7) + 1;
+      expectedCompletions = Math.max(1, Math.floor(daysSinceCreation / 7));
     }
 
     const completionRate = expectedCompletions > 0
-      ? (totalCompletions / expectedCompletions) * 100
+      ? Math.round((totalCompletions / expectedCompletions) * 100)
       : 0;
 
     return {
@@ -330,14 +253,13 @@ export const useHabitTracker = (): UseHabitTrackerReturn => {
 
   const getTodayCompletionStatus = () => {
     const today = getTodayDate();
-    const todayDailyHabits = dailyHabits;
-    const completed = todayDailyHabits.filter(h =>
+    const completed = dailyHabits.filter(h =>
       isHabitCompletedForDate(h.id, today)
     ).length;
 
     return {
       completed,
-      total: todayDailyHabits.length,
+      total: dailyHabits.length,
     };
   };
 
@@ -347,11 +269,11 @@ export const useHabitTracker = (): UseHabitTrackerReturn => {
     weekEnd.setDate(weekEnd.getDate() + 6);
     const weekEndStr = weekEnd.toISOString().split('T')[0];
 
+    // For weekly habits, we just check if there's ANY log in the current week window
     const completed = weeklyHabits.filter(h => {
       const habitLogs = getHabitLogs(h.id);
       return habitLogs.some(
         log =>
-          log.completed &&
           log.date >= weekStart &&
           log.date <= weekEndStr
       );

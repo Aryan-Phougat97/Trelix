@@ -2,9 +2,12 @@ import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Sidebar } from '@/components/Sidebar';
 import { Header } from '@/components/Header';
+import { FocusModeOverlay } from '@/components/FocusModeOverlay'; 
 import { Button } from '@/components/ui/button';
 import { Menu } from 'lucide-react';
 import { useFocusMode } from '@/contexts/FocusModeContext';
+import { PomodoroTimer } from '@/components/PomodoroTimer';
+import { AmbientSoundPlayer } from '@/components/AmbientSoundPlayer';
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -14,33 +17,30 @@ interface AppLayoutProps {
 }
 
 export const AppLayout = ({ children, showHeader = true, onSearch, onFilterClick }: AppLayoutProps) => {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [userSidebarOpen, setUserSidebarOpen] = useState(() => typeof window !== 'undefined' ? window.innerWidth >= 1024 : true);
   const location = useLocation();
   const { isFocusMode } = useFocusMode();
 
-  // Close sidebar on mobile by default
+  const sidebarOpen = isFocusMode ? false : userSidebarOpen;
+  const handleSidebarToggle = () => {
+    if (!isFocusMode) {
+      setUserSidebarOpen(!userSidebarOpen);
+    }
+  };
+
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 1024) {
-        setSidebarOpen(false);
+        setUserSidebarOpen(false);
       } else {
-        setSidebarOpen(true);
+        setUserSidebarOpen(true);
       }
     };
 
-    handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Auto-close sidebar when focus mode is activated
-  useEffect(() => {
-    if (isFocusMode) {
-      setSidebarOpen(false);
-    }
-  }, [isFocusMode]);
-
-  // Reset scroll position when navigating between sections
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
@@ -51,35 +51,34 @@ export const AppLayout = ({ children, showHeader = true, onSearch, onFilterClick
       {sidebarOpen && (
         <div
           className="fixed inset-0 bg-black/50 z-20 lg:hidden"
-          onClick={() => setSidebarOpen(false)}
+          onClick={() => setUserSidebarOpen(false)}
         />
       )}
 
-      {/* Sidebar */}
-      <Sidebar isOpen={sidebarOpen} onToggle={() => setSidebarOpen(!sidebarOpen)} />
+      <Sidebar isOpen={sidebarOpen} onToggle={handleSidebarToggle} />
 
-      {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Mobile Menu Button */}
         <div className="lg:hidden fixed top-4 left-4 z-60">
           <Button
             variant="outline"
             size="icon"
-            onClick={() => setSidebarOpen(!sidebarOpen)}
+            onClick={handleSidebarToggle}
             className="h-12 w-12 rounded-full shadow-lg bg-card/90 backdrop-blur-xs border-border/50 hover:bg-card"
           >
             <Menu className="h-6 w-6" />
           </Button>
         </div>
 
-        {/* Header (optional) */}
         {showHeader && <Header onSearch={onSearch} onFilterClick={onFilterClick} />}
 
-        {/* Page Content */}
         <main className="flex-1 overflow-y-auto">
           {children}
         </main>
       </div>
+
+      <FocusModeOverlay />
+      <PomodoroTimer />
+      <AmbientSoundPlayer />
     </div>
   );
 };

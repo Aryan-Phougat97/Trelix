@@ -167,8 +167,8 @@ export const MoodInsights: React.FC<MoodInsightsProps> = ({
               <AreaChart data={trendData}>
                 <defs>
                   <linearGradient id="colorScore" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.3} />
-                    <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0} />
+                    <stop offset="5%" stopColor="oklch(var(--primary))" stopOpacity={0.3} />
+                    <stop offset="95%" stopColor="oklch(var(--primary))" stopOpacity={0} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid
@@ -191,16 +191,16 @@ export const MoodInsights: React.FC<MoodInsightsProps> = ({
                 <Tooltip
                   contentStyle={{
                     backgroundColor: isDark ? '#000000cc' : '#ffffffcc',
-                    border: '1px solid hsl(var(--border))',
+                    border: '1px solid oklch(var(--border))',
                     borderRadius: '8px',
                     backdropFilter: 'blur(10px)',
                   }}
-                  labelStyle={{ color: 'hsl(var(--foreground))' }}
+                  labelStyle={{ color: 'oklch(var(--foreground))' }}
                 />
                 <Area
                   type="monotone"
                   dataKey="score"
-                  stroke="hsl(var(--primary))"
+                  stroke="oklch(var(--primary))"
                   strokeWidth={2}
                   fill="url(#colorScore)"
                   animationDuration={1000}
@@ -265,11 +265,11 @@ export const MoodInsights: React.FC<MoodInsightsProps> = ({
                 <Tooltip
                   contentStyle={{
                     backgroundColor: isDark ? '#000000cc' : '#ffffffcc',
-                    border: '1px solid hsl(var(--border))',
+                    border: '1px solid oklch(var(--border))',
                     borderRadius: '8px',
                     backdropFilter: 'blur(10px)',
                   }}
-                  labelStyle={{ color: 'hsl(var(--foreground))' }}
+                  labelStyle={{ color: 'oklch(var(--foreground))' }}
                   formatter={(value: ValueType, name: NameType, props: { payload: MoodFrequency }) => [
                     `${value} times (${props.payload.percentage}%)`,
                     props.payload.mood,

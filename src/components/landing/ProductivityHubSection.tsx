@@ -4,7 +4,7 @@
  */
 
 import { motion } from 'framer-motion';
-import { CheckSquare, BarChart3, Focus } from 'lucide-react';
+import { CheckSquare, BarChart3, Focus, Wallet } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export const ProductivityHubSection = () => {
@@ -32,22 +32,31 @@ export const ProductivityHubSection = () => {
       color: 'purple',
       path: '/focus',
     },
+    {
+      title: 'Ledger',
+      description: 'Track income, expenses, and financial health',
+      icon: Wallet,
+      color: 'green',
+      path: '/ledger',
+    },
   ];
 
   const colorMap = {
-    cyan: 'from-cyan-500/20 to-cyan-600/20 border-cyan-500/30 hover:border-cyan-500/50',
-    blue: 'from-blue-500/20 to-blue-600/20 border-blue-500/30 hover:border-blue-500/50',
-    purple: 'from-purple-500/20 to-purple-600/20 border-purple-500/30 hover:border-purple-500/50',
+    cyan: 'from-brand-cyan/20 to-brand-cyan/20 border-brand-cyan/30 hover:border-brand-cyan/50',
+    blue: 'from-brand-indigo/20 to-brand-indigo/20 border-brand-indigo/30 hover:border-brand-indigo/50',
+    purple: 'from-brand-purple/20 to-brand-purple/20 border-brand-purple/30 hover:border-brand-purple/50',
+    green: 'from-brand-emerald/20 to-brand-emerald/20 border-brand-emerald/30 hover:border-brand-emerald/50',
   };
 
   const iconColorMap = {
-    cyan: 'text-cyan-400',
-    blue: 'text-blue-400',
-    purple: 'text-purple-400',
+    cyan: 'text-brand-cyan',
+    blue: 'text-brand-indigo',
+    purple: 'text-brand-purple',
+    green: 'text-brand-emerald',
   };
 
   return (
-    <section id="productivity" className="relative py-32 bg-black">
+    <section id="productivity" className="relative py-32 bg-background">
       <div className="container mx-auto px-6">
         {/* Section Header */}
         <motion.div
@@ -57,7 +66,7 @@ export const ProductivityHubSection = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <p className="text-cyan-400 text-sm font-mono tracking-wider mb-4">
+          <p className="text-secondary text-sm font-mono tracking-wider mb-4">
             // PRODUCTIVITY HUB
           </p>
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
@@ -65,15 +74,15 @@ export const ProductivityHubSection = () => {
               Power Tools
             </span>
             <br />
-            <span className="text-white/90">For Your Work</span>
+            <span className="text-foreground/90">For Your Work</span>
           </h2>
-          <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Everything you need to stay focused, organized, and productive.
           </p>
         </motion.div>
 
         {/* Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
           {cards.map((card, index) => (
             <motion.div
               key={card.title}
@@ -90,11 +99,11 @@ export const ProductivityHubSection = () => {
               </div>
 
               {/* Content */}
-              <h3 className="text-2xl font-bold text-white mb-3">{card.title}</h3>
-              <p className="text-gray-400">{card.description}</p>
+              <h3 className="text-2xl font-bold text-foreground mb-3">{card.title}</h3>
+              <p className="text-muted-foreground">{card.description}</p>
 
               {/* Arrow */}
-              <div className="mt-6 text-gray-500 group-hover:text-gray-300 transition-colors">
+              <div className="mt-6 text-muted-foreground group-hover:text-foreground transition-colors">
                 →
               </div>
             </motion.div>

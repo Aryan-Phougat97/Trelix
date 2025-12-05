@@ -101,7 +101,7 @@ export const HabitCard = ({
                 <motion.svg
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
-                  className="w-4 h-4 text-white"
+                  className="w-4 h-4 text-foreground"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"

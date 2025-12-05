@@ -1,48 +1,71 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useFocusMode } from "@/contexts/FocusModeContext";
+import { useTasks } from "@/hooks/useTasks"; 
+import { useDiary } from "@/hooks/useDiary"; 
+import { useAnalytics } from "@/contexts/AnalyticsContext"; 
 import { TaskCard } from "@/components/TaskCard";
 import { NoteSection } from "@/components/NoteSection";
 import { Sparkles, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
-interface Task {
-  id: string;
-  title: string;
-  category: string;
-  priority: string;
-  deadline: string;
-  completed: boolean;
-}
-
-interface FocusModeOverlayProps {
-  tasks: Task[];
-  onToggleTask: (id: string) => void;
-  onDeleteTask: (id: string) => void;
-  dailyNote: string;
-  onSaveNote: (note: string) => void;
-}
-
-export const FocusModeOverlay = ({
-  tasks,
-  onToggleTask,
-  onDeleteTask,
-  dailyNote,
-  onSaveNote,
-}: FocusModeOverlayProps) => {
+export const FocusModeOverlay = () => {
   const { isFocusMode, currentTaskId, setCurrentTaskId, toggleFocusMode } = useFocusMode();
+  
+  // Connect to Data 
+  const { tasks, toggleTask, deleteTask } = useTasks();
+  const { todayEntry, addEntry, updateEntry } = useDiary();
+  const { recordTaskCompletion, recordNoteActivity } = useAnalytics();
 
-  // Get active tasks (not completed)
+  // Task Logic
   const activeTasks = tasks.filter((task) => !task.completed);
+  
+  // Auto-select first task if none selected
+  if (!currentTaskId && activeTasks.length > 0 && isFocusMode) {
+    setCurrentTaskId(activeTasks[0].id);
+  }
 
-  // Get current focused task or first active task
   const focusedTask = currentTaskId
     ? tasks.find((task) => task.id === currentTaskId)
     : activeTasks[0];
 
-  // Set current task if not set and there are active tasks
-  if (!currentTaskId && activeTasks.length > 0 && isFocusMode) {
-    setCurrentTaskId(activeTasks[0].id);
-  }
+  const handleToggleTask = (id: string) => {
+    const task = tasks.find((t) => t.id === id);
+    toggleTask(id);
+
+    if (task && !task.completed) {
+      recordTaskCompletion(id, {
+        title: task.title,
+        category: task.category,
+        priority: task.priority,
+        deadline: task.deadline,
+        completed: true,
+        createdAt: new Date().toISOString(),
+      });
+      toast.success("Task completed! 🎉");
+    }
+  };
+
+  const handleDeleteTask = (id: string) => {
+    deleteTask(id);
+    toast.info("Task deleted");
+  };
+
+  // Note Logic
+  const currentDailyNote = todayEntry?.content || "";
+  const getTodayString = () => new Date().toISOString().split('T')[0];
+
+  const handleSaveNote = (content: string) => {
+    const today = getTodayString();
+    if (todayEntry) {
+      updateEntry(today, { content });
+    } else {
+      addEntry(today, content, [], 'neutral');
+    }
+    const wordCount = content.trim().split(/\s+/).filter(Boolean).length;
+    recordNoteActivity(wordCount);
+    toast.success("Daily note updated!");
+  };
 
   return (
     <AnimatePresence>
@@ -52,7 +75,7 @@ export const FocusModeOverlay = ({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5 }}
-          className="fixed inset-0 z-40 pointer-events-none"
+          className="fixed inset-0 z-50 pointer-events-none" // High z-index to cover everything
         >
           {/* Backdrop Blur Overlay */}
           <motion.div
@@ -126,8 +149,8 @@ export const FocusModeOverlay = ({
                     >
                       <TaskCard
                         task={focusedTask}
-                        onToggle={onToggleTask}
-                        onDelete={onDeleteTask}
+                        onToggle={handleToggleTask}
+                        onDelete={handleDeleteTask}
                       />
 
                       {/* Glow Effect */}
@@ -205,7 +228,7 @@ export const FocusModeOverlay = ({
                     filter: "drop-shadow(0 0 30px rgba(59, 130, 246, 0.2))",
                   }}
                 >
-                  <NoteSection note={dailyNote} onSaveNote={onSaveNote} />
+                  <NoteSection note={currentDailyNote} onSaveNote={handleSaveNote} />
                 </motion.div>
               </div>
             </motion.div>

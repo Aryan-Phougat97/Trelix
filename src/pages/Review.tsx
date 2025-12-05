@@ -46,7 +46,7 @@ const Review = () => {
       particleCount: 50,
       spread: 60,
       origin: { y: 0.7 },
-      colors: ['hsl(var(--primary))', 'hsl(var(--secondary))'],
+      colors: ['oklch(var(--primary))', 'oklch(var(--secondary))'],
     });
 
     toast.success('Review Completed! 🎉', {
@@ -123,9 +123,9 @@ const Review = () => {
                   {(weeklyStats.totalFocusMinutes / 60).toFixed(1)}h
                 </p>
               </div>
-              <div className="p-4 rounded-lg bg-green-500/5 border border-green-500/20">
+              <div className="p-4 rounded-lg bg-brand-emerald/5 border border-brand-emerald/20">
                 <p className="text-sm text-muted-foreground mb-1">Most Productive Day</p>
-                <p className="text-2xl font-bold text-green-500">{weeklyStats.topProductivityDay}</p>
+                <p className="text-2xl font-bold text-brand-emerald">{weeklyStats.topProductivityDay}</p>
               </div>
             </div>
           </motion.div>
@@ -135,7 +135,7 @@ const Review = () => {
             {/* Section 1: Completed Goals & Tasks */}
             <ReviewSection
               title="Completed Goals & Tasks"
-              icon={<CheckCircle2 className="h-5 w-5 text-green-500" />}
+              icon={<CheckCircle2 className="h-5 w-5 text-brand-emerald" />}
               defaultExpanded={true}
               index={0}
             >
@@ -145,7 +145,7 @@ const Review = () => {
             {/* Section 2: What Worked Well */}
             <ReviewSection
               title="What Worked Well"
-              icon={<Lightbulb className="h-5 w-5 text-yellow-500" />}
+              icon={<Lightbulb className="h-5 w-5 text-brand-amber" />}
               defaultExpanded={false}
               index={1}
             >
@@ -165,7 +165,7 @@ const Review = () => {
             {/* Section 3: What Needs Improvement */}
             <ReviewSection
               title="What Needs Improvement"
-              icon={<TrendingDown className="h-5 w-5 text-orange-500" />}
+              icon={<TrendingDown className="h-5 w-5 text-brand-amber" />}
               defaultExpanded={false}
               index={2}
             >
@@ -185,7 +185,7 @@ const Review = () => {
             {/* Section 4: Next Week's Intentions */}
             <ReviewSection
               title="Next Week's Intentions"
-              icon={<Sparkles className="h-5 w-5 text-purple-500" />}
+              icon={<Sparkles className="h-5 w-5 text-brand-purple" />}
               defaultExpanded={false}
               index={3}
             >
@@ -214,7 +214,7 @@ const Review = () => {
               <Button
                 onClick={handleCompleteReview}
                 disabled={isCompleted}
-                className="px-8 py-6 text-lg bg-linear-to-r from-primary via-primary to-secondary hover:opacity-90 text-white hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                className="px-8 py-6 text-lg bg-linear-to-r from-primary via-primary to-secondary hover:opacity-90 text-primary-foreground hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
               >
                 <PartyPopper className="h-5 w-5 mr-2" />
                 {isCompleted ? 'Review Completed ✓' : 'Complete Review'}

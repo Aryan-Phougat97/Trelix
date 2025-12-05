@@ -7,51 +7,168 @@
 @utility container {
   margin-inline: auto;
   padding-inline: 2rem;
-  @media (width >= --theme(--breakpoint-sm)) {
+
+  @media (width >=--theme(--breakpoint-sm)) {
     max-width: none;
   }
-  @media (width >= 1400px) {
+
+  @media (width >=1400px) {
     max-width: 1400px;
   }
 }
 
+
+:root {
+  /* Light theme - clean and professional */
+  --background: 1 0 0;
+  --foreground: 0.21 0.03 265;
+
+  --card: 1 0 0;
+  --card-foreground: 0.21 0.03 265;
+
+  --popover: 1 0 0;
+  --popover-foreground: 0.21 0.03 265;
+
+  --primary: 0.623 0.214 259.3;
+  /* Deep Indigo #6366f1 */
+  --primary-foreground: 1 0 0;
+
+  --secondary: 0.76 0.16 230;
+  /* Soft Cyan #06b6d4 */
+  --secondary-foreground: 1 0 0;
+
+  --muted: 0.96 0.01 265;
+  --muted-foreground: 0.55 0.04 265;
+
+  --accent: 0.76 0.16 230;
+  /* Soft Cyan */
+  --accent-foreground: 1 0 0;
+
+  --destructive: 0.65 0.22 25;
+  /* Softer red for errors */
+  --destructive-foreground: 0.64 0.2763 355.12 / 94.19%;
+
+  --border: 0.92 0.02 265;
+  --input: 0.92 0.02 265;
+  --ring: 0.623 0.214 259.3;
+
+  --radius: 0.5rem;
+
+  /* Trelix Brand Tokens - Professional Palette */
+  --brand-indigo: 0.623 0.214 259.3;
+  /* #6366f1 - Primary brand color */
+  --brand-cyan: 0.76 0.16 230;
+  /* #06b6d4 - Accent color */
+  --brand-purple: 0.6276 0.2121 290;
+  /* #a78bfa - Highlight color */
+  --brand-emerald: 0.696 0.17 149.57;
+  --brand-rose: 0.62 0.22 12.5;
+  --brand-amber: 0.75 0.18 70;
+  --brand-slate: 0.55 0.06 250;
+  --pure-black: 0 0 0;
+  /* #000000 */
+  --pure-white: 1 0 0;
+  /* #ffffff */
+  --glass-bg: 1 0 0;
+  --glass-border: 0.92 0.02 265;
+  --glow-primary: 0.623 0.214 259.3;
+  --glow-accent: 0.76 0.16 230;
+}
+
+.dark {
+  /* Dark theme - sophisticated and modern */
+  --background: 0 0 0;
+  /* Absolute Black */
+  --foreground: 0.98 0 0;
+
+  --card: 0.15 0.02 265;
+  --card-foreground: 0.98 0 0;
+
+  --popover: 0.15 0.02 265;
+  --popover-foreground: 0.98 0 0;
+
+  --primary: 0.623 0.214 259.3;
+  /* Deep Indigo */
+  --primary-foreground: 1 0 0;
+
+  --secondary: 0.76 0.16 230;
+  /* Soft Cyan */
+  --secondary-foreground: 1 0 0;
+
+  --muted: 0.20 0.02 265;
+  --muted-foreground: 0.70 0.02 265;
+
+  --accent: 0.76 0.16 230;
+  /* Soft Cyan */
+  --accent-foreground: 1 0 0;
+
+  --destructive: 0.65 0.22 25;
+  /* Softer red */
+  --destructive-foreground: 0.64 0.2763 355.12 / 94.19%;
+
+  --border: 0.25 0.02 265;
+  --input: 0.20 0.02 265;
+  --ring: 0.623 0.214 259.3;
+
+  /* Trelix Dark Theme - Professional Palette */
+  --brand-indigo: 0.623 0.214 259.3;
+  --brand-cyan: 0.76 0.16 230;
+  --brand-purple: 0.6276 0.2121 290;
+  --brand-emerald: 0.696 0.17 149.57;
+  --brand-rose: 0.62 0.22 12.5;
+  --brand-amber: 0.75 0.18 70;
+  --brand-slate: 0.55 0.06 250;
+  --pure-black: 0 0 0;
+  --pure-white: 0.98 0 0;
+  --glass-bg: 0.15 0.02 265;
+  --glass-border: 0.25 0.02 265;
+  --glow-primary: 0.623 0.214 259.3;
+  --glow-accent: 0.76 0.16 230;
+}
+
 @theme {
-  --color-border: hsl(var(--border));
-  --color-input: hsl(var(--input));
-  --color-ring: hsl(var(--ring));
-  --color-background: hsl(var(--background));
-  --color-foreground: hsl(var(--foreground));
+  --color-border: oklch(var(--border));
+  --color-input: oklch(var(--input));
+  --color-ring: oklch(var(--ring));
+  --color-background: oklch(var(--background));
+  --color-foreground: oklch(var(--foreground));
 
-  --color-primary: hsl(var(--primary));
-  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-primary: oklch(var(--primary));
+  --color-primary-foreground: oklch(var(--primary-foreground));
 
-  --color-secondary: hsl(var(--secondary));
-  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-secondary: oklch(var(--secondary));
+  --color-secondary-foreground: oklch(var(--secondary-foreground));
 
-  --color-destructive: hsl(var(--destructive));
-  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-destructive: oklch(var(--destructive));
+  --color-destructive-foreground: oklch(var(--destructive-foreground));
 
-  --color-muted: hsl(var(--muted));
-  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-muted: oklch(var(--muted));
+  --color-muted-foreground: oklch(var(--muted-foreground));
 
-  --color-accent: hsl(var(--accent));
-  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-accent: oklch(var(--accent));
+  --color-accent-foreground: oklch(var(--accent-foreground));
 
-  --color-popover: hsl(var(--popover));
-  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-popover: oklch(var(--popover));
+  --color-popover-foreground: oklch(var(--popover-foreground));
 
-  --color-card: hsl(var(--card));
-  --color-card-foreground: hsl(var(--card-foreground));
+  --color-card: oklch(var(--card));
+  --color-card-foreground: oklch(var(--card-foreground));
 
-  --color-electric-red: hsl(var(--electric-red));
+  --color-pure-black: oklch(var(--pure-black));
+  --color-pure-white: oklch(var(--pure-white));
 
-  --color-cool-blue: hsl(var(--cool-blue));
+  --color-glass-bg: oklch(var(--glass-bg));
+  --color-glass-border: oklch(var(--glass-border));
 
-  --color-pure-black: hsl(var(--pure-black));
-  --color-pure-white: hsl(var(--pure-white));
-
-  --color-glass-bg: hsl(var(--glass-bg));
-  --color-glass-border: hsl(var(--glass-border));
+  --color-brand-indigo: oklch(var(--brand-indigo));
+  --color-brand-cyan: oklch(var(--brand-cyan));
+  --color-glow-primary: oklch(var(--glow-primary));
+  --color-glow-accent: oklch(var(--glow-accent));
+  --color-brand-purple: oklch(var(--brand-purple));
+  --color-brand-emerald: oklch(var(--brand-emerald));
+  --color-brand-rose: oklch(var(--brand-rose));
+  --color-brand-amber: oklch(var(--brand-amber));
+  --color-brand-slate: oklch(var(--brand-slate));
 
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
@@ -71,79 +188,99 @@
     from {
       height: 0;
     }
+
     to {
       height: var(--radix-accordion-content-height);
     }
   }
+
   @keyframes accordion-up {
     from {
       height: var(--radix-accordion-content-height);
     }
+
     to {
       height: 0;
     }
   }
+
   @keyframes fade-in {
     0% {
       opacity: 0;
       transform: translateY(10px);
     }
+
     100% {
       opacity: 1;
       transform: translateY(0);
     }
   }
+
   @keyframes slide-in {
     0% {
       opacity: 0;
       transform: translateX(-20px);
     }
+
     100% {
       opacity: 1;
       transform: translateX(0);
     }
   }
+
   @keyframes glow-pulse {
+
     0%,
     100% {
-      box-shadow: 0 0 20px hsl(var(--glow-blue) / 0.3);
+      box-shadow: 0 0 20px oklch(var(--glow-blue) / 0.3);
     }
+
     50% {
       box-shadow:
-        0 0 30px hsl(var(--glow-blue) / 0.5),
-        0 0 50px hsl(var(--glow-blue) / 0.3);
+        0 0 30px oklch(var(--glow-blue) / 0.5),
+        0 0 50px oklch(var(--glow-blue) / 0.3);
     }
   }
+
   @keyframes float {
+
     0%,
     100% {
       transform: translateY(0);
     }
+
     50% {
       transform: translateY(-10px);
     }
   }
+
   @keyframes pulse {
+
     0%,
     100% {
       opacity: 1;
     }
+
     50% {
       opacity: 0.8;
     }
   }
+
   @keyframes shimmer {
     0% {
       background-position: -1000px 0;
     }
+
     100% {
       background-position: 1000px 0;
     }
   }
+
   @keyframes spin-slow {
     0% {
       transform: rotate(0deg);
     }
+
     100% {
       transform: rotate(360deg);
     }
@@ -159,6 +296,7 @@
   color utility to any element that depends on these defaults.
 */
 @layer base {
+
   *,
   ::after,
   ::before,
@@ -180,29 +318,22 @@
     box-shadow:
       0 12px 48px 0 rgba(0, 0, 0, 0.4),
       0 0 0 1px rgba(255, 255, 255, 0.05),
-      0 0 40px hsl(var(--glow-blue) / 0.15);
+      0 0 40px oklch(var(--glow-blue) / 0.15);
     transform: translateY(-2px);
   }
 
   /* Optimized filter transitions - reduced duration for snappier feel */
-  transition-property: filter, backdrop-filter;
+  transition-property: filter,
+  backdrop-filter;
   transition-duration: 0.3s;
   /* Reduced from 0.5s */
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 
   /* Smooth theme color transitions for all elements */
-  transition:
-    background-color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-    border-color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-    color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-    box-shadow 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-
-  /* Mobile Performance Optimizations */
-  @media (max-width: 767px) {
-    /* Disable ALL blur effects on mobile */
-    backdrop-filter: none;
-    background: rgba(0, 0, 0, 0.8);
-  }
+  transition: background-color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+  border-color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+  color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+  box-shadow 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 
   /* Respect user's motion preferences */
 }
@@ -211,23 +342,24 @@
   /* TaskFlow-X Input - Clean underline with glowing cursor */
   @apply bg-transparent border-0 border-b-2 border-border;
   transition: all 0.3s ease;
-  caret-color: hsl(var(--glow-blue));
+  caret-color: oklch(var(--glow-blue));
 
   &:focus {
-    border-bottom-color: hsl(var(--glow-blue));
+    border-bottom-color: oklch(var(--glow-blue));
     box-shadow:
-      0 2px 0 0 hsl(var(--glow-blue) / 0.3),
-      0 0 20px hsl(var(--glow-blue) / 0.1);
+      0 2px 0 0 oklch(var(--glow-blue) / 0.3),
+      0 0 20px oklch(var(--glow-blue) / 0.1);
   }
-  transition-property: filter, backdrop-filter;
+
+  transition-property: filter,
+  backdrop-filter;
   transition-duration: 0.3s;
   /* Reduced from 0.5s */
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition:
-    background-color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-    border-color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-    color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-    box-shadow 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background-color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+  border-color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+  color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+  box-shadow 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 
   /* Mobile Performance Optimizations */
 
@@ -237,9 +369,9 @@
 @utility glow-primary {
   /* Primary Glow - Indigo */
   box-shadow:
-    0 0 20px hsl(var(--glow-primary) / 0.3),
-    0 0 40px hsl(var(--glow-primary) / 0.15),
-    0 0 60px hsl(var(--glow-primary) / 0.08);
+    0 0 20px oklch(var(--glow-primary) / 0.3),
+    0 0 40px oklch(var(--glow-primary) / 0.15),
+    0 0 60px oklch(var(--glow-primary) / 0.08);
 
   /* Mobile Performance Optimizations */
 
@@ -249,9 +381,9 @@
 @utility glow-accent {
   /* Accent Glow - Cyan */
   box-shadow:
-    0 0 20px hsl(var(--glow-accent) / 0.3),
-    0 0 40px hsl(var(--glow-accent) / 0.15),
-    0 0 60px hsl(var(--glow-accent) / 0.08);
+    0 0 20px oklch(var(--glow-accent) / 0.3),
+    0 0 40px oklch(var(--glow-accent) / 0.15),
+    0 0 60px oklch(var(--glow-accent) / 0.08);
 
   /* Mobile Performance Optimizations */
 
@@ -270,7 +402,7 @@
     top: 50%;
     width: 100%;
     height: 2px;
-    background: hsl(var(--electric-red));
+    background: oklch(var(--destructive));
     transform: scaleX(0);
     transform-origin: left;
     animation: strike-through 0.4s ease-out forwards;
@@ -292,11 +424,9 @@
 
 @utility gradient-text {
   /* Gradient Text - Indigo to Cyan */
-  background: linear-gradient(
-    135deg,
-    hsl(var(--brand-indigo)),
-    hsl(var(--brand-cyan))
-  );
+  background: linear-gradient(135deg,
+      oklch(var(--brand-indigo)),
+      oklch(var(--brand-cyan)));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -312,7 +442,7 @@
     'JetBrains Mono', 'Fira Code', 'Monaco', 'Courier New', monospace;
   font-weight: 700;
   letter-spacing: -0.02em;
-  color: hsl(var(--foreground));
+  color: oklch(var(--foreground));
   transition: all 0.3s ease;
 
   /* Mobile Performance Optimizations */
@@ -370,24 +500,25 @@
 }
 
 @utility custom-scrollbar {
+
   /* Focus Mode Custom Scrollbar */
   &::-webkit-scrollbar {
     width: 6px;
   }
 
   &::-webkit-scrollbar-track {
-    background: hsl(var(--muted) / 0.2);
+    background: oklch(var(--muted) / 0.2);
     border-radius: 3px;
   }
 
   &::-webkit-scrollbar-thumb {
-    background: hsl(var(--cool-blue) / 0.5);
+    background: oklch(var(--primary) / 0.5);
     border-radius: 3px;
     transition: background 0.2s ease;
   }
 
   &::-webkit-scrollbar-thumb:hover {
-    background: hsl(var(--cool-blue) / 0.8);
+    background: oklch(var(--primary) / 0.8);
   }
 
   /* Mobile Performance Optimizations */
@@ -424,110 +555,9 @@
 }
 
 /* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
+All colors MUST be OKLCH.
 */
 
-@layer base {
-  :root {
-    /* Light theme - clean and professional */
-    --background: 0 0% 100%;
-    --foreground: 240 10% 10%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 10%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 10%;
-
-    --primary: 238 77% 63%;
-    /* Deep Indigo #6366f1 */
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: 189 94% 43%;
-    /* Soft Cyan #06b6d4 */
-    --secondary-foreground: 0 0% 100%;
-
-    --muted: 240 5% 96%;
-    --muted-foreground: 240 4% 46%;
-
-    --accent: 189 94% 43%;
-    /* Soft Cyan */
-    --accent-foreground: 0 0% 100%;
-
-    --destructive: 0 84% 60%;
-    /* Softer red for errors */
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 240 6% 90%;
-    --input: 240 6% 90%;
-    --ring: 238 77% 63%;
-
-    --radius: 0.5rem;
-
-    /* Trelix Brand Tokens - Professional Palette */
-    --brand-indigo: 238 77% 63%;
-    /* #6366f1 - Primary brand color */
-    --brand-cyan: 189 94% 43%;
-    /* #06b6d4 - Accent color */
-    --brand-purple: 250 95% 76%;
-    /* #a78bfa - Highlight color */
-    --pure-black: 0 0% 0%;
-    /* #000000 */
-    --pure-white: 0 0% 100%;
-    /* #ffffff */
-    --glass-bg: 0 0% 100%;
-    --glass-border: 240 6% 85%;
-    --glow-primary: 238 77% 63%;
-    --glow-accent: 189 94% 43%;
-  }
-
-  .dark {
-    /* Dark theme - sophisticated and modern */
-    --background: 240 10% 4%;
-    /* Deep dark blue-black #09090b */
-    --foreground: 0 0% 98%;
-
-    --card: 240 10% 6%;
-    --card-foreground: 0 0% 98%;
-
-    --popover: 240 10% 6%;
-    --popover-foreground: 0 0% 98%;
-
-    --primary: 238 77% 63%;
-    /* Deep Indigo */
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: 189 94% 43%;
-    /* Soft Cyan */
-    --secondary-foreground: 0 0% 100%;
-
-    --muted: 240 10% 10%;
-    --muted-foreground: 240 5% 65%;
-
-    --accent: 189 94% 43%;
-    /* Soft Cyan */
-    --accent-foreground: 0 0% 100%;
-
-    --destructive: 0 84% 60%;
-    /* Softer red */
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 240 10% 15%;
-    --input: 240 10% 8%;
-    --ring: 238 77% 63%;
-
-    /* Trelix Dark Theme - Professional Palette */
-    --brand-indigo: 238 77% 63%;
-    --brand-cyan: 189 94% 43%;
-    --brand-purple: 250 95% 76%;
-    --pure-black: 240 10% 4%;
-    --pure-white: 0 0% 98%;
-    --glass-bg: 240 10% 6%;
-    --glass-border: 240 10% 15%;
-    --glow-primary: 238 77% 63%;
-    --glow-accent: 189 94% 43%;
-  }
-}
 
 @layer base {
   * {
@@ -537,7 +567,7 @@ All colors MUST be HSL.
   /* Smooth theme transitions */
   html {
     transition: background-color 0.3s ease, color 0.3s ease;
-    background-color: hsl(var(--background));
+    background-color: oklch(var(--background));
   }
 
   body {
@@ -571,6 +601,7 @@ All colors MUST be HSL.
       transform: scaleX(1);
     }
   }
+
   @keyframes fade-out {
     from {
       opacity: 1;
@@ -590,9 +621,10 @@ All colors MUST be HSL.
 
   /* Enhanced focus states with blue glow */
   *:focus-visible {
-    outline: 2px solid hsl(var(--cool-blue));
+    outline: 2px solid oklch(var(--primary));
     outline-offset: 2px;
   }
+
   @keyframes stagger-fade-in {
     from {
       opacity: 0;
@@ -604,6 +636,7 @@ All colors MUST be HSL.
       transform: translateY(0);
     }
   }
+
   @keyframes scale-in {
     from {
       opacity: 0;
@@ -615,6 +648,7 @@ All colors MUST be HSL.
       transform: scale(1);
     }
   }
+
   @keyframes slide-up {
     from {
       opacity: 0;
@@ -626,6 +660,7 @@ All colors MUST be HSL.
       transform: translateY(0);
     }
   }
+
   @keyframes bounce-in {
     0% {
       opacity: 0;
@@ -645,6 +680,7 @@ All colors MUST be HSL.
       transform: scale(1);
     }
   }
+
   @keyframes number-change {
     0% {
       transform: scale(1);
@@ -658,18 +694,19 @@ All colors MUST be HSL.
       transform: scale(1);
     }
   }
+
   @keyframes focus-glow-pulse {
 
     0%,
     100% {
-      box-shadow: 0 0 20px hsl(var(--cool-blue) / 0.3),
-        0 0 40px hsl(var(--cool-blue) / 0.1);
+      box-shadow: 0 0 20px oklch(var(--primary) / 0.3),
+        0 0 40px oklch(var(--primary) / 0.1);
     }
 
     50% {
-      box-shadow: 0 0 30px hsl(var(--cool-blue) / 0.5),
-        0 0 60px hsl(var(--cool-blue) / 0.2),
-        0 0 90px hsl(var(--cool-blue) / 0.1);
+      box-shadow: 0 0 30px oklch(var(--primary) / 0.5),
+        0 0 60px oklch(var(--primary) / 0.2),
+        0 0 90px oklch(var(--primary) / 0.1);
     }
   }
 
@@ -683,23 +720,25 @@ All colors MUST be HSL.
     transition: background-color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
       color 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   }
+
   @keyframes theme-glow-pulse {
     0% {
-      box-shadow: 0 0 20px hsl(var(--glow-red) / 0.4),
-        0 0 40px hsl(var(--glow-red) / 0.2);
+      box-shadow: 0 0 20px oklch(var(--glow-red) / 0.4),
+        0 0 40px oklch(var(--glow-red) / 0.2);
     }
 
     50% {
-      box-shadow: 0 0 30px hsl(var(--glow-blue) / 0.5),
-        0 0 60px hsl(var(--glow-blue) / 0.3),
-        0 0 90px hsl(var(--glow-blue) / 0.1);
+      box-shadow: 0 0 30px oklch(var(--glow-blue) / 0.5),
+        0 0 60px oklch(var(--glow-blue) / 0.3),
+        0 0 90px oklch(var(--glow-blue) / 0.1);
     }
 
     100% {
-      box-shadow: 0 0 20px hsl(var(--glow-red) / 0.4),
-        0 0 40px hsl(var(--glow-red) / 0.2);
+      box-shadow: 0 0 20px oklch(var(--glow-red) / 0.4),
+        0 0 40px oklch(var(--glow-red) / 0.2);
     }
   }
+
   @keyframes gradient {
 
     0%,
@@ -711,6 +750,7 @@ All colors MUST be HSL.
       background-position: 100% 50%;
     }
   }
+
   @media (max-width: 767px) {
 
     /* Disable ALL animations on mobile */
@@ -727,6 +767,7 @@ All colors MUST be HSL.
       transition: opacity 0.2s ease !important;
     }
   }
+
   @media (prefers-reduced-motion: reduce) {
 
     *,

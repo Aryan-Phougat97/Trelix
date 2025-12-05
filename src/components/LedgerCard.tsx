@@ -21,26 +21,7 @@ export const LedgerCard = ({ entry, onEdit, onDelete }: LedgerCardProps) => {
   const categoryIcon = categoryInfo?.icon || '💰';
 
   // Get theme-aware glow color
-  const getGlowColor = () => {
-    switch (theme) {
-      case 'cyber':
-        return entry.type === 'income' ? '#10b981' : '#ef4444';
-      case 'mirage':
-        return entry.type === 'income' ? '#a78bfa' : '#f472b6';
-      case 'zen':
-        return entry.type === 'income' ? '#10b981' : '#f59e0b';
-      case 'solar':
-        return entry.type === 'income' ? '#10b981' : '#ef4444';
-      case 'calm':
-        return entry.type === 'income' ? '#6ee7b7' : '#fca5a5';
-      case 'light':
-        return entry.type === 'income' ? '#10b981' : '#ef4444';
-      default:
-        return entry.type === 'income' ? '#10b981' : '#ef4444';
-    }
-  };
-
-  const glowColor = getGlowColor();
+  const glowColor = entry.type === 'income' ? 'oklch(var(--primary))' : 'oklch(var(--destructive))';
 
   // Format date
   const formatDate = (dateStr: string) => {
@@ -72,7 +53,6 @@ export const LedgerCard = ({ entry, onEdit, onDelete }: LedgerCardProps) => {
       className="glass-card rounded-xl p-4 border border-border/50 hover:border-border transition-all"
       style={{
         borderColor: `${glowColor}20`,
-        background: theme === 'light' ? 'rgba(255,255,255,0.5)' : undefined,
       }}
     >
       <div className="flex items-start gap-4">
@@ -83,10 +63,6 @@ export const LedgerCard = ({ entry, onEdit, onDelete }: LedgerCardProps) => {
           style={{
             backgroundColor: `${categoryColor}20`,
             border: `2px solid ${categoryColor}40`,
-            boxShadow:
-              theme === 'cyber' || theme === 'mirage'
-                ? `0 0 20px ${categoryColor}30`
-                : undefined,
           }}
         >
           {categoryIcon}
@@ -101,9 +77,9 @@ export const LedgerCard = ({ entry, onEdit, onDelete }: LedgerCardProps) => {
                   {entry.description || entry.category}
                 </h3>
                 {entry.type === 'income' ? (
-                  <TrendingUp className="w-4 h-4 text-green-500 shrink-0" />
+                  <TrendingUp className="w-4 h-4 text-primary shrink-0" />
                 ) : (
-                  <TrendingDown className="w-4 h-4 text-red-500 shrink-0" />
+                  <TrendingDown className="w-4 h-4 text-destructive shrink-0" />
                 )}
               </div>
 
@@ -127,14 +103,7 @@ export const LedgerCard = ({ entry, onEdit, onDelete }: LedgerCardProps) => {
               <motion.div
                 initial={{ scale: 0.9 }}
                 animate={{ scale: 1 }}
-                className="font-bold text-lg whitespace-nowrap"
-                style={{
-                  color: glowColor,
-                  textShadow:
-                    theme === 'cyber' || theme === 'mirage'
-                      ? `0 0 10px ${glowColor}60`
-                      : undefined,
-                }}
+                className={`font-bold text-lg whitespace-nowrap ${entry.type === 'income' ? 'text-primary' : 'text-destructive'}`}
               >
                 {entry.type === 'income' ? '+' : '-'}₹{entry.amount.toLocaleString('en-IN')}
               </motion.div>
@@ -153,7 +122,7 @@ export const LedgerCard = ({ entry, onEdit, onDelete }: LedgerCardProps) => {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="h-7 w-7 hover:text-red-500"
+                  className="h-7 w-7 hover:text-destructive"
                   onClick={onDelete}
                   title="Delete entry"
                 >
@@ -171,16 +140,6 @@ export const LedgerCard = ({ entry, onEdit, onDelete }: LedgerCardProps) => {
           )}
         </div>
       </div>
-
-      {/* Subtle bottom glow for neon themes */}
-      {(theme === 'cyber' || theme === 'mirage') && (
-        <div
-          className="absolute bottom-0 left-0 right-0 h-px opacity-50"
-          style={{
-            background: `linear-gradient(90deg, transparent, ${glowColor}60, transparent)`,
-          }}
-        />
-      )}
     </motion.div>
   );
 };

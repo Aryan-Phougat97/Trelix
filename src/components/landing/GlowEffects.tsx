@@ -74,9 +74,9 @@ export const AnimatedFlare = ({ className = '' }: AnimatedFlareProps) => {
           ease: 'easeInOut',
         }}
       >
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-2xl" /> {/* Reduced from /20 to /10 */}
-        <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-2xl" />
-        <div className="absolute bottom-1/4 left-1/3 w-96 h-96 bg-purple-500/10 rounded-full blur-2xl" />
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-brand-cyan/10 rounded-full blur-2xl" /> {/* Reduced from /20 to /10 */}
+        <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-brand-indigo/10 rounded-full blur-2xl" />
+        <div className="absolute bottom-1/4 left-1/3 w-96 h-96 bg-brand-purple/10 rounded-full blur-2xl" />
       </motion.div>
     </div>
   );
@@ -100,7 +100,7 @@ export const HolographicText = ({ children, className = '', animate = true }: Ho
       transition={{ duration: 0.8 }}
     >
       {/* Glow behind text - reduced blur */}
-      <div className="absolute inset-0 blur-xl bg-linear-to-r from-cyan-500 via-blue-500 to-purple-500 opacity-30" />
+      <div className="absolute inset-0 blur-xl bg-linear-to-r from-brand-cyan via-brand-indigo to-brand-purple opacity-30" />
 
       {/* Main text */}
       <div className="relative bg-linear-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
@@ -138,23 +138,23 @@ export const GlassPanel = ({
   hoverScale = true
 }: GlassPanelProps) => {
   const glowColors = {
-    cyan: 'hover:shadow-cyan-500/50',
-    blue: 'hover:shadow-blue-500/50',
-    purple: 'hover:shadow-purple-500/50',
+    cyan: 'hover:shadow-brand-cyan/50',
+    blue: 'hover:shadow-brand-indigo/50',
+    purple: 'hover:shadow-brand-purple/50',
     pink: 'hover:shadow-pink-500/50',
   };
 
   return (
     <motion.div
-      className={`relative backdrop-blur-xl bg-black/20 border border-white/10 rounded-2xl p-6 transition-all duration-300 ${glowColors[glowColor as keyof typeof glowColors] || glowColors.cyan} hover:shadow-2xl ${className}`}
+      className={`relative backdrop-blur-xl bg-black/20 border border-foreground/10 rounded-2xl p-6 transition-all duration-300 ${glowColors[glowColor as keyof typeof glowColors] || glowColors.cyan} hover:shadow-2xl ${className}`}
       whileHover={hoverScale ? { scale: 1.02, y: -5 } : {}}
       transition={{ type: 'spring', stiffness: 300, damping: 20 }}
     >
       {/* Corner accents */}
-      <div className="absolute top-0 left-0 w-8 h-8 border-l-2 border-t-2 border-cyan-500/50 rounded-tl-2xl" />
-      <div className="absolute top-0 right-0 w-8 h-8 border-r-2 border-t-2 border-cyan-500/50 rounded-tr-2xl" />
-      <div className="absolute bottom-0 left-0 w-8 h-8 border-l-2 border-b-2 border-cyan-500/50 rounded-bl-2xl" />
-      <div className="absolute bottom-0 right-0 w-8 h-8 border-r-2 border-b-2 border-cyan-500/50 rounded-br-2xl" />
+      <div className="absolute top-0 left-0 w-8 h-8 border-l-2 border-t-2 border-brand-cyan/50 rounded-tl-2xl" />
+      <div className="absolute top-0 right-0 w-8 h-8 border-r-2 border-t-2 border-brand-cyan/50 rounded-tr-2xl" />
+      <div className="absolute bottom-0 left-0 w-8 h-8 border-l-2 border-b-2 border-brand-cyan/50 rounded-bl-2xl" />
+      <div className="absolute bottom-0 right-0 w-8 h-8 border-r-2 border-b-2 border-brand-cyan/50 rounded-br-2xl" />
 
       {children}
     </motion.div>
@@ -169,9 +169,9 @@ interface NeonBorderProps {
 
 export const NeonBorder = ({ children, color = 'cyan', className = '' }: NeonBorderProps) => {
   const colors = {
-    cyan: 'from-cyan-500 to-blue-500',
-    blue: 'from-blue-500 to-purple-500',
-    purple: 'from-purple-500 to-pink-500',
+    cyan: 'from-brand-cyan to-brand-indigo',
+    blue: 'from-brand-indigo to-brand-purple',
+    purple: 'from-brand-purple to-pink-500',
     pink: 'from-pink-500 to-rose-500',
   };
 
@@ -222,9 +222,9 @@ interface PulsingDotProps {
 
 export const PulsingDot = ({ size = 12, color = 'cyan', className = '' }: PulsingDotProps) => {
   const colorClasses = {
-    cyan: 'bg-cyan-500',
-    blue: 'bg-blue-500',
-    purple: 'bg-purple-500',
+    cyan: 'bg-brand-cyan',
+    blue: 'bg-brand-indigo',
+    purple: 'bg-brand-purple',
     pink: 'bg-pink-500',
   };
 

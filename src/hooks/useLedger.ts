@@ -1,6 +1,7 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useTable, useMetric } from 'tinybase/ui-react';
+import { Row } from 'tinybase';
+import { store } from '../store';
 
-// Types
 export interface LedgerEntry {
   id: string;
   date: string;
@@ -11,7 +12,15 @@ export interface LedgerEntry {
   createdAt: string;
 }
 
+// DB Shape for Calculator
+interface CalcRow {
+  expression: string;
+  result: number;
+  timestamp: string;
+}
+
 export interface CalculatorHistory {
+  id: string;
   expression: string;
   result: number;
   timestamp: string;
@@ -32,24 +41,6 @@ export interface WeeklySummary {
   netChange: number;
 }
 
-export interface MonthlyStats {
-  totalIncome: number;
-  totalExpense: number;
-  netBalance: number;
-  categoryBreakdown: CategoryBreakdown[];
-  weeklyData: WeeklySummary[];
-  topCategory: string;
-  dailyAverage: number;
-}
-
-export interface LedgerData {
-  entries: LedgerEntry[];
-  calculator: {
-    history: CalculatorHistory[];
-  };
-}
-
-// Categories with colors
 export const EXPENSE_CATEGORIES = [
   { name: 'Food', color: '#f59e0b', icon: '🍔' },
   { name: 'Travel', color: '#3b82f6', icon: '✈️' },
@@ -69,393 +60,191 @@ export const INCOME_CATEGORIES = [
   { name: 'Other Income', color: '#6b7280', icon: '💰' },
 ];
 
-const STORAGE_KEY = 'trelix-ledger';
-
-// Helper functions
-const getTodayDate = (): string => {
-  return new Date().toISOString().split('T')[0];
-};
-
-const getMonthStart = (date: Date = new Date()): string => {
-  return new Date(date.getFullYear(), date.getMonth(), 1).toISOString().split('T')[0];
-};
-
-const getMonthEnd = (date: Date = new Date()): string => {
-  return new Date(date.getFullYear(), date.getMonth() + 1, 0).toISOString().split('T')[0];
-};
-
-const getWeekStart = (date: Date = new Date()): string => {
+// --- Helpers ---
+const getWeekStart = (date: Date): string => {
   const d = new Date(date);
   const day = d.getDay();
-  const diff = d.getDate() - day;
-  return new Date(d.setDate(diff)).toISOString().split('T')[0];
-};
-
-const getWeekEnd = (date: Date = new Date()): string => {
-  const d = new Date(date);
-  const day = d.getDay();
-  const diff = d.getDate() - day + 6;
-  return new Date(d.setDate(diff)).toISOString().split('T')[0];
+  const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+  const monday = new Date(d.setDate(diff));
+  return monday.toISOString().split('T')[0];
 };
 
 export const useLedger = () => {
-  // Initialize from localStorage
-  const [data, setData] = useState<LedgerData>(() => {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        return {
-          entries: parsed.entries || [],
-          calculator: {
-            history: parsed.calculator?.history || [],
-          },
-        };
-      }
-      return {
-        entries: [],
-        calculator: { history: [] },
-      };
-    } catch (error) {
-      console.error('Failed to load ledger:', error);
-      return {
-        entries: [],
-        calculator: { history: [] },
-      };
-    }
-  });
+  // 1. READ DATA
+  const ledgerTable = useTable('ledger');
+  const calculatorTable = useTable('calculator_history');
 
-  // Sync to localStorage
-  useEffect(() => {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-    } catch (error) {
-      console.error('Failed to save ledger:', error);
-    }
-  }, [data]);
+  const entries = Object.entries(ledgerTable).map(([id, data]) => ({
+    id,
+    ...(data as object),
+  })) as unknown as LedgerEntry[];
 
-  // Add entry
+  const calculatorHistory = Object.entries(calculatorTable)
+    .map(([id, data]) => {
+      const row = data as unknown as CalcRow;
+      return {
+        id,
+        expression: row.expression,
+        result: row.result,
+        timestamp: row.timestamp
+      };
+    })
+    .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
+    .slice(0, 10); // Keep last 10
+
+  entries.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+  // 2. METRICS
+  const totalIncome = useMetric('totalIncome') || 0;
+  const totalExpense = useMetric('totalExpense') || 0;
+  const netBalance = totalIncome - totalExpense;
+
+  // 3. ACTIONS
   const addEntry = (entry: Omit<LedgerEntry, 'id' | 'createdAt'>) => {
-    const newEntry: LedgerEntry = {
+    store.addRow('ledger', {
       ...entry,
-      id: crypto.randomUUID(),
       createdAt: new Date().toISOString(),
-    };
-    setData((prev) => ({
-      ...prev,
-      entries: [...prev.entries, newEntry],
-    }));
+    });
   };
 
-  // Update entry
   const updateEntry = (id: string, updates: Partial<LedgerEntry>) => {
-    setData((prev) => ({
-      ...prev,
-      entries: prev.entries.map((entry) =>
-        entry.id === id ? { ...entry, ...updates } : entry
-      ),
-    }));
+    store.setPartialRow('ledger', id, updates);
   };
 
-  // Delete entry
-  const deleteEntry = (id: string) => {
-    setData((prev) => ({
-      ...prev,
-      entries: prev.entries.filter((entry) => entry.id !== id),
-    }));
-  };
+  const deleteEntry = (id: string) => store.delRow('ledger', id);
 
-  // Calculator history management
   const addCalculatorHistory = (expression: string, result: number) => {
-    const historyItem: CalculatorHistory = {
+    const newRow: CalcRow = {
       expression,
       result,
-      timestamp: new Date().toISOString(),
+      timestamp: new Date().toISOString()
     };
-    setData((prev) => ({
-      ...prev,
-      calculator: {
-        history: [historyItem, ...prev.calculator.history].slice(0, 10), // Keep last 10
-      },
-    }));
+    store.addRow('calculator_history', newRow as unknown as Row);
   };
 
   const clearCalculatorHistory = () => {
-    setData((prev) => ({
-      ...prev,
-      calculator: { history: [] },
-    }));
+    // Delete all rows in the table
+    Object.keys(calculatorTable).forEach(id => store.delRow('calculator_history', id));
   };
 
-  // Computed values
-  const entries = useMemo(() => {
-    return [...data.entries].sort(
-      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-    );
-  }, [data.entries]);
+  // 4. ANALYTICS LOGIC
+  
+  // Weekly Stats (Current Week)
+  const currentWeekStart = getWeekStart(new Date());
+  const currentWeekEntries = entries.filter(e => {
+    const entryWeek = getWeekStart(new Date(e.date));
+    return entryWeek === currentWeekStart;
+  });
+  
+  const weeklyExpense = currentWeekEntries
+    .filter(e => e.type === 'expense')
+    .reduce((sum, e) => sum + e.amount, 0);
 
-  const currentMonthEntries = useMemo(() => {
-    const monthStart = getMonthStart();
-    const monthEnd = getMonthEnd();
-    return entries.filter((entry) => entry.date >= monthStart && entry.date <= monthEnd);
-  }, [entries]);
+  const weeklyIncome = currentWeekEntries
+    .filter(e => e.type === 'income')
+    .reduce((sum, e) => sum + e.amount, 0);
 
-  const currentWeekEntries = useMemo(() => {
-    const weekStart = getWeekStart();
-    const weekEnd = getWeekEnd();
-    return entries.filter((entry) => entry.date >= weekStart && entry.date <= weekEnd);
-  }, [entries]);
+  // Category Breakdown
+  const categoryMap = entries
+    .filter(e => e.type === 'expense')
+    .reduce((acc, curr) => {
+      if (!acc[curr.category]) {
+        acc[curr.category] = { category: curr.category, amount: 0, count: 0, percentage: 0 };
+      }
+      acc[curr.category].amount += curr.amount;
+      acc[curr.category].count += 1;
+      return acc;
+    }, {} as Record<string, CategoryBreakdown>);
 
-  // Total calculations
-  const totalIncome = useMemo(() => {
-    return currentMonthEntries
-      .filter((e) => e.type === 'income')
-      .reduce((sum, e) => sum + e.amount, 0);
-  }, [currentMonthEntries]);
+  const categoryBreakdown = Object.values(categoryMap)
+    .map(cat => ({
+      ...cat,
+      percentage: totalExpense > 0 ? (cat.amount / totalExpense) * 100 : 0
+    }))
+    .sort((a, b) => b.amount - a.amount);
 
-  const totalExpense = useMemo(() => {
-    return currentMonthEntries
-      .filter((e) => e.type === 'expense')
-      .reduce((sum, e) => sum + e.amount, 0);
-  }, [currentMonthEntries]);
+  const topCategory = categoryBreakdown[0] || null;
 
-  const netBalance = useMemo(() => {
-    return totalIncome - totalExpense;
-  }, [totalIncome, totalExpense]);
+  // Weekly Data for Charts (Last 4 weeks)
+  const weeklyData: WeeklySummary[] = [];
+  for (let i = 0; i < 4; i++) {
+    const date = new Date();
+    date.setDate(date.getDate() - i * 7);
+    const weekStart = getWeekStart(date);
+    
+    // Calculate week end
+    const end = new Date(weekStart);
+    end.setDate(end.getDate() + 6);
+    const weekEnd = end.toISOString().split('T')[0];
 
-  const weeklyExpense = useMemo(() => {
-    return currentWeekEntries
-      .filter((e) => e.type === 'expense')
-      .reduce((sum, e) => sum + e.amount, 0);
-  }, [currentWeekEntries]);
+    const weekEntries = entries.filter(e => e.date >= weekStart && e.date <= weekEnd);
+    
+    const wExpense = weekEntries.filter(e => e.type === 'expense').reduce((sum, e) => sum + e.amount, 0);
+    const wIncome = weekEntries.filter(e => e.type === 'income').reduce((sum, e) => sum + e.amount, 0);
 
-  const weeklyIncome = useMemo(() => {
-    return currentWeekEntries
-      .filter((e) => e.type === 'income')
-      .reduce((sum, e) => sum + e.amount, 0);
-  }, [currentWeekEntries]);
-
-  // Category breakdown
-  const categoryBreakdown = useMemo((): CategoryBreakdown[] => {
-    const expenses = currentMonthEntries.filter((e) => e.type === 'expense');
-    const total = totalExpense;
-
-    if (total === 0) return [];
-
-    const categoryMap = new Map<string, { amount: number; count: number }>();
-
-    expenses.forEach((entry) => {
-      const existing = categoryMap.get(entry.category) || { amount: 0, count: 0 };
-      categoryMap.set(entry.category, {
-        amount: existing.amount + entry.amount,
-        count: existing.count + 1,
-      });
+    weeklyData.unshift({
+      weekStart,
+      weekEnd,
+      totalExpense: wExpense,
+      totalIncome: wIncome,
+      netChange: wIncome - wExpense
     });
+  }
 
-    return Array.from(categoryMap.entries())
-      .map(([category, data]) => ({
-        category,
-        amount: data.amount,
-        percentage: (data.amount / total) * 100,
-        count: data.count,
-      }))
-      .sort((a, b) => b.amount - a.amount);
-  }, [currentMonthEntries, totalExpense]);
+  // Daily Spending (Last 30 days)
+  const dailySpending: { date: string; expense: number; income: number }[] = [];
+  for (let i = 29; i >= 0; i--) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    const dateStr = d.toISOString().split('T')[0];
+    
+    const dayEntries = entries.filter(e => e.date === dateStr);
+    const expense = dayEntries.filter(e => e.type === 'expense').reduce((sum, e) => sum + e.amount, 0);
+    const income = dayEntries.filter(e => e.type === 'income').reduce((sum, e) => sum + e.amount, 0);
 
-  // Top category
-  const topCategory = useMemo(() => {
-    if (categoryBreakdown.length === 0) return null;
-    return categoryBreakdown[0];
-  }, [categoryBreakdown]);
+    dailySpending.push({ date: dateStr, expense, income });
+  }
 
-  // Weekly data for charts
-  const weeklyData = useMemo((): WeeklySummary[] => {
-    const weeks: WeeklySummary[] = [];
-    const today = new Date();
+  // Insights Generation
+  const insights: string[] = [];
+  if (topCategory) {
+    insights.push(`You spend the most on ${topCategory.category} (${topCategory.percentage.toFixed(0)}%).`);
+  }
+  
+  const lastWeekExpense = weeklyData[weeklyData.length - 2]?.totalExpense || 0;
+  const thisWeekExpense = weeklyData[weeklyData.length - 1]?.totalExpense || 0;
+  
+  if (thisWeekExpense > lastWeekExpense) {
+    insights.push(`Spending is up ₹${(thisWeekExpense - lastWeekExpense).toFixed(0)} from last week.`);
+  } else if (lastWeekExpense > 0) {
+    insights.push(`You've saved ₹${(lastWeekExpense - thisWeekExpense).toFixed(0)} compared to last week!`);
+  }
 
-    // Get last 4 weeks
-    for (let i = 0; i < 4; i++) {
-      const weekDate = new Date(today);
-      weekDate.setDate(today.getDate() - i * 7);
-
-      const weekStart = getWeekStart(weekDate);
-      const weekEnd = getWeekEnd(weekDate);
-
-      const weekEntries = entries.filter(
-        (entry) => entry.date >= weekStart && entry.date <= weekEnd
-      );
-
-      const weekExpense = weekEntries
-        .filter((e) => e.type === 'expense')
-        .reduce((sum, e) => sum + e.amount, 0);
-
-      const weekIncome = weekEntries
-        .filter((e) => e.type === 'income')
-        .reduce((sum, e) => sum + e.amount, 0);
-
-      weeks.unshift({
-        weekStart,
-        weekEnd,
-        totalExpense: weekExpense,
-        totalIncome: weekIncome,
-        netChange: weekIncome - weekExpense,
-      });
+  if (totalIncome > 0) {
+    const savingsRate = (netBalance / totalIncome) * 100;
+    if (savingsRate > 20) {
+      insights.push(`Great job! You're saving ${savingsRate.toFixed(0)}% of your income.`);
+    } else if (savingsRate < 0) {
+      insights.push(`Warning: You are spending more than you earn.`);
     }
-
-    return weeks;
-  }, [entries]);
-
-  // Daily spending pattern (last 30 days)
-  const dailySpending = useMemo(() => {
-    const days: { date: string; expense: number; income: number }[] = [];
-    const today = new Date();
-
-    for (let i = 29; i >= 0; i--) {
-      const date = new Date(today);
-      date.setDate(today.getDate() - i);
-      const dateStr = date.toISOString().split('T')[0];
-
-      const dayEntries = entries.filter((entry) => entry.date === dateStr);
-
-      const expense = dayEntries
-        .filter((e) => e.type === 'expense')
-        .reduce((sum, e) => sum + e.amount, 0);
-
-      const income = dayEntries
-        .filter((e) => e.type === 'income')
-        .reduce((sum, e) => sum + e.amount, 0);
-
-      days.push({ date: dateStr, expense, income });
-    }
-
-    return days;
-  }, [entries]);
-
-  // Daily average expense
-  const dailyAverageExpense = useMemo(() => {
-    if (currentMonthEntries.length === 0) return 0;
-    const daysInMonth = new Date().getDate();
-    return totalExpense / daysInMonth;
-  }, [currentMonthEntries, totalExpense]);
-
-  // Smart insights
-  const insights = useMemo(() => {
-    const tips: string[] = [];
-
-    // Top category insight
-    if (topCategory) {
-      tips.push(
-        `You spent the most on ${topCategory.category} this month (${topCategory.percentage.toFixed(1)}%).`
-      );
-    }
-
-    // Weekly comparison
-    const lastWeek = weeklyData[weeklyData.length - 2];
-    const thisWeek = weeklyData[weeklyData.length - 1];
-
-    if (lastWeek && thisWeek) {
-      const diff = thisWeek.totalExpense - lastWeek.totalExpense;
-      if (diff > 0) {
-        tips.push(
-          `This week's spending is ₹${diff.toFixed(0)} higher than last week.`
-        );
-      } else if (diff < 0) {
-        tips.push(
-          `You saved ₹${Math.abs(diff).toFixed(0)} compared to last week!`
-        );
-      }
-    }
-
-    // Subscription check
-    const subscriptionCategory = categoryBreakdown.find(
-      (c) => c.category === 'Subscriptions'
-    );
-    if (subscriptionCategory && totalExpense > 0) {
-      const percentage = subscriptionCategory.percentage;
-      if (percentage > 20) {
-        tips.push(
-          `Your subscriptions make up ${percentage.toFixed(0)}% of expenses.`
-        );
-      }
-    }
-
-    // Savings rate
-    if (totalIncome > 0) {
-      const savingsRate = (netBalance / totalIncome) * 100;
-      if (savingsRate > 0) {
-        tips.push(`You're saving ${savingsRate.toFixed(0)}% of your income this month.`);
-      } else {
-        tips.push(`You're spending more than you earn this month.`);
-      }
-    }
-
-    // Daily average
-    if (dailyAverageExpense > 0) {
-      tips.push(`Your daily average spending is ₹${dailyAverageExpense.toFixed(0)}.`);
-    }
-
-    return tips;
-  }, [
-    topCategory,
-    weeklyData,
-    categoryBreakdown,
-    totalExpense,
-    totalIncome,
-    netBalance,
-    dailyAverageExpense,
-  ]);
-
-  // Monthly stats
-  const monthlyStats: MonthlyStats = useMemo(
-    () => ({
-      totalIncome,
-      totalExpense,
-      netBalance,
-      categoryBreakdown,
-      weeklyData,
-      topCategory: topCategory?.category || 'None',
-      dailyAverage: dailyAverageExpense,
-    }),
-    [
-      totalIncome,
-      totalExpense,
-      netBalance,
-      categoryBreakdown,
-      weeklyData,
-      topCategory,
-      dailyAverageExpense,
-    ]
-  );
+  }
 
   return {
-    // Data
     entries,
-    currentMonthEntries,
-    currentWeekEntries,
-    calculatorHistory: data.calculator.history,
-
-    // Totals
     totalIncome,
     totalExpense,
     netBalance,
     weeklyExpense,
     weeklyIncome,
-
-    // Analytics
     categoryBreakdown,
     topCategory,
     weeklyData,
     dailySpending,
-    dailyAverageExpense,
     insights,
-    monthlyStats,
-
-    // CRUD methods
     addEntry,
     updateEntry,
     deleteEntry,
-
-    // Calculator
+    calculatorHistory,
     addCalculatorHistory,
     clearCalculatorHistory,
   };
