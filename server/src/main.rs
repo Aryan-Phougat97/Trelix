@@ -5,8 +5,9 @@ mod state;
 mod sync;
 mod users;
 
+use tower_http::cors::{ CorsLayer, AllowOrigin };
 use auth::backend::Backend;
-use axum::Router;
+use axum::{ Router, http::{ header, Method }};
 use axum_login::AuthManagerLayerBuilder;
 use config::Config;
 use sqlx::postgres::PgPoolOptions;
@@ -53,6 +54,12 @@ async fn main() {
     // Initialize Global State
     let app_state = AppState::new(pool);
 
+    let cors = CorsLayer::new()
+        .allow_origin("http://localhost:8080".parse::<axum::http::HeaderValue>().unwrap()) 
+        .allow_methods([Method::GET, Method::POST, Method::PUT, Method::DELETE])
+        .allow_headers([header::CONTENT_TYPE, header::AUTHORIZATION, header::ACCEPT])
+        .allow_credentials(true);
+
     // Build Router
     let app = Router::new()
         .merge(auth_router())
@@ -60,7 +67,8 @@ async fn main() {
         // Simple health check logic directly in main for now
         .route("/me", axum::routing::get(me_handler))
         .layer(auth_layer)
-        .with_state(app_state);
+        .with_state(app_state)
+        .layer(cors);
 
     // Start
     let addr: SocketAddr = format!("{}:{}", config.host, config.port)

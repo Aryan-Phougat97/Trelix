@@ -1,5 +1,6 @@
-import { createStore, createMetrics } from 'tinybase';
+import { createMergeableStore, createMetrics } from 'tinybase';
 import { createIndexedDbPersister } from 'tinybase/persisters/persister-indexed-db';
+import { createWsSynchronizer } from 'tinybase/synchronizers/synchronizer-ws-client'
 
 export const TABLES_SCHEMA = {
   // --- PRODUCTIVITY ---
@@ -100,7 +101,7 @@ export const TABLES_SCHEMA = {
   }
 } as const;
 
-export const store = createStore().setTablesSchema(TABLES_SCHEMA);
+export const store = createMergeableStore().setTablesSchema(TABLES_SCHEMA);
 export const metrics = createMetrics(store);
 
 // Math stuff defination
@@ -121,4 +122,35 @@ const persister = createIndexedDbPersister(store, 'trelix-db');
 export const initStore = async () => {
   await persister.startAutoLoad();
   await persister.startAutoSave();
+};
+
+// --- SYNC LOGIC ---
+let synchronizer: any = null;
+let ws: WebSocket | null = null;
+
+export const initSync = async (wsUrl: string) => {
+  if (synchronizer) return; // Already syncing
+
+  console.log('🔌 Connecting to Cloud:', wsUrl);
+  ws = new WebSocket(wsUrl);
+
+  // TinyBase handles the protocol
+  synchronizer = await createWsSynchronizer(store, ws);
+  
+  await synchronizer.startSync();
+  
+  // Save status to a metric so UI can show "Online/Offline" indicator
+  // We can also add a 'status' metric to our metrics definition
+};
+
+export const stopSync = () => {
+  if (synchronizer) {
+    synchronizer.stopSync();
+    synchronizer = null;
+  }
+  if (ws) {
+    ws.close();
+    ws = null;
+  }
+  console.log('🔌 Disconnected from Sync Server');
 };

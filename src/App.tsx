@@ -18,6 +18,7 @@ import { HabitTracker } from "./pages/HabitTracker";
 import { TrelixLedger } from "./pages/TrelixLedger";
 import Inspiration from "./pages/Inspiration";
 import NotFound from "./pages/NotFound";
+import Login from "./pages/Login";
 
 const queryClient = new QueryClient();
 
@@ -49,6 +50,7 @@ const App = () => (
                 <Route path="/habits" element={<AppLayout><HabitTracker /></AppLayout>} />
                 <Route path="/ledger" element={<AppLayout><TrelixLedger /></AppLayout>} />
                 <Route path="/inspiration" element={<AppLayout><Inspiration /></AppLayout>} />
+                <Route path="/login" element={<Login />} />
 
                 {/* 404 Page */}
                 <Route path="*" element={<NotFound />} />
