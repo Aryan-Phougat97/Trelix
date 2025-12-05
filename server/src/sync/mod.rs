@@ -3,7 +3,7 @@ pub mod socket;
 pub mod storage;
 
 use crate::state::AppState;
-use axum::{routing::{ get, post }, Router};
+use axum::{routing::get, Router};
 
 pub fn router() -> Router<AppState> {
     Router::new().route("/sync", get(handlers::ws_handler))

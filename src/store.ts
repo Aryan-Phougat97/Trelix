@@ -1,47 +1,29 @@
-import { createMergeableStore, createMetrics } from 'tinybase';
+import { createMergeableStore, createMetrics, Row } from 'tinybase';
 import { createIndexedDbPersister } from 'tinybase/persisters/persister-indexed-db';
-import { createWsSynchronizer } from 'tinybase/synchronizers/synchronizer-ws-client'
+import { createWsSynchronizer } from 'tinybase/synchronizers/synchronizer-ws-client';
+import { api } from '@/lib/api'; 
+
+// Helper type to get the Synchronizer type without guessing imports
+type WsSynchronizer = Awaited<ReturnType<typeof createWsSynchronizer>>;
 
 export const TABLES_SCHEMA = {
-  // --- PRODUCTIVITY ---
   tasks: {
     title: { type: 'string' },
-    category: { type: 'string' }, 
+    category: { type: 'string' },
     priority: { type: 'string' },
     deadline: { type: 'string' },
     completed: { type: 'boolean', default: false },
     completedAt: { type: 'string' },
     createdAt: { type: 'string' },
   },
-  // Analytic Events 
-  focus_sessions: {
-    date: { type: 'string' },
-    duration: { type: 'number' }, // minutes
-    taskId: { type: 'string' },
-  },
-  note_activities: {
-    date: { type: 'string' },
-    wordCount: { type: 'number' },
-  },
-
-  // --- PLANNING ---
   goals: {
     title: { type: 'string' },
     description: { type: 'string' },
-    category: { type: 'string' }, 
+    category: { type: 'string' },
     createdAt: { type: 'string' },
   },
-  weekly_reviews: {
-    weekOf: { type: 'string' }, // ISO Date of Monday
-    whatWorkedWell: { type: 'string' },
-    whatNeedsImprovement: { type: 'string' },
-    nextWeekIntentions: { type: 'string' }, // JSON Array
-    completedAt: { type: 'string' },
-  },
-
-  // --- FINANCIAL ---
   ledger: {
-    type: { type: 'string' }, 
+    type: { type: 'string' },
     category: { type: 'string' },
     amount: { type: 'number' },
     description: { type: 'string' },
@@ -53,11 +35,9 @@ export const TABLES_SCHEMA = {
     result: { type: 'number' },
     timestamp: { type: 'string' },
   },
-
-  // --- WELLBEING ---
   habits: {
     title: { type: 'string' },
-    frequency: { type: 'string' }, 
+    frequency: { type: 'string' },
     color: { type: 'string' },
     createdAt: { type: 'string' },
   },
@@ -71,17 +51,17 @@ export const TABLES_SCHEMA = {
     date: { type: 'string' },
     content: { type: 'string' },
     mood: { type: 'string' },
-    tags: { type: 'string' }, // JSON Array
+    tags: { type: 'string' },
     createdAt: { type: 'string' },
     updatedAt: { type: 'string' },
   },
   mood_logs: {
-    date: { type: 'string' }, // YYYY-MM-DD
-    mood: { type: 'string' }, 
+    date: { type: 'string' },
+    mood: { type: 'string' },
     emoji: { type: 'string' },
     score: { type: 'number' },
     note: { type: 'string' },
-    tags: { type: 'string' }, // JSON Array
+    tags: { type: 'string' },
     createdAt: { type: 'string' },
     updatedAt: { type: 'string' },
   },
@@ -94,17 +74,32 @@ export const TABLES_SCHEMA = {
     endTimestamp: { type: 'number' },
     notes: { type: 'string' },
     mood: { type: 'string' },
-    tags: { type: 'string' }, // JSON Array
+    tags: { type: 'string' },
     playCount: { type: 'number', default: 0 },
     lastPlayed: { type: 'string' },
     createdAt: { type: 'string' },
-  }
+  },
+  weekly_reviews: {
+    weekOf: { type: 'string' },
+    whatWorkedWell: { type: 'string' },
+    whatNeedsImprovement: { type: 'string' },
+    nextWeekIntentions: { type: 'string' },
+    completedAt: { type: 'string' },
+  },
+  focus_sessions: {
+    date: { type: 'string' },
+    duration: { type: 'number' },
+    taskId: { type: 'string' },
+  },
+  note_activities: {
+    date: { type: 'string' },
+    wordCount: { type: 'number' },
+  },
 } as const;
 
 export const store = createMergeableStore().setTablesSchema(TABLES_SCHEMA);
 export const metrics = createMetrics(store);
 
-// Math stuff defination
 metrics.setMetricDefinition('totalIncome', 'ledger', 'sum', (getCell) => {
   const type = getCell('type');
   const amount = getCell('amount');
@@ -117,30 +112,68 @@ metrics.setMetricDefinition('totalExpense', 'ledger', 'sum', (getCell) => {
   return type === 'expense' ? (amount as number) || 0 : 0;
 });
 
-const persister = createIndexedDbPersister(store, 'trelix-db');
+// --- PERSISTENCE (Local) ---
+const localPersister = createIndexedDbPersister(store, 'trelix-db');
 
 export const initStore = async () => {
-  await persister.startAutoLoad();
-  await persister.startAutoSave();
+  await localPersister.startAutoLoad();
+  await localPersister.startAutoSave();
 };
 
-// --- SYNC LOGIC ---
-let synchronizer: any = null;
+// --- SYNC ENGINE ---
+let synchronizer: WsSynchronizer | null = null;
 let ws: WebSocket | null = null;
+let saveTimeout: NodeJS.Timeout | null = null;
+
+const saveToCloud = () => {
+  if (saveTimeout) clearTimeout(saveTimeout);
+  saveTimeout = setTimeout(async () => {
+    try {
+      const data = store.getJson(); 
+      await api.sync.save(JSON.parse(data));
+    } catch (e) {
+      console.warn('☁️ Cloud save failed:', e);
+    }
+  }, 1000); 
+};
 
 export const initSync = async (wsUrl: string) => {
-  if (synchronizer) return; // Already syncing
+  if (synchronizer) return; 
 
-  console.log('🔌 Connecting to Cloud:', wsUrl);
+  console.log('🔌 Connecting to Sync Server:', wsUrl);
+
+  // Initial Cloud Merge (The Vault)
+  try {
+    const cloudData = await api.sync.load();
+    // Check if we received a valid TinyBase array: [tables, values]
+    if (Array.isArray(cloudData) && cloudData.length > 0) {
+      const [tables] = cloudData;
+      
+      if (tables && Object.keys(tables).length > 0) {
+        console.log('☁️ Merging data from Cloud...');
+        
+        store.transaction(() => {
+          Object.entries(tables).forEach(([tableId, rows]) => {
+            if (typeof rows === 'object' && rows !== null) {
+              Object.entries(rows).forEach(([rowId, cellData]) => {
+                store.setPartialRow(tableId, rowId, cellData as Row);
+              });
+            }
+          });
+        });
+      }
+    }
+  } catch (e) {
+    console.warn('Failed to load initial cloud data', e);
+  }
+
+  // Setup Real-time Relay (WebSocket)
   ws = new WebSocket(wsUrl);
-
-  // TinyBase handles the protocol
   synchronizer = await createWsSynchronizer(store, ws);
-  
   await synchronizer.startSync();
-  
-  // Save status to a metric so UI can show "Online/Offline" indicator
-  // We can also add a 'status' metric to our metrics definition
+
+  // Start Cloud Auto-Save
+  store.addHasTablesListener(() => saveToCloud());
 };
 
 export const stopSync = () => {
@@ -152,5 +185,5 @@ export const stopSync = () => {
     ws.close();
     ws = null;
   }
-  console.log('🔌 Disconnected from Sync Server');
+  console.log('🔌 Disconnected from Cloud');
 };

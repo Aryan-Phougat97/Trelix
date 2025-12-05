@@ -1,5 +1,11 @@
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
+export interface User {
+  id: string;
+  username: string;
+  created_at: string;
+}
+
 export class ApiError extends Error {
   constructor(public status: number, message: string) {
     super(message);
@@ -13,12 +19,11 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
       'Content-Type': 'application/json',
       ...options.headers,
     },
-    credentials: 'include', // This sends/receives the HTTP-only cookies
+    credentials: 'include',
   });
 
   if (!response.ok) {
-    // Try to parse error message from JSON, fallback to status text
-    const errorData = await response.json().catch(() => ({}));
+    const errorData = await response.json().catch(() => ({})) as { error?: string };
     throw new ApiError(response.status, errorData.error || response.statusText);
   }
 
@@ -27,16 +32,15 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
 
 export const api = {
   auth: {
-    me: () => request<{ user: any }>('/me'),
+    me: () => request<{ user: User }>('/me'),
     register: (username: string, password: string) => 
-      request('/auth/register', { method: 'POST', body: JSON.stringify({ username, password }) }),
+      request<{ message: string; user: User }>('/auth/register', { method: 'POST', body: JSON.stringify({ username, password }) }),
     login: (username: string, password: string) => 
-      request('/auth/login', { method: 'POST', body: JSON.stringify({ username, password }) }),
-    logout: () => request('/auth/logout', { method: 'POST' }),
+      request<{ message: string; user: User }>('/auth/login', { method: 'POST', body: JSON.stringify({ username, password }) }),
+    logout: () => request<{ message: string }>('/auth/logout', { method: 'POST' }),
   },
   sync: {
-    // The "Vault" endpoints I built in Rust
-    load: () => request<any>('/api/store'),
-    save: (data: any) => request('/api/store', { method: 'POST', body: JSON.stringify(data) }),
+    load: () => request<unknown>('/api/store'),
+    save: (data: unknown) => request('/api/store', { method: 'POST', body: JSON.stringify(data) }),
   }
 };

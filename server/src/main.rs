@@ -5,7 +5,7 @@ mod state;
 mod sync;
 mod users;
 
-use tower_http::cors::{ CorsLayer, AllowOrigin };
+use tower_http::cors::CorsLayer;
 use auth::backend::Backend;
 use axum::{ Router, http::{ header, Method }};
 use axum_login::AuthManagerLayerBuilder;
